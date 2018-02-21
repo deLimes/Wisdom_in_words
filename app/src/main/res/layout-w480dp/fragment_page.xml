@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom">
+
+    <EditText
+        android:id="@+id/searchView"
+        android:layout_width="383dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:hint="filter"
+
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Change"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintLeft_toRightOf="@+id/buttonDelete"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Del."
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintLeft_toRightOf="@+id/searchView" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="581dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
+
+        <Button
+            android:id="@+id/buttonSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Sort" />
+
+        <Button
+            android:id="@+id/buttonShuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+
+            android:text="Shuffle" />
+
+        <Button
+            android:id="@+id/buttonShowAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+
+            android:text="Show answers" />
+
+        <Button
+            android:id="@+id/buttonHideAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+
+            android:text="Hide answers" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+
+
+        app:layout_constraintBottom_toTopOf="@+id/numberOfCollocationsInABlock"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+
+        />
+
+    <TextView
+        android:id="@+id/labelNumberOfBlocks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of blocks"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/numberOfBlocks" />
+
+    <EditText
+        android:id="@+id/numberOfBlocks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@+id/labelNumberOfBlocks"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+    <TextView
+        android:id="@+id/labelNumberOfCollocationsInABlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Collocations in a block"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+        app:layout_constraintLeft_toRightOf="@+id/numberOfBlocks"
+        app:layout_constraintTop_toTopOf="@+id/numberOfCollocationsInABlock" />
+
+    <EditText
+        android:id="@+id/numberOfCollocationsInABlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@+id/labelNumberOfCollocationsInABlock"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+    <TextView
+        android:id="@+id/labelScrollingSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scrolling speed"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+        app:layout_constraintLeft_toRightOf="@+id/numberOfCollocationsInABlock"
+        app:layout_constraintTop_toTopOf="@+id/scrollingSpeed" />
+
+    <EditText
+        android:id="@+id/scrollingSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@+id/labelScrollingSpeed"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+    <Button
+        android:id="@+id/buttonLearnNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Learn new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/buttonRepeat" />
+
+    <Button
+        android:id="@+id/buttonRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Repeat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:text="Выучено"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTitleTotal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvTitleTotal" />
+
+    <TextView
+        android:id="@+id/tvTitleLearned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Learned"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextLearned"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTextLearned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvTitleLearned" />
+
+    <TextView
+        android:id="@+id/tvTitleOnRepetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="Difficult"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextOnRepetition"
+        app:layout_constraintLeft_toRightOf="@+id/tvTitleLearned" />
+
+    <TextView
+        android:id="@+id/tvTextOnRepetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvTitleOnRepetition" />
+
+    <TextView
+        android:id="@+id/tvTitleLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="Left"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextLeft"
+        app:layout_constraintLeft_toRightOf="@+id/tvTitleOnRepetition" />
+
+    <TextView
+        android:id="@+id/tvTextLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvTitleLeft" />
+
+    <TextView
+        android:id="@+id/tvTitleTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="Total"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextTotal"
+        app:layout_constraintLeft_toRightOf="@+id/tvTitleLeft" />
+
+    <TextView
+        android:id="@+id/tvTextTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvTitleTotal" />
+
+
+</android.support.constraint.ConstraintLayout>

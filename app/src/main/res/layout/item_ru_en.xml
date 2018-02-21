@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layout_border">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutCommon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/delimiter">
+
+            <CheckBox
+                android:id="@+id/checkBoxLearnedRu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextRuWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:text="tvTaskName"
+                app:layout_constraintLeft_toRightOf="@+id/checkBoxLearnedRu"
+                app:layout_constraintTop_toTopOf="@+id/checkBoxLearnedRu" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/delimiter"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#4682B4"
+            app:layout_constraintLeft_toRightOf="@+id/linearLayoutRu"
+            app:layout_constraintRight_toLeftOf="@+id/linearLayoutEn" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutEn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toRightOf="@id/delimiter"
+            app:layout_constraintRight_toRightOf="parent">
+            <!--
+                   -->
+
+            <CheckBox
+                android:id="@+id/checkBoxLearnedEn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextEnWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="tvTaskName"
+                app:layout_constraintLeft_toRightOf="@+id/checkBoxLearnedEn"
+                app:layout_constraintTop_toTopOf="@+id/checkBoxLearnedEn" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

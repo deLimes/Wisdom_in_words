@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="bottom" >
+
+        <EditText
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="filter"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="317dp"
+        android:layout_height="143dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.333"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.511">
+
+        <Button
+            android:id="@+id/buttonShowAnswers"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="2"
+            android:text="Show answers" />
+
+        <Button
+            android:id="@+id/buttonHideAnswers"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:text="Hide answers" />
+
+        <Button
+            android:id="@+id/buttonShuffle"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:text="Shuffle" />
+
+        <Button
+            android:id="@+id/buttonSort"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:text="Sort" />
+
+        <Button
+            android:id="@+id/buttonChange"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:text="Change" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:text="Del." />
+
+    </GridLayout>
+
+    <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/gridLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/numberOfCollocationsInABlock"
+
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+        />
+
+    <TextView
+        android:id="@+id/labelNumberOfBlocks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blocks"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/numberOfBlocks" />
+
+    <EditText
+        android:id="@+id/numberOfBlocks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@+id/labelNumberOfBlocks"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+    <TextView
+    android:id="@+id/labelNumberOfCollocationsInABlock"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Collocations"
+    android:layout_marginLeft="10dp"
+    app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+    app:layout_constraintLeft_toRightOf="@+id/numberOfBlocks"
+    app:layout_constraintTop_toTopOf="@+id/numberOfCollocationsInABlock" />
+
+    <EditText
+        android:id="@+id/numberOfCollocationsInABlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@+id/labelNumberOfCollocationsInABlock"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+    <TextView
+        android:id="@+id/labelScrollingSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scrolling speed"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOfBlocks"
+        app:layout_constraintLeft_toRightOf="@+id/numberOfCollocationsInABlock"
+        app:layout_constraintTop_toTopOf="@+id/scrollingSpeed" />
+
+    <EditText
+        android:id="@+id/scrollingSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="1000"
+        app:layout_constraintLeft_toRightOf="@+id/labelScrollingSpeed"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
+        />
+
+
+    <Button
+        android:id="@+id/buttonRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Repeat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/buttonLearnNew" />
+
+    <Button
+        android:id="@+id/buttonLearnNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Learn new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextLeft"
+        app:layout_constraintRight_toLeftOf="@+id/buttonRepeat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:indeterminate="false"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
+
+    <TextView
+        android:id="@+id/tvTextLearned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextOnRepetition"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTextOnRepetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTextLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="0"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextTotal"
+        app:layout_constraintLeft_toRightOf="@+id/tvTextLearned" />
+
+    <TextView
+        android:id="@+id/tvTextTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="0"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvTextOnRepetition" />
+
+
+</android.support.constraint.ConstraintLayout>
