@@ -290,6 +290,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                     };
 
+                    boolean answersAreHidden = answersWereHidden;
+                    if (answersWereHidden){
+                        showAnswers();
+                    }
+
                     List<Collocation> listOfStudiedWords = new ArrayList<Collocation>();
                     List<Collocation> listOfDifficultWords = new ArrayList<Collocation>();
                     List<Collocation> listOfLearnedWords = new ArrayList<Collocation>();
@@ -371,6 +376,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.learnedRu,
                                 collocation.ru
                         ));
+                    }
+
+                    if(answersAreHidden){
+                        hideAnswers();
                     }
 
                     adapter.notifyDataSetChanged();
@@ -481,6 +490,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         return;
                     }
 
+                    boolean answersAreHidden = answersWereHidden;
+                    if (answersWereHidden){
+                        showAnswers();
+                    }
+
                     List<Collocation> listOfStudiedWords = new ArrayList<Collocation>();
                     List<Collocation> listOfDifficultWords = new ArrayList<Collocation>();
                     List<Collocation> listOfLearnedWords = new ArrayList<Collocation>();
@@ -564,6 +578,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.ru
                         ));
                     }
+
+                    if(answersAreHidden){
+                        hideAnswers();
+                    }
+
                     adapter.notifyDataSetChanged();
 
                     tvTextLearned.setText(Integer.toString(countOfLearnedWords));
@@ -961,11 +980,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
 
         }else{
+            /*
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                     "Clean the filter!",
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP, 0, 0);
             toast.show();
+            */
         }
 
     }
