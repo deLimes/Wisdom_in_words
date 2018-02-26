@@ -1588,61 +1588,65 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             String word = ((EditText) v).getText().toString();
 
-            if (word.isEmpty()){
+            if (word.isEmpty()) {
                 int indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
-                if (indexOfTheSelectedRow < 0){
+                if (indexOfTheSelectedRow < 0) {
                     return true;
                 }
 
-                Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
-                if (englishLeft){
+                Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+                if (englishLeft) {
                     word = collocationCopy.ru;
-                }else{
+                } else {
                     word = collocationCopy.en;
                 }
             }
 
-                    Character Symbol = word.charAt(0);
-                    boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
-                    boolean RussianLayout = false;//rusList.indexOf(Symbol) != -1;
+            word = word.replace("✓", "")
+                    .replace("⋆", "")
+                    .replace("⚓", "");
 
-                    for (int i = 0; i < ArrayEnglishCharacters.length; i++) {
-                        if (ArrayEnglishCharacters[i] == Symbol) {
-                            EnglishLayout = true;
-                        }
-                    }
+            Character Symbol = word.charAt(0);
+            boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
+            boolean RussianLayout = false;//rusList.indexOf(Symbol) != -1;
 
-                    for (int i = 0; i < ArrayRussianCharacters.length; i++) {
-                        if (ArrayRussianCharacters[i] == Symbol) {
-                            RussianLayout = true;
-                        }
-                    }
+            for (int i = 0; i < ArrayEnglishCharacters.length; i++) {
+                if (ArrayEnglishCharacters[i] == Symbol) {
+                    EnglishLayout = true;
+                }
+            }
 
-                    if (EnglishLayout != RussianLayout) {
-                        EnglishTextLayout = EnglishLayout;
-                    }
+            for (int i = 0; i < ArrayRussianCharacters.length; i++) {
+                if (ArrayRussianCharacters[i] == Symbol) {
+                    RussianLayout = true;
+                }
+            }
 
-                    String text = "https://translate.google.com/?hl=ru#en/ru/" + word;
-                    if (EnglishTextLayout) {
-                        text = "https://translate.google.com/?hl=ru#en/ru/" + word;
-                    } else {
-                        text = "https://translate.google.com/?hl=ru#ru/en/" + word;
-                    }
+            if (EnglishLayout != RussianLayout) {
+                EnglishTextLayout = EnglishLayout;
+            }
+
+            String text = "https://translate.google.com/?hl=ru#en/ru/" + word;
+            if (EnglishTextLayout) {
+                text = "https://translate.google.com/?hl=ru#en/ru/" + word;
+            } else {
+                text = "https://translate.google.com/?hl=ru#ru/en/" + word;
+            }
 
 
-                    List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
-                    android.support.v4.app.Fragment frag2 = fragments.get(1);
-                   mWebView = frag2.getView().findViewById(R.id.webView);
-                    mWebView.loadUrl(text);
+            List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+            android.support.v4.app.Fragment frag2 = fragments.get(1);
+            mWebView = frag2.getView().findViewById(R.id.webView);
+            mWebView.loadUrl(text);
 
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                            "Попытка перевода",
-                            Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    "Попытка перевода",
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
 
-                    EditText searchView = (EditText) page.findViewById(R.id.searchView);
-                    textForViewing = true;
+            EditText searchView = (EditText) page.findViewById(R.id.searchView);
+            textForViewing = true;
             searchView.setText(word);
 //                }else{
 //                    itemEditText.setFocusableInTouchMode(true);
