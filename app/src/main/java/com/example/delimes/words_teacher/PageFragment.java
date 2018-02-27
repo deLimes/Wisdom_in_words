@@ -26,6 +26,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -69,6 +70,7 @@ import static android.os.Environment.getExternalStorageState;
 
 public class PageFragment extends android.support.v4.app.Fragment {
 
+    InputMethodManager inputMethodManager;
     ProgressBar tvProgressBar;
     TextView tvTextLearned;
     TextView tvTextOnRepetition;
@@ -103,7 +105,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     int numberOfBlocks = 1, numberOfCollocationsInABlock = 1;
     float millisecondsPerInch = 1000f;//100f
     int rowBeginIndexOfLearnedWords = 0, rowBeginIndexOfWellLearnedWords = 0;
-    int countOfLearnedWords = 0;
+    int countOfLearnedWords = 0, countOfDifficultWords = 0;
     boolean textForViewing;
     Receiver rp;
     List<Receiver> receiverList = new ArrayList<Receiver>();
@@ -175,8 +177,12 @@ public class PageFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
         page = inflater.inflate(R.layout.fragment_page, container, false);
         page2 = inflater.inflate(R.layout.fragment_page2, container, false);
+
 
         final EditText searchView = (EditText) page.findViewById(R.id.searchView);
 
@@ -1106,7 +1112,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             rowBeginIndexOfLearnedWords = j;
         }
 
-        int countOfDifficultWords = 0;
+        countOfDifficultWords = 0;
         for (Collocation collocation : listOfDifficultWords) {
             countOfDifficultWords++;
             listDictionaryLocalCopy.add(collocation);
@@ -1210,6 +1216,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     String jsonStr = new Gson().toJson(listDictionaryCopy);
                     oos.writeObject(jsonStr);
                     oos.flush();
+
+                    // Get a handler that can be used to post to the main thread
+                    Handler mainHandler = new Handler(getContext().getMainLooper());
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                                    "Synchronization complete",
+                                    Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP, 0, 0);
+                            toast.show();
+                        }
+                    };
+                    mainHandler.post(runnable);
+
                 }else if ( line.equals("loading") ){
                     numberOfBlocks = in.readInt();
                     numberOfCollocationsInABlock = in.readInt();
@@ -1240,8 +1261,23 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             defineIndexesOfWords();
                             adapter.notifyDataSetChanged();
 
+                            tvProgressBar.setMax(listDictionary.size());
+                            tvProgressBar.setProgress(countOfLearnedWords);
+
                             editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
                             editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
+
+                            tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                            tvTextOnRepetition.setText(Integer.toString(countOfDifficultWords));
+                            tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
+                            tvTextTotal.setText(Integer.toString(listDictionary.size()));
+
+                            SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+                            editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
+                            editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
+                            editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
+                            editPrefs.putInt("countOfTotalWords", listDictionary.size());
+                            editPrefs.commit();
 
                             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                     "Synchronization complete",
@@ -1797,6 +1833,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
 
                         ((EditText) v).setText(text);
+
+                        //скрываем клавиатуру по окончании ввода
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
                         return true;
 
 
