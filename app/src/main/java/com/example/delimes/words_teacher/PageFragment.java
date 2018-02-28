@@ -952,9 +952,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     private void hideAnswers(){
 
+        /*del
         if (answersWereHidden){
             showAnswers();
         }
+        */
 
         if (englishLeft) {
             for (Collocation collocation : listDictionary) {
@@ -1353,8 +1355,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             collocationCopy.ru
                     ));
                 }
-                answersWereHidden = false;
-                notifyDataSetChanged();
+                if (answersWereHidden){
+                    hideAnswers();
+                }else {
+                    notifyDataSetChanged();
+                }
             } else{
                 text = text.toLowerCase();
                 for (Collocation collocationCopy : listDictionaryCopy) {
@@ -1404,7 +1409,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             viewHolder.checkBoxLearnedEn.setChecked(collocation.learnedEn);
             userInput = true;
             pairedMark = false;
-            viewHolder.textViewEnWord.setText(collocation.en);
+            viewHolder.editTextEnWord.setText(collocation.en);
 
             userInput = false;
             pairedMark = true;
@@ -1412,13 +1417,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
             userInput = true;
             pairedMark = false;
 
-            viewHolder.textViewRuWord.setText(collocation.ru);
+            viewHolder.editTextRuWord.setText(collocation.ru);
 
             viewHolder.checkBoxLearnedEn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if(!(listDictionaryCopy.size() == listDictionary.size())) {
+                    if(userInput && listDictionaryCopy.size() != listDictionary.size()) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                 "Clean the filter!",
                                 Toast.LENGTH_LONG);
@@ -1448,24 +1453,24 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         if(collocationCopy.learnedEn && collocationCopy.learnedRu){
                             if (englishLeft) {
-                                viewHolder.textViewRuWord.setText(collocationCopy.ru);
+                                viewHolder.editTextRuWord.setText(collocationCopy.ru);
                                 if (!pairedMark) tvProgressBar.setProgress(++countOfLearnedWords);
                             } else {
-                                viewHolder.textViewEnWord.setText(collocationCopy.en);
+                                viewHolder.editTextEnWord.setText(collocationCopy.en);
                                 tvProgressBar.setProgress(++countOfLearnedWords);
                             }
                         }else if(!collocationCopy.learnedEn && !collocationCopy.learnedRu){
                             if (englishLeft) {
-                                if (answersWereHidden) viewHolder.textViewRuWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                                 if(!pairedMark) tvProgressBar.setProgress(--countOfLearnedWords);
                             } else {
-                                if (answersWereHidden) viewHolder.textViewEnWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                             }
                         }else {
                             if (englishLeft) {
-                                if (answersWereHidden) viewHolder.textViewRuWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                             } else {
-                                if (answersWereHidden) viewHolder.textViewEnWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                                 tvProgressBar.setProgress(--countOfLearnedWords);
                             }
                         }
@@ -1485,7 +1490,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if(!(listDictionaryCopy.size() == listDictionary.size())) {
+                    if(userInput && listDictionaryCopy.size() != listDictionary.size()) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                 "Clean the filter!",
                                 Toast.LENGTH_LONG);
@@ -1515,25 +1520,25 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         if(collocationCopy.learnedEn && collocationCopy.learnedRu){
                             if (englishLeft) {
-                                viewHolder.textViewRuWord.setText(collocationCopy.ru);
+                                viewHolder.editTextRuWord.setText(collocationCopy.ru);
                                 tvProgressBar.setProgress(++countOfLearnedWords);
                             } else {
-                                viewHolder.textViewEnWord.setText(collocationCopy.en);
+                                viewHolder.editTextEnWord.setText(collocationCopy.en);
                                 if (!pairedMark) tvProgressBar.setProgress(++countOfLearnedWords);
                             }
                         }else if(!collocationCopy.learnedEn && !collocationCopy.learnedRu){
                             if (englishLeft) {
-                                if (answersWereHidden) viewHolder.textViewRuWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                             } else {
-                                if (answersWereHidden) viewHolder.textViewEnWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                                 if(!pairedMark) tvProgressBar.setProgress(--countOfLearnedWords);
                             }
                         }else {
                             if (englishLeft) {
-                                if (answersWereHidden) viewHolder.textViewRuWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                                 tvProgressBar.setProgress(--countOfLearnedWords);
                             } else {
-                                if (answersWereHidden) viewHolder.textViewEnWord.setText("");
+                                if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                             }
                         }
                         pairedMark = false;
@@ -1544,11 +1549,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }
             });
 
-            viewHolder.textViewEnWord.setOnFocusChangeListener(this);
-            viewHolder.textViewRuWord.setOnFocusChangeListener(this);
+            viewHolder.editTextEnWord.setOnFocusChangeListener(this);
+            viewHolder.editTextRuWord.setOnFocusChangeListener(this);
 
-            viewHolder.textViewEnWord.setOnLongClickListener(this);
-            viewHolder.textViewRuWord.setOnLongClickListener(this);
+            viewHolder.editTextEnWord.setOnLongClickListener(this);
+            viewHolder.editTextRuWord.setOnLongClickListener(this);
 
         }
 
@@ -1696,20 +1701,20 @@ public class PageFragment extends android.support.v4.app.Fragment {
          */
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnKeyListener {
             private CheckBox checkBoxLearnedEn;
-            private EditText textViewEnWord;
+            private EditText editTextEnWord;
             private CheckBox checkBoxLearnedRu;
-            private EditText textViewRuWord;
+            private EditText editTextRuWord;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
                 checkBoxLearnedEn = itemView.findViewById(R.id.checkBoxLearnedEn);
-                textViewEnWord = itemView.findViewById(R.id.editTextEnWord);
+                editTextEnWord = itemView.findViewById(R.id.editTextEnWord);
                 checkBoxLearnedRu = itemView.findViewById(R.id.checkBoxLearnedRu);
-                textViewRuWord = itemView.findViewById(R.id.editTextRuWord);
+                editTextRuWord = itemView.findViewById(R.id.editTextRuWord);
 
-                textViewEnWord.setOnKeyListener(this);
-                textViewRuWord.setOnKeyListener(this);
+                editTextEnWord.setOnKeyListener(this);
+                editTextRuWord.setOnKeyListener(this);
             }
 
             @Override
