@@ -104,7 +104,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean answersWereHidden;
     int numberOfBlocks = 1, numberOfCollocationsInABlock = 1;
     float millisecondsPerInch = 1000f;//100f
-    int rowBeginIndexOfLearnedWords = 0, rowBeginIndexOfWellLearnedWords = 0;
+    int rowBeginIndexOfLearnedWords = 0, rowBeginIndexOfWellLearnedWords = 0, rowBeginIndexOfNativeWords = 0;
     int countOfLearnedWords = 0, countOfDifficultWords = 0;
     boolean textForViewing;
     Receiver rp;
@@ -367,6 +367,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             rowBeginIndexOfWellLearnedWords = j;
                         }
                     }
+                    rowBeginIndexOfNativeWords = rowBeginIndexOfWellLearnedWords + numberOfBlocks * numberOfCollocationsInABlock;
                     tvProgressBar.setMax(listDictionary.size());
                     tvProgressBar.setProgress(countOfLearnedWords);
                     for (Collocation collocation : listOfWellLearnedWords) {
@@ -567,6 +568,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             rowBeginIndexOfWellLearnedWords = j;
                         }
                     }
+                    rowBeginIndexOfNativeWords = rowBeginIndexOfWellLearnedWords + numberOfBlocks * numberOfCollocationsInABlock;
                     tvProgressBar.setMax(listDictionary.size());
                     tvProgressBar.setProgress(countOfLearnedWords);
                     Collections.shuffle(listOfWellLearnedWords);
@@ -1008,28 +1010,32 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
             if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
                 return 1;
-            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords) {
+            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
                 return 2;
+            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
+                return 3;//new
             } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
-                return 3;
+                return 4;//3-4
             }
 
-            return 4;
+            return 5;//4-5
 
         }else{
 
             if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
-                return 5;
+                return 10;//5-10
             }
             if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
-                return 6;
-            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords) {
-                return 7;
+                return 11;//6-11
+            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
+                return 12;//7-12
+            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
+                return 13;//new
             } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
-                return 8;
+                return 14;//8-14
             }
 
-            return 9;
+            return 15;//9-15
 
         }
 
@@ -1039,19 +1045,22 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         ConstraintLayout linearLayoutCommon = itemView.findViewById(R.id.constraintLayoutCommon);
 
-        if (viewType == 1 || viewType == 6) {
+        if (viewType == 1 || viewType == 11) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0FFFF"));
-        }else if (viewType == 2 || viewType == 7){
+        }else if (viewType == 2 || viewType == 12){
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#d2d3ef"));
+        } else if (viewType == 3 || viewType == 13) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#A0FAA0"));
-        } else if (viewType == 3 || viewType == 8) {
+        } else if (viewType == 4 || viewType == 14) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0F8FF"));
         }
 
-        if (viewType == 0 || viewType == 5) {
+
+        if (viewType == 0 || viewType == 10) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFFFE0"));
         }
 
-        if (viewType == 4 || viewType == 9) {
+        if (viewType == 5 || viewType == 15) {
             linearLayoutCommon.setBackgroundColor(Color.TRANSPARENT);
         }
 
@@ -1134,6 +1143,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 rowBeginIndexOfWellLearnedWords = j;
             }
         }
+        rowBeginIndexOfNativeWords = rowBeginIndexOfWellLearnedWords + numberOfBlocks * numberOfCollocationsInABlock;
 
         if (rowBeginIndexOfWellLearnedWords == 0){
             rowBeginIndexOfWellLearnedWords = listDictionaryLocalCopy.size();
