@@ -786,8 +786,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         englishLeft = prefs.getBoolean("englishLeft", false);
         answersWereHidden = prefs.getBoolean("answersWereHidden", false);
+        int indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
 
-
+        recyclerView.scrollToPosition(indexOfTheSelectedRow);
 
         /*
         rp = new Receiver(editTextHostname.getText().toString(),
@@ -948,6 +949,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         editPrefs.putBoolean("answersWereHidden", answersWereHidden);
         editPrefs.putString("hostname", editTextHostname.getText().toString());
         editPrefs.putString("portname", editTextPortname.getText().toString());
+        editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
         editPrefs.commit();
 
     }
@@ -1007,35 +1009,33 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 0;
-            }
-            if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
+            } else if  (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
                 return 1;
             } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
                 return 2;
             }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
-                return 3;//new
+                return 3;
             } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
-                return 4;//3-4
+                return 4;
             }
 
-            return 5;//4-5
+            return 5;
 
         }else{
 
             if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
-                return 10;//5-10
-            }
-            if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
-                return 11;//6-11
+                return 10;
+            } else if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
+                return 11;
             } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
-                return 12;//7-12
+                return 12;
             }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
-                return 13;//new
+                return 13;
             } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
-                return 14;//8-14
+                return 14;
             }
 
-            return 15;//9-15
+            return 15;
 
         }
 
@@ -1048,19 +1048,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
         if (viewType == 1 || viewType == 11) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0FFFF"));
         }else if (viewType == 2 || viewType == 12){
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#d2d3ef"));
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#D3D3D3"));
         } else if (viewType == 3 || viewType == 13) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#A0FAA0"));
         } else if (viewType == 4 || viewType == 14) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0F8FF"));
-        }
-
-
-        if (viewType == 0 || viewType == 10) {
+        } else if (viewType == 0 || viewType == 10) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFFFE0"));
-        }
-
-        if (viewType == 5 || viewType == 15) {
+        } else if (viewType == 5 || viewType == 15) {
             linearLayoutCommon.setBackgroundColor(Color.TRANSPARENT);
         }
 
@@ -1606,6 +1601,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     if(!englishLeft) {
                         listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
+                        collocationCopy.isDifficult = false;
                     }
                 } else {
                     if(englishLeft){
@@ -1613,6 +1609,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }else{
                         resultText = original + "⚓";
                         listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
+                        collocationCopy.isDifficult = true;
                     }
                 }
 
