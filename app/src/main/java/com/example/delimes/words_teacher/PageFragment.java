@@ -956,12 +956,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     private void hideAnswers(){
 
-        /*del
-        if (answersWereHidden){
-            showAnswers();
-        }
-        */
-
         if (englishLeft) {
             for (Collocation collocation : listDictionary) {
                 collocation.ru = "";
@@ -1454,6 +1448,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 pairedMark = true;
                                 viewHolder.checkBoxLearnedRu.setChecked(isChecked);
                             }
+
                         }
 
                         if(collocationCopy.learnedEn && collocationCopy.learnedRu){
@@ -1481,7 +1476,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                         pairedMark = false;
 
-
+                        int i = 0;
+                        for(Collocation colloc: listDictionary){
+                            if (colloc.learnedEn != colloc.learnedRu){
+                                i++;
+                            }
+                        }
+                        tvProgressBar.setMax(numberOfCollocationsInABlock);
+                        tvProgressBar.setProgress(i);
 
                     }
                     userInput = true;
@@ -1547,6 +1549,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             }
                         }
                         pairedMark = false;
+
+                        int i = 0;
+                        for(Collocation colloc: listDictionary){
+                            if (colloc.learnedEn != colloc.learnedRu){
+                                i++;
+                            }
+                        }
+                        tvProgressBar.setMax(numberOfCollocationsInABlock);
+                        tvProgressBar.setProgress(i);
 
                     }
                     userInput = true;
