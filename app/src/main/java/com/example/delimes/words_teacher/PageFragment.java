@@ -1382,7 +1382,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             View itemView;
 
-            if(viewType < 5) {
+            if(viewType < 10) {
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_en_ru, viewGroup, false);
                 colorizeLines(itemView, viewType);
             }else{
@@ -1476,6 +1476,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                         pairedMark = false;
 
+
                         int i = 0;
                         for(Collocation colloc: listDictionary){
                             if (colloc.learnedEn != colloc.learnedRu){
@@ -1484,6 +1485,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                         tvProgressBar.setMax(numberOfCollocationsInABlock);
                         tvProgressBar.setProgress(i);
+
 
                     }
                     userInput = true;
@@ -1550,6 +1552,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                         pairedMark = false;
 
+
                         int i = 0;
                         for(Collocation colloc: listDictionary){
                             if (colloc.learnedEn != colloc.learnedRu){
@@ -1558,6 +1561,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                         tvProgressBar.setMax(numberOfCollocationsInABlock);
                         tvProgressBar.setProgress(i);
+
 
                     }
                     userInput = true;
