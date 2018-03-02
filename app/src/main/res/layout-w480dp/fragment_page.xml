@@ -88,6 +88,14 @@
 
             android:text="Hide answers" />
 
+        <Button
+            android:id="@+id/buttonSwap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+
+            android:text="Swap" />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"

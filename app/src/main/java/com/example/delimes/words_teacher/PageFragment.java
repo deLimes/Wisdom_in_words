@@ -6,6 +6,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -111,6 +115,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     List<Receiver> receiverList = new ArrayList<Receiver>();
     final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
+    boolean swap = false;
     //Socket socket;
 
     View page, page2;
@@ -617,16 +622,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonRepeat.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    int j = 0;
-                    for (Collocation i : listDictionary) {
-                        if (i.learnedEn && i.learnedRu){
-                            break;
-                        }
-                        j++;
+                    if(swap) {
+                        recyclerView.scrollToPosition(listDictionary.size() - 1);
                     }
-                    if(j == listDictionary.size()) j = 0;
+                    else {
+                        int j = 0;
+                        for (Collocation i : listDictionary) {
+                            if (i.learnedEn && i.learnedRu) {
+                                break;
+                            }
+                            j++;
+                        }
+                        if (j == listDictionary.size()) j = 0;
 
-                    recyclerView.scrollToPosition(j);
+                        recyclerView.scrollToPosition(j);
+                    }
 
                 }
             });
@@ -636,7 +646,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonLearnNew.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    recyclerView.scrollToPosition(0);
+                    if (swap) {
+                        recyclerView.scrollToPosition(0);
+                    }else{
+                        int i = 0;
+                        int j = 0;
+                        for(Collocation colloc: listDictionary){
+                            i++;
+                            if (colloc.learnedEn != colloc.learnedRu){
+                                j = i;
+                            }
+                        }
+                        recyclerView.scrollToPosition(j);
+                    }
 
                 }
             });
@@ -725,6 +747,22 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
                     }
                 return false;
+            }
+        });
+
+        final View buttonSwap = page.findViewById(R.id.buttonSwap);
+        buttonSwap.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                swap = !swap;
+                if(swap){
+                    buttonSwap.getBackground().setColorFilter(
+                            Color.parseColor("#FA8072"), PorterDuff.Mode.MULTIPLY
+                    );
+                }else{
+                    buttonSwap.getBackground().clearColorFilter();
+                }
+
             }
         });
 
@@ -1206,6 +1244,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 ObjectOutputStream oos = new ObjectOutputStream(sout);
                 ObjectInputStream ois = new ObjectInputStream(sin);
 
+                out.writeBoolean(swap);
                 out.writeInt(countOfLearnedWords);
                 out.flush(); // заставляем поток закончить передачу данных.
 

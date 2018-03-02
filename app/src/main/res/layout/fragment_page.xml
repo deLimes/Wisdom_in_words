@@ -156,6 +156,15 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonRepeat"
         />
 
+    <Button
+        android:id="@+id/buttonSwap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/buttonRepeat"
+        />
+
 
     <Button
         android:id="@+id/buttonRepeat"
@@ -171,7 +180,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="Learn new"
+        android:text="Learn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
