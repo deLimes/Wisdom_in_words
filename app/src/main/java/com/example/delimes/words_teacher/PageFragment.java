@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
@@ -112,8 +113,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
     int countOfLearnedWords = 0, countOfDifficultWords = 0;
     boolean textForViewing;
     Receiver rp;
-    List<Receiver> receiverList = new ArrayList<Receiver>();
-    final int COUNT_OF_RECEIVERS = 100;
+    public List<Receiver> receiverList = new ArrayList<Receiver>();
+    public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
     //Socket socket;
@@ -188,6 +189,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
         page = inflater.inflate(R.layout.fragment_page, container, false);
         page2 = inflater.inflate(R.layout.fragment_page2, container, false);
 
+        /*
+        List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+        //android.support.v4.app.Fragment frag = fragments.get(0);
+        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        */
+
+        List<Fragment> fragments = getFragmentManager().getFragments();
+        android.support.v4.app.Fragment frag2 = fragments.get(1);
 
         final EditText searchView = (EditText) page.findViewById(R.id.searchView);
 
@@ -197,9 +206,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
         tvTextLeft = (TextView) page.findViewById(R.id.tvTextLeft);
         tvTextTotal = (TextView) page.findViewById(R.id.tvTextTotal);
 
-        editTextNumberOfBlocks = page.findViewById(R.id.numberOfBlocks);
-        editTextHostname = page2.findViewById(R.id.hostname);
-        editTextPortname = page2.findViewById(R.id.portname);
+        editTextNumberOfBlocks = (EditText) page.findViewById(R.id.numberOfBlocks);
+
+        editTextHostname = (EditText) page2.findViewById(R.id.hostname);
+        editTextPortname = (EditText) page2.findViewById(R.id.portname);
 
         editTextNumberOfBlocks.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
@@ -762,7 +772,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }else{
                     buttonSwap.getBackground().clearColorFilter();
                 }
-
             }
         });
 
@@ -821,10 +830,63 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        editTextHostname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable hostname) {
+
+                /*
+                receiverList.clear();
+                for (int i = 0; i < COUNT_OF_RECEIVERS; i++) {
+                    receiverList.add( new Receiver(hostname.toString(),
+                            Integer.parseInt(editTextPortname.getText().toString())));
+                }
+                */
+
+            }
+        });
+
+        editTextPortname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable portname) {
+
+                /*
+                receiverList.clear();
+                for (int i = 0; i < COUNT_OF_RECEIVERS; i++) {
+                    receiverList.add( new Receiver(editTextHostname.getText().toString(),
+                            Integer.parseInt(portname.toString())));
+                }
+                */
+
+            }
+        });
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         englishLeft = prefs.getBoolean("englishLeft", false);
         answersWereHidden = prefs.getBoolean("answersWereHidden", false);
         int indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
+
+        editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
+        editTextPortname.setText(prefs.getString("portname", "7373"));
 
         recyclerView.scrollToPosition(indexOfTheSelectedRow);
 
@@ -833,12 +895,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 Integer.parseInt(editTextPortname.getText().toString()));
 
         */
-        for (int i = 0; i < COUNT_OF_RECEIVERS; i++) {
-            receiverList.add( new Receiver(editTextHostname.getText().toString(),
-                    Integer.parseInt(editTextPortname.getText().toString())));
-        }
-
-
+        fillReceiverList(editTextHostname.getText().toString(), editTextPortname.getText().toString());
 
         return page;
     }
@@ -935,8 +992,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         millisecondsPerInch = prefs.getFloat("millisecondsPerInch", 1000f);
         editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
+        /*
         editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
         editTextPortname.setText(prefs.getString("portname", "7373"));
+        */
 
         tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWords", 0) ));
         tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWords", 0) ));
@@ -985,8 +1044,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
         SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
         editPrefs.putBoolean("englishLeft", englishLeft);
         editPrefs.putBoolean("answersWereHidden", answersWereHidden);
-        editPrefs.putString("hostname", editTextHostname.getText().toString());
-        editPrefs.putString("portname", editTextPortname.getText().toString());
         editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
         editPrefs.commit();
 
@@ -1215,6 +1272,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     }
 
+    public void fillReceiverList(String hostname, String portname){
+
+        receiverList.clear();
+        for (int i = 0; i < COUNT_OF_RECEIVERS; i++) {
+            receiverList.add( new Receiver(hostname, Integer.parseInt(portname)) );
+        }
+
+    }
+
 
     class Receiver extends Thread {
 
@@ -1234,7 +1300,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 InetAddress ipAddr = InetAddress.getByName(host);
 
                 Socket socket = new Socket();
-                socket.connect(new InetSocketAddress(ipAddr, port), 10000);
+                socket.connect(new InetSocketAddress(ipAddr, port), 5000);
                 InputStream sin = socket.getInputStream();
                 OutputStream sout = socket.getOutputStream();
 

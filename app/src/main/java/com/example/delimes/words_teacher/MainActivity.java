@@ -109,13 +109,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public class MyFragmentAdapter extends FragmentPagerAdapter {
+
         public MyFragmentAdapter(FragmentManager mgr) {
             super(mgr);
         }
+
         @Override
         public int getCount() {
             return(2);
         }
+
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
 
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 return (PageFragment.newInstance(position));
             }else{
                 return (PageFragment2.newInstance(position));
+
             }
         }
     }

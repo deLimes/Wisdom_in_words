@@ -64,6 +64,7 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
     private boolean scrollMoves = false;
     boolean mIsScrollingUp = false;
     int gridPosition = 0;
+    public EditText editTextHostname, editTextPortname;
 
     private boolean EnglishTextLayout = false;
     char[] ArrayEnglishCharacters = {'h', 'j', 'k', 'l', 'y', 'u', 'i', 'o', 'p', '[', ']', 'n', 'm',
@@ -215,11 +216,61 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
 
         //MyWebViewClient view = new MyWebViewClient();
         final WebView mWebView = (WebView) page.findViewById(R.id.webView);
+        editTextHostname = (EditText) page.findViewById(R.id.hostname);
+        editTextPortname = (EditText) page.findViewById(R.id.portname);
         mWebView.setWebViewClient(new MyWebViewClient());
         mWebView.setWebChromeClient(new MyCustomChromeClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.loadUrl("https://translate.google.com/?hl=ru#ru/en/Переводчик");
+
+
+        editTextHostname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable hostname) {
+
+                List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+                android.support.v4.app.Fragment frag = fragments.get(0);
+
+                ((PageFragment)frag).fillReceiverList(hostname.toString(), editTextPortname.getText().toString());
+
+            }
+        });
+
+
+
+        editTextPortname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable portname) {
+
+                List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+                android.support.v4.app.Fragment frag = fragments.get(0);
+
+                ((PageFragment)frag).fillReceiverList(editTextHostname.getText().toString(), portname.toString());
+
+            }
+        });
+
         ///////////////////////mWebView.loadUrl("file:///android_res/raw/mypage.html");
 
 //        mWebView.setWebViewClient(new WebViewClient() {
@@ -313,8 +364,24 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
     public void onResume() {
         super.onResume();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
+        editTextPortname.setText(prefs.getString("portname", "7373"));
+
         //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         //mWebView.loadUrl("https://translate.google.com/?hl=ru#ru/en/Переводчик");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+        editPrefs.putString("hostname", editTextHostname.getText().toString());
+        editPrefs.putString("portname", editTextPortname.getText().toString());
+        editPrefs.commit();
+
     }
 
     private class MyWebViewClient extends WebViewClient {
