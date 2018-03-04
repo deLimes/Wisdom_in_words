@@ -117,7 +117,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
-    //Socket socket;
+    int indexOfTheSelectedRow = 0;
+            //Socket socket;
 
     View page, page2;
     private WebView mWebView;
@@ -396,7 +397,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.learnedEn,
                                 collocation.en,
                                 collocation.learnedRu,
-                                collocation.ru
+                                collocation.ru,
+                                collocation.isDifficult
                         ));
                     }
 
@@ -431,7 +433,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                int indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
                 if (indexOfTheSelectedRow < 0){
                     Toast.makeText(getContext(), "choose the collocation!", Toast.LENGTH_LONG)
@@ -598,7 +600,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.learnedEn,
                                 collocation.en,
                                 collocation.learnedRu,
-                                collocation.ru
+                                collocation.ru,
+                                collocation.isDifficult
                         ));
                     }
 
@@ -690,8 +693,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 toast.show();
                                 return true;
                             }
-                            Collocation collocation = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim());
-                            Collocation collocationCopy = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim());
+                            Collocation collocation = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false);
+                            Collocation collocationCopy = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false);
 
                             Character Symbol = collocation.en.charAt(0);
                             boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
@@ -883,7 +886,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         englishLeft = prefs.getBoolean("englishLeft", false);
         answersWereHidden = prefs.getBoolean("answersWereHidden", false);
-        int indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
+        indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
 
         editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
         editTextPortname.setText(prefs.getString("portname", "7373"));
@@ -965,7 +968,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         collocation.learnedEn,
                         collocation.en,
                         collocation.learnedRu,
-                        collocation.ru
+                        collocation.ru,
+                        collocation.isDifficult
                 ));
             }
             //}
@@ -1011,13 +1015,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
         listDictionary.clear();
         listDictionaryCopy.clear();
         for (int i = 0; i < arrayDictionary.length; i += 2) {
-            Collocation collocation = new Collocation(false, arrayDictionary[i], false,  arrayDictionary[i + 1]);
+            Collocation collocation = new Collocation(false, arrayDictionary[i], false,  arrayDictionary[i + 1], false);
             listDictionary.add(collocation);
             listDictionaryCopy.add(new Collocation(
                     collocation.learnedEn,
                     collocation.en,
                     collocation.learnedRu,
-                    collocation.ru
+                    collocation.ru,
+                    collocation.isDifficult
             ));
         }
         defineIndexesOfWords();
@@ -1159,7 +1164,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     collocation.learnedEn,
                     collocation.en,
                     collocation.learnedRu,
-                    collocation.ru
+                    collocation.ru,
+                    collocation.isDifficult
             ));
         }
 
@@ -1355,7 +1361,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.learnedEn,
                                 collocation.en,
                                 collocation.learnedRu,
-                                collocation.ru
+                                collocation.ru,
+                                collocation.isDifficult
                         ));
                     }
 
@@ -1456,7 +1463,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             collocationCopy.learnedEn,
                             collocationCopy.en,
                             collocationCopy.learnedRu,
-                            collocationCopy.ru
+                            collocationCopy.ru,
+                            collocationCopy.isDifficult
                     ));
                 }
                 if (answersWereHidden){
@@ -1464,6 +1472,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }else {
                     notifyDataSetChanged();
                 }
+                recyclerView.scrollToPosition(indexOfTheSelectedRow);
             } else{
                 text = text.toLowerCase();
                 for (Collocation collocationCopy : listDictionaryCopy) {
@@ -1472,7 +1481,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocationCopy.learnedEn,
                                 collocationCopy.en,
                                 collocationCopy.learnedRu,
-                                collocationCopy.ru
+                                collocationCopy.ru,
+                                collocationCopy.isDifficult
                         ));
                     }
                 }
@@ -1705,7 +1715,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             if (!hasFocus) {
 
-                int indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
                 String[] arrayText = ((EditText) v).getText().toString().split("\n");
 
                 if ((indexOfTheSelectedRow == -1 || arrayText.length != 2) && !(arrayText.length > 2)) {
@@ -1747,6 +1757,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }
 
 
+            }else{
+                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
             }
 
         }
@@ -1757,7 +1769,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             String word = ((EditText) v).getText().toString();
 
             if (word.isEmpty()) {
-                int indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
                 if (indexOfTheSelectedRow < 0) {
                     return true;
                 }
@@ -1850,7 +1862,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
                         String original, answer;
-                        int indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+                        indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
                         if (englishLeft) {
                             original = collocationCopy.ru
