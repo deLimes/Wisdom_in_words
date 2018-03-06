@@ -63,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
+            case R.id.action_save:
+                ((PageFragment)frag1).save();
+
+                return true;
+
             case R.id.action_reset:
 
                 //Dialog

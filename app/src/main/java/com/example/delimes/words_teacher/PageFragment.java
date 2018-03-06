@@ -1044,6 +1044,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public void onStop() {
         super.onStop();
 
+        if (!swap) {
+            save();
+        }
+
+    }
+
+    public void save(){
+
         saveListDictionary();
 
         SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
