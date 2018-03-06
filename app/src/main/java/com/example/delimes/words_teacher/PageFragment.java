@@ -118,6 +118,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
     int indexOfTheSelectedRow = 0;
+    boolean isStart,  isResumeAfterStop;
             //Socket socket;
 
     View page, page2;
@@ -900,21 +901,32 @@ public class PageFragment extends android.support.v4.app.Fragment {
         */
         fillReceiverList(editTextHostname.getText().toString(), editTextPortname.getText().toString());
 
+        isStart = true;
+        isResumeAfterStop = false;
+
         return page;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!swap) {
+            save();
+        }
+        isResumeAfterStop = true;
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        restoreListDictionary();
-
-        editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
-        editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
-
-        if (answersWereHidden){
-            hideAnswers();
+        if (isStart || isResumeAfterStop) {
+            restore();
         }
+        isStart = false;
+        isResumeAfterStop = false;
     }
 
     private void restoreListDictionary(){
@@ -1040,16 +1052,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void restore(){
 
-        if (!swap) {
-            save();
+        restoreListDictionary();
+
+        editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
+        editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
+
+        if (answersWereHidden){
+            hideAnswers();
         }
-
     }
 
+   
     public void save(){
 
         saveListDictionary();
