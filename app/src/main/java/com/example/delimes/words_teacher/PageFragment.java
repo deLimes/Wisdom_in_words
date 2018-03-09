@@ -221,7 +221,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     if( numberOfBlocks < 1 ) numberOfBlocks = 1;
                 } catch( NumberFormatException nfe ){
                     numberOfBlocks = backupValue;
-                    return true;
+                    return false;
                 }
                 defineIndexesOfWords();
                 adapter.notifyDataSetChanged();
@@ -240,7 +240,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     if( numberOfCollocationsInABlock < 1 ) numberOfCollocationsInABlock = 1;
                 } catch( NumberFormatException nfe ){
                     numberOfCollocationsInABlock = backupValue;
-                    return true;
+                    return false;
                 }
                 defineIndexesOfWords();
                 adapter.notifyDataSetChanged();
