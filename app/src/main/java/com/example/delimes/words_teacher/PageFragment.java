@@ -1758,7 +1758,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
                 } else {
                     if(englishLeft){
-                        resultText = original + "⋆";
+                        resultText = original;
                     }else{
                         resultText = original + "⚓";
                         listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
@@ -1806,7 +1806,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
 
             word = word.replace("✓", "")
-                    .replace("⋆", "")
                     .replace("⚓", "");
 
             Character Symbol = word.charAt(0);
@@ -1888,9 +1887,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
                         if (englishLeft) {
-                            original = collocationCopy.ru
-                                    .replace("✓", "")
-                                    .replace("⋆", "");
+                            original = collocationCopy.ru;
                         } else {
                             original = collocationCopy.en
                                     .replace("✓", "")
