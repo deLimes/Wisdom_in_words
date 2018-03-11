@@ -1750,9 +1750,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 String resultText;
 
                 if (answer.equals(original)) {
-                    resultText = original + "✓";
-
-                    if(!englishLeft) {
+                    if(englishLeft) {
+                        resultText = original;
+                    }else{
+                        resultText = original + "✓";
                         listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
                         collocationCopy.isDifficult = false;
                     }
