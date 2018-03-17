@@ -87,6 +87,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
     EditText editTexScrollingSpeed;
     EditText editTextHostname, editTextPortname;
 
+    View buttonSwap;
+
     private boolean EnglishTextLayout = false;
     char[] ArrayEnglishCharacters = {'h', 'j', 'k', 'l', 'y', 'u', 'i', 'o', 'p', '[', ']', 'n', 'm',
             'g', 'f', 'd', 's', 'a', 'b', 'v', 'c', 'x', 'z', 't', 'r', 'e', 'w', 'q', '`'};
@@ -319,6 +321,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     List<Collocation> listOfStudiedWords = new ArrayList<Collocation>();
+                    List<Collocation> listOfFavoriteWords = new ArrayList<Collocation>();
                     List<Collocation> listOfDifficultWords = new ArrayList<Collocation>();
                     List<Collocation> listOfLearnedWords = new ArrayList<Collocation>();
 
@@ -327,7 +330,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         Collocation collocation = listDictionary.get(i);
 
                         if(collocation.learnedEn != collocation.learnedRu){
-                            listOfStudiedWords.add(collocation);
+                            if(collocation.isDifficult && swap){
+                                listOfFavoriteWords.add(collocation);
+                            }else {
+                                listOfStudiedWords.add(collocation);
+                            }
                             listDictionary.remove(i);
                             i--;
                             continue;
@@ -347,10 +354,16 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     Collections.sort(listOfStudiedWords, enRuComparator);
+                    Collections.sort(listOfFavoriteWords, enRuComparator);
                     Collections.sort(listOfDifficultWords, enRuComparator);
                     Collections.sort(listDictionary, enRuComparator);
 
                     int j = 0;
+                    for (Collocation collocation : listOfFavoriteWords) {
+                        listDictionary.add(j, collocation);
+                        j++;
+                        rowBeginIndexOfLearnedWords = j;
+                    }
                     for (Collocation collocation : listOfStudiedWords) {
                         listDictionary.add(j, collocation);
                         j++;
@@ -425,6 +438,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     if (answersWereHidden){
                         hideAnswers();
                     }
+
+                    swap = false;
+                    buttonSwap.getBackground().clearColorFilter();
 
                 }
             });
@@ -521,6 +537,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     List<Collocation> listOfStudiedWords = new ArrayList<Collocation>();
+                    List<Collocation> listOfFavoriteWords = new ArrayList<Collocation>();
                     List<Collocation> listOfDifficultWords = new ArrayList<Collocation>();
                     List<Collocation> listOfLearnedWords = new ArrayList<Collocation>();
 
@@ -529,7 +546,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         Collocation collocation = listDictionary.get(i);
 
                         if(collocation.learnedEn != collocation.learnedRu){
-                            listOfStudiedWords.add(collocation);
+                            if(collocation.isDifficult && swap){
+                                listOfFavoriteWords.add(collocation);
+                            }else {
+                                listOfStudiedWords.add(collocation);
+                            }
                             listDictionary.remove(i);
                             i--;
                             continue;
@@ -550,9 +571,16 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     Collections.shuffle(listOfStudiedWords);
+                    Collections.shuffle(listOfFavoriteWords);
                     Collections.shuffle(listDictionary);
 
                     int j = 0;
+                    for (Collocation collocation : listOfFavoriteWords) {
+                        listDictionary.add(j, collocation);
+                        j++;
+                        rowBeginIndexOfLearnedWords = j;
+                    }
+
                     for (Collocation collocation : listOfStudiedWords) {
                         listDictionary.add(j, collocation);
                         j++;
@@ -628,6 +656,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         hideAnswers();
                     }
 
+                    swap = false;
+                    buttonSwap.getBackground().clearColorFilter();
+
                 }
             });
 
@@ -638,6 +669,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     if(swap) {
                         recyclerView.scrollToPosition(listDictionary.size() - 1);
+
+                        swap = false;
+                        buttonSwap.getBackground().clearColorFilter();
                     }
                     else {
                         int j = 0;
@@ -662,6 +696,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     if (swap) {
                         recyclerView.scrollToPosition(0);
+
+                        swap = false;
+                        buttonSwap.getBackground().clearColorFilter();
                     }else{
                         int i = 0;
                         int j = 0;
@@ -764,7 +801,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        final View buttonSwap = page.findViewById(R.id.buttonSwap);
+        buttonSwap = page.findViewById(R.id.buttonSwap);
         buttonSwap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -1362,6 +1399,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.TOP, 0, 0);
                             toast.show();
+
+                            swap = false;
+                            buttonSwap.getBackground().clearColorFilter();
                         }
                     };
                     mainHandler.post(runnable);
