@@ -119,7 +119,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
-    int indexOfTheSelectedRow = 0;
+    int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1, indexOfTheFirstPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
             //Socket socket;
 
@@ -1161,35 +1161,41 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         if (englishLeft) {
 
-            if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
+            if (rowIndex == indexOfThePreviousSelectedRow
+                    || rowIndex == indexOfTheFirstPreviousSelectedRow) {
                 return 0;
-            } else if  (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
+            }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 1;
-            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
+            } else if  (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
                 return 2;
-            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
+            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
                 return 3;
-            } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
+            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
                 return 4;
+            } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
+                return 5;
             }
 
-            return 5;
+            return 6;
 
         }else{
 
-            if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
+            if (rowIndex == indexOfThePreviousSelectedRow
+                    || rowIndex == indexOfTheFirstPreviousSelectedRow) {
                 return 10;
-            } else if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
+            }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 11;
-            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
+            } else if (rowIndex + 1 > rowBeginIndexOfLearnedWords && rowIndex + 1 <= rowBeginIndexOfWellLearnedWords) {
                 return 12;
-            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
+            } else if (rowIndex + 1 > rowBeginIndexOfWellLearnedWords && rowIndex < rowBeginIndexOfNativeWords) {
                 return 13;
-            } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
+            }else if (rowIndex + 1 > rowBeginIndexOfNativeWords){
                 return 14;
+            } else if ((rowIndex + 1) % numberOfCollocationsInABlock == 0) {
+                return 15;
             }
 
-            return 15;
+            return 16;
 
         }
 
@@ -1199,17 +1205,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         ConstraintLayout linearLayoutCommon = itemView.findViewById(R.id.constraintLayoutCommon);
 
-        if (viewType == 1 || viewType == 11) {
+        if (viewType == 0 || viewType == 10) {
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#E0FFFF"));
+        }else if (viewType == 2 || viewType == 12) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0FFFF"));
-        }else if (viewType == 2 || viewType == 12){
+        }else if (viewType == 3 || viewType == 13){
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#D3D3D3"));
-        } else if (viewType == 3 || viewType == 13) {
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#A0FAA0"));
         } else if (viewType == 4 || viewType == 14) {
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0F8FF"));
-        } else if (viewType == 0 || viewType == 10) {
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFFFE0"));
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#A0FAA0"));
         } else if (viewType == 5 || viewType == 15) {
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0F8FF"));
+        } else if (viewType == 1 || viewType == 11) {
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFFFE0"));
+        } else if (viewType == 6 || viewType == 16) {
             linearLayoutCommon.setBackgroundColor(Color.TRANSPARENT);
         }
 
@@ -1667,7 +1675,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     }
                     userInput = true;
-                    Log.d(TAG, "onCheckedChanged: learnedEn:"+collocation.learnedEn+" learnedRu:"+collocation.learnedRu);
 
                 }
 
@@ -1743,9 +1750,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     }
                     userInput = true;
-                    Log.d(TAG, "onCheckedChanged: learnedRu:"+collocation.learnedRu+" learnedEn:"+ collocation.learnedEn);
                 }
             });
+
 
             viewHolder.editTextEnWord.setOnFocusChangeListener(this);
             viewHolder.editTextRuWord.setOnFocusChangeListener(this);
@@ -1776,9 +1783,29 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
+            indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+
+            Log.d(TAG, "indexOfTheSelectedRow: "+indexOfTheSelectedRow);
+
+            if (indexOfTheFirstPreviousSelectedRow != indexOfTheSelectedRow) {
+                indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
+            }
+
             if (!hasFocus) {
 
-                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+                /*
+                if(myLlm.findFirstVisibleItemPosition() < indexOfTheSelectedRow
+                        && myLlm.findLastVisibleItemPosition() > indexOfTheSelectedRow){
+                    indexOfTheFirstPreviousSelectedRow = -1;
+                }else{
+                    indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
+                }
+                */
+                indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
+                indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
+
+
+
                 String[] arrayText = ((EditText) v).getText().toString().split("\n");
 
                 if ((indexOfTheSelectedRow == -1 || arrayText.length != 2) && !(arrayText.length > 2)) {
@@ -1821,11 +1848,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }
 
 
-            }else{
-                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
             }
 
         }
+
+
 
         @Override
         public boolean onLongClick(View v) {
