@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -119,7 +120,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
-    int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1, indexOfTheFirstPreviousSelectedRow = -1;
+    int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
             //Socket socket;
 
@@ -1161,8 +1162,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         if (englishLeft) {
 
-            if (rowIndex == indexOfThePreviousSelectedRow
-                    || rowIndex == indexOfTheFirstPreviousSelectedRow) {
+            if (rowIndex == indexOfThePreviousSelectedRow) {
                 return 0;
             }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 1;
@@ -1180,8 +1180,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         }else{
 
-            if (rowIndex == indexOfThePreviousSelectedRow
-                    || rowIndex == indexOfTheFirstPreviousSelectedRow) {
+            if (rowIndex == indexOfThePreviousSelectedRow) {
                 return 10;
             }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 11;
@@ -1515,7 +1514,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
      * имплементирующего ViewHolder. В нашем случае класс объявлен внутри класса адаптера.
      */
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
-            implements View.OnFocusChangeListener, View.OnLongClickListener {
+            implements View.OnFocusChangeListener, View.OnLongClickListener, View.OnTouchListener {
 
         private List <Collocation> listDictionary;
         boolean pairedMark;
@@ -1757,6 +1756,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
             viewHolder.editTextEnWord.setOnFocusChangeListener(this);
             viewHolder.editTextRuWord.setOnFocusChangeListener(this);
 
+            viewHolder.editTextEnWord.setOnTouchListener(this);
+            viewHolder.editTextRuWord.setOnTouchListener(this);
+
             viewHolder.editTextEnWord.setOnLongClickListener(this);
             viewHolder.editTextRuWord.setOnLongClickListener(this);
 
@@ -1780,31 +1782,26 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         }
 
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                adapter.notifyItemChanged(indexOfThePreviousSelectedRow);
+                indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
+                v.requestFocus();
+            }
+
+            return false;
+        }
+
+
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
             indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
-            Log.d(TAG, "indexOfTheSelectedRow: "+indexOfTheSelectedRow);
-
-            if (indexOfTheFirstPreviousSelectedRow != indexOfTheSelectedRow) {
-                indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
-            }
-
             if (!hasFocus) {
-
-                /*
-                if(myLlm.findFirstVisibleItemPosition() < indexOfTheSelectedRow
-                        && myLlm.findLastVisibleItemPosition() > indexOfTheSelectedRow){
-                    indexOfTheFirstPreviousSelectedRow = -1;
-                }else{
-                    indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
-                }
-                */
-                indexOfTheFirstPreviousSelectedRow = indexOfThePreviousSelectedRow;
-                indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
-
-
 
                 String[] arrayText = ((EditText) v).getText().toString().split("\n");
 
@@ -1924,6 +1921,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             return false;
         }
+
+
+
 
         /**
          * Реализация класса ViewHolder, хранящего ссылки на виджеты.
