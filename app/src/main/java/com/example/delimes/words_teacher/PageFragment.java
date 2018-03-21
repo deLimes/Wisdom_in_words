@@ -122,7 +122,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
-            //Socket socket;
+    SpannableString text;
+    boolean indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = false;
+    //Socket socket;
 
     View page, page2;
     private WebView mWebView;
@@ -1514,7 +1516,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
      * имплементирующего ViewHolder. В нашем случае класс объявлен внутри класса адаптера.
      */
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
-            implements View.OnFocusChangeListener, View.OnLongClickListener, View.OnTouchListener {
+            implements View.OnFocusChangeListener, View.OnLongClickListener {
 
         private List <Collocation> listDictionary;
         boolean pairedMark;
@@ -1756,9 +1758,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
             viewHolder.editTextEnWord.setOnFocusChangeListener(this);
             viewHolder.editTextRuWord.setOnFocusChangeListener(this);
 
-            viewHolder.editTextEnWord.setOnTouchListener(this);
-            viewHolder.editTextRuWord.setOnTouchListener(this);
-
             viewHolder.editTextEnWord.setOnLongClickListener(this);
             viewHolder.editTextRuWord.setOnLongClickListener(this);
 
@@ -1784,29 +1783,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                v.requestFocus();
-            }else if(event.getAction() == KeyEvent.ACTION_UP){
-                if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow){
-                    indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
-                    adapter.notifyItemChanged(indexOfTheSelectedRow);
-                }
-            }
-
-            return false;
-        }
-
-
-        @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
             indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
             if (!hasFocus) {
-
-                //indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
 
                 String[] arrayText = ((EditText) v).getText().toString().split("\n");
 
@@ -1850,6 +1831,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }
 
 
+            }else{
+                if(indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow) {
+                    indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = false;
+                    ((EditText) v).setText(text);
+                }
             }
 
         }
@@ -1959,9 +1945,17 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
+                        boolean tempBoolean = false;
+
+                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow){
+                            indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = true;
+                            adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        }
 
                         indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
                         indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
+
+
                         //adapter.notifyItemChanged(indexOfThePreviousSelectedRow);
 
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
@@ -1979,7 +1973,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
 
                         String comparison = original +  "\n" + answer;
-                        final SpannableString text = new SpannableString(comparison);
+                        text = new SpannableString(comparison);
 
                         for (int i = 0; i < original.length(); i++) {
                             ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
