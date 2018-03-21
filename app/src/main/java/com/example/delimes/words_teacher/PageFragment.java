@@ -1957,7 +1957,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
-                        adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        adapter.notifyItemChanged(indexOfThePreviousRow);
                         indexOfThePreviousRow = indexOfTheTempPreviousRow;
 
                         String original, answer;
