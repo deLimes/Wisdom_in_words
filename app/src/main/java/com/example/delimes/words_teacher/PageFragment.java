@@ -120,7 +120,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
-    int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1;
+    int indexOfTheSelectedRow = 0, indexOfThePreviousRow = -1, indexOfTheTempPreviousRow = -1;
     boolean isStart,  isResumeAfterStop;
             //Socket socket;
 
@@ -1162,7 +1162,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         if (englishLeft) {
 
-            if (rowIndex == indexOfThePreviousSelectedRow) {
+            if (rowIndex == indexOfThePreviousRow) {
                 return 0;
             }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 1;
@@ -1180,7 +1180,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         }else{
 
-            if (rowIndex == indexOfThePreviousSelectedRow) {
+            if (rowIndex == indexOfThePreviousRow) {
                 return 10;
             }else if (listDictionary.size() > 0 && listDictionary.get(rowIndex).isDifficult) {
                 return 11;
@@ -1756,8 +1756,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
             viewHolder.editTextEnWord.setOnFocusChangeListener(this);
             viewHolder.editTextRuWord.setOnFocusChangeListener(this);
 
-            viewHolder.editTextEnWord.setOnTouchListener(this);
-            viewHolder.editTextRuWord.setOnTouchListener(this);
+            //Подсвечивает текущую строку
+            //viewHolder.editTextEnWord.setOnTouchListener(this);
+            //viewHolder.editTextRuWord.setOnTouchListener(this);
 
             viewHolder.editTextEnWord.setOnLongClickListener(this);
             viewHolder.editTextRuWord.setOnLongClickListener(this);
@@ -1786,11 +1787,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
+            //Подсвечивает текущую строку
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                adapter.notifyItemChanged(indexOfThePreviousSelectedRow);
-                indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
                 v.requestFocus();
+                indexOfThePreviousRow = indexOfTheSelectedRow;
+            }else if(event.getAction() == KeyEvent.ACTION_UP){
+                adapter.notifyItemChanged(indexOfTheSelectedRow);
             }
+
 
             return false;
         }
@@ -1802,6 +1806,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
             indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
             if (!hasFocus) {
+
+                indexOfTheTempPreviousRow = indexOfTheSelectedRow;
 
                 String[] arrayText = ((EditText) v).getText().toString().split("\n");
 
@@ -1950,6 +1956,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
+
+                        adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        indexOfThePreviousRow = indexOfTheTempPreviousRow;
 
                         String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
