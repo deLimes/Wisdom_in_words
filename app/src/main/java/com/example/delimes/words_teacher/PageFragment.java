@@ -123,7 +123,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
     SpannableString text;
-    boolean indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = false;
+    boolean afterPressEnter = false;
     //Socket socket;
 
     View page, page2;
@@ -1804,7 +1804,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         resultText = original;
                     }else{
                         resultText = original + "✓";
-                        listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
                         collocationCopy.isDifficult = false;
                     }
                 } else {
@@ -1812,7 +1811,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         resultText = original;
                     }else{
                         resultText = original + "⚓";
-                        listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
                         collocationCopy.isDifficult = true;
                     }
                 }
@@ -1832,8 +1830,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
 
             }else{
-                if(indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow) {
-                    indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = false;
+
+                if(afterPressEnter) {
+                    afterPressEnter = false;
                     ((EditText) v).setText(text);
                 }
             }
@@ -1944,21 +1943,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
-
-                        boolean tempBoolean = false;
-
-                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
-                                || indexOfTheSelectedRow == indexOfTheTempPreviousSelectedRow){
-
-                            indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = true;
-                            adapter.notifyItemChanged(indexOfTheSelectedRow);
-                        }
-
-                        indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
-                        indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
-
-
-                        //adapter.notifyItemChanged(indexOfThePreviousSelectedRow);
 
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
                         if (englishLeft) {
@@ -2072,6 +2056,18 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         }
 
                         ((EditText) v).setText(text);
+
+                        if (answer.equals(original)) {
+                            listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
+                        }else{
+                            listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
+                        }
+
+                        afterPressEnter = true;
+                        adapter.notifyItemChanged(indexOfTheSelectedRow);
+
+                        indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
+                        indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
 
                         //скрываем клавиатуру по окончании ввода
                         inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
