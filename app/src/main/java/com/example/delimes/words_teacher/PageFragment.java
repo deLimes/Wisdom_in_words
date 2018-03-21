@@ -124,6 +124,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
+    String original, answer;
     //Socket socket;
 
     View page, page2;
@@ -1789,45 +1790,38 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             if (!hasFocus) {
 
-                String[] arrayText = ((EditText) v).getText().toString().split("\n");
+                if(!afterPressEnter && indexOfTheSelectedRow != -1) {
 
-                if ((indexOfTheSelectedRow == -1 || arrayText.length != 2) && !(arrayText.length > 2)) {
-                    return;
-                }
-                Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
-                String original = arrayText[0];
-                String answer = arrayText[1];
-                String resultText;
-
-                if (answer.equals(original)) {
-                    if(englishLeft) {
-                        resultText = original;
-                    }else{
-                        resultText = original + "✓";
-                        collocationCopy.isDifficult = false;
+                    Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+                    if (englishLeft) {
+                        original = collocationCopy.ru;
+                    } else {
+                        original = collocationCopy.en
+                                .replace("✓", "")
+                                .replace("⚓", "");
                     }
-                } else {
-                    if(englishLeft){
-                        resultText = original;
-                    }else{
+                    String resultText = original;
+
+                    if (collocationCopy.isDifficult && !englishLeft) {
                         resultText = original + "⚓";
-                        collocationCopy.isDifficult = true;
+                    } else if (!englishLeft) {
+                        resultText = original + "✓";
+                    }
+
+
+                    if (englishLeft) {
+                        collocationCopy.ru = resultText;
+                    } else {
+                        collocationCopy.en = resultText;
+                    }
+
+
+                    if (answersWereHidden) {
+                        ((EditText) v).setText("");
+                    } else {
+                        ((EditText) v).setText(resultText);
                     }
                 }
-
-                if (englishLeft) {
-                    collocationCopy.ru = resultText;
-                } else {
-                    collocationCopy.en = resultText;
-                }
-
-                //if(answersWereHidden && !(collocationCopy.learnedEn && collocationCopy.learnedRu)) {
-                if(answersWereHidden) {
-                    ((EditText) v).setText("");
-                }else{
-                    ((EditText)v).setText(resultText);
-                }
-
 
             }else{
 
@@ -1941,7 +1935,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
-                        String original, answer;
+                        //String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
@@ -1958,7 +1952,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             answer = arrayAnswer[arrayAnswer.length - 1];
                         }
 
-                        String comparison = original +  "\n" + answer;
+                        String comparison = original;
+                        if(!answer.isEmpty()){
+                            comparison = original +  "\n" + answer;
+                        }
                         text = new SpannableString(comparison);
 
                         for (int i = 0; i < original.length(); i++) {
@@ -2059,8 +2056,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         if (answer.equals(original)) {
                             listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
+                            collocationCopy.isDifficult = false;
                         }else{
                             listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
+                            collocationCopy.isDifficult = true;
                         }
 
                         afterPressEnter = true;
