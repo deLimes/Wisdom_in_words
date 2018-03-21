@@ -1207,7 +1207,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         ConstraintLayout linearLayoutCommon = itemView.findViewById(R.id.constraintLayoutCommon);
 
         if (viewType == 0 || viewType == 10) {
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#E0FFFF"));
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#FAFAD2"));
         }else if (viewType == 2 || viewType == 12) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0FFFF"));
         }else if (viewType == 3 || viewType == 13){
@@ -1217,7 +1217,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         } else if (viewType == 5 || viewType == 15) {
             linearLayoutCommon.setBackgroundColor(Color.parseColor("#F0F8FF"));
         } else if (viewType == 1 || viewType == 11) {
-            linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFFFE0"));
+            linearLayoutCommon.setBackgroundColor(Color.parseColor("#FFA07A"));
         } else if (viewType == 6 || viewType == 16) {
             linearLayoutCommon.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -1947,7 +1947,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         boolean tempBoolean = false;
 
-                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow){
+                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
+                                || indexOfTheSelectedRow == indexOfTheTempPreviousSelectedRow){
+
                             indexOfTheSelectedRowEqualsIndexOfThePreviousSelectedRow = true;
                             adapter.notifyItemChanged(indexOfTheSelectedRow);
                         }
