@@ -124,7 +124,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
-    String original, answer;
     //Socket socket;
 
     View page, page2;
@@ -1792,13 +1791,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                 if(!afterPressEnter && indexOfTheSelectedRow != -1) {
 
+                    Collocation collocation = listDictionary.get(indexOfTheSelectedRow);
                     Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+
+                    String original;
                     if (englishLeft) {
                         original = collocationCopy.ru;
                     } else {
                         original = collocationCopy.en
                                 .replace("✓", "")
                                 .replace("⚓", "");
+                    }
+                    String answer = ((EditText) v).getText().toString();
+                    String[] arrayAnswer = answer.split("\n");
+                    if (arrayAnswer.length > 1){
+                        original = arrayAnswer[0];
                     }
                     String resultText = original;
 
@@ -1808,13 +1815,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         resultText = original + "✓";
                     }
 
-
                     if (englishLeft) {
+                        collocation.ru  = resultText;
                         collocationCopy.ru = resultText;
                     } else {
+                        collocation.en  = resultText;
                         collocationCopy.en = resultText;
                     }
-
 
                     if (answersWereHidden) {
                         ((EditText) v).setText("");
@@ -1935,7 +1942,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
-                        //String original, answer;
+                        String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
