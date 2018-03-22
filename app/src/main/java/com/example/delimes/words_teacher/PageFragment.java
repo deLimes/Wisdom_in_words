@@ -1942,6 +1942,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         String original, answer;
                         indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
+                        Collocation collocation =  listDictionary.get(indexOfTheSelectedRow);
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
                         if (englishLeft) {
                             original = collocationCopy.ru;
@@ -1969,30 +1970,24 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         int j = 0;
                         for (int i = original.length() + 1; i < comparison.length(); i++) {
-                            ForegroundColorSpan[] spans = text.getSpans(j, j + 1,  ForegroundColorSpan.class);
-                            for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                             ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                            text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            if(j < original.length()) {
+                                text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            }
 
                             if (j >= original.length() || ( original.charAt(j) != answer.charAt(j))) {//if (j >= original.length() || ( original.charAt(j) != answerCharAtJ)) {
-                                spans = text.getSpans(i, i + 1,  ForegroundColorSpan.class);
-                                for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                                 style = new ForegroundColorSpan(Color.RED);
                                 text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
                                 if (j <= original.length()) {
-                                    spans = text.getSpans(j, j + 1,  ForegroundColorSpan.class);
-                                    for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                                     style = new ForegroundColorSpan(Color.BLUE);
                                     text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                                 }
 
                             } else {
-                                spans = text.getSpans(i, i + 1,  ForegroundColorSpan.class);
-                                for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                                 style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
                                 text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -2036,8 +2031,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 charactersEqual = original.charAt(i) == answer.charAt(i + answer.length() - original.length());
 
                                 if (charactersEqual) {
-                                    ForegroundColorSpan[] spans = text.getSpans(j, j + 1,  ForegroundColorSpan.class);
-                                    for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -2046,8 +2039,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
 
                                 if (charactersEqual) {
-                                    ForegroundColorSpan[] spans = text.getSpans(j, j + 1,  ForegroundColorSpan.class);
-                                    for (int n = spans.length; n-- > 0; ) text.removeSpan(spans[n]);
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -2056,18 +2047,26 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             j--;
                         }
 
-                        //((EditText) v).setText(text);//text is set to onFocusChange
+                        boolean isDifficultTemp = collocation.isDifficult;
 
                         if (answer.equals(original)) {
-                            listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
+                            collocation.isDifficult = false;
                             collocationCopy.isDifficult = false;
                         }else{
-                            listDictionary.get(indexOfTheSelectedRow).isDifficult = true;
+                            collocation.isDifficult = true;
                             collocationCopy.isDifficult = true;
                         }
 
-                        afterPressEnter = true;
-                        adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        //afterPressEnter = true;
+                        //adapter.notifyItemChanged(indexOfTheSelectedRow);
+
+                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
+                                || isDifficultTemp != collocation.isDifficult) {//text is set to onFocusChange
+                            afterPressEnter = true;
+                            adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        }else{
+                            ((EditText) v).setText(text);
+                        }
 
                         if(indexOfTheSelectedRow != indexOfTheTempPreviousSelectedRow) {
                             indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
