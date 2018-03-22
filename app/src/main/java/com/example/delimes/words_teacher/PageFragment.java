@@ -2056,7 +2056,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             j--;
                         }
 
-                        ((EditText) v).setText(text);
+                        //((EditText) v).setText(text);//text is set to onFocusChange
 
                         if (answer.equals(original)) {
                             listDictionary.get(indexOfTheSelectedRow).isDifficult = false;
@@ -2069,7 +2069,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         afterPressEnter = true;
                         adapter.notifyItemChanged(indexOfTheSelectedRow);
 
-                        indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
+                        if(indexOfTheSelectedRow != indexOfTheTempPreviousSelectedRow) {
+                            indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
+                        }
                         indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
 
                         //скрываем клавиатуру по окончании ввода
