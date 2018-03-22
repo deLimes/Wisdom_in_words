@@ -1791,7 +1791,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                 if(!afterPressEnter && indexOfTheSelectedRow != -1) {
 
-                    Collocation collocation = listDictionary.get(indexOfTheSelectedRow);
                     Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
 
                     String original;
@@ -1816,10 +1815,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     if (englishLeft) {
-                        collocation.ru  = resultText;
                         collocationCopy.ru = resultText;
                     } else {
-                        collocation.en  = resultText;
                         collocationCopy.en = resultText;
                     }
 
