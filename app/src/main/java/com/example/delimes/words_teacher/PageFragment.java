@@ -825,7 +825,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         myLlm.setAutoMeasureEnabled(false);
 
         recyclerView.setLayoutManager(myLlm);
-        recyclerView.setDrawingCacheEnabled(false);
+        //recyclerView.setDrawingCacheEnabled(false);
 
         adapter = new RecyclerViewAdapter(listDictionary);
         recyclerView.setAdapter(adapter);
