@@ -1962,6 +1962,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             comparison = original +  "\n" + answer;
                         }
                         text = new SpannableString(comparison);
+                        //
+                        char falseDoubletLeftCharacter = '⚓';//any unique character
+                        char falseDoubletRightCharacter = '⚓';//any unique character
+                        char lastLeftCorrectCharacter = '⚓';//any unique character
+                        char lastRightCorrectCharacter = '⚓';//any unique character
+                        char lastRightOriginalCharacter = '⚓';//any unique character
+                        char lastRightPreviousOriginalCharacter = '✓';
+                        //
 
                         for (int i = 0; i < original.length(); i++) {
                             ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
@@ -1980,6 +1988,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                                 style = new ForegroundColorSpan(Color.RED);
                                 text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                //
+                                if (falseDoubletLeftCharacter == '⚓') {
+                                    falseDoubletLeftCharacter = answer.charAt(j);
+                                }
+                                //
 
                                 if (j <= original.length()) {
 
@@ -1991,6 +2004,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                                 style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
                                 text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                //
+                                falseDoubletLeftCharacter = '⚓';
+                                lastLeftCorrectCharacter = answer.charAt(j);
+                                //
                             }
                             j++;
                         }
@@ -2011,8 +2028,18 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
                                     text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
+                                    //
+                                    lastRightCorrectCharacter = answer.charAt(j);
+                                    //
+                                    ///////////////
+                                    falseDoubletRightCharacter = '⚓';
+                                }else if(j > 0){
+                                    if (falseDoubletRightCharacter == '⚓') {
+                                        falseDoubletRightCharacter = answer.charAt(j);
+                                    }
                                 }
+                                ///////////////
+
                             } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
                                 charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
 
@@ -2023,14 +2050,41 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
                                     text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
+                                    //
+                                    lastRightCorrectCharacter = answer.charAt(i - (original.length() - answer.length()));
+                                    //
+                                    ///////////////
+                                     falseDoubletRightCharacter = '⚓';
+                                }else if(j > 0){
+                                    if (falseDoubletRightCharacter == '⚓') {
+                                        falseDoubletRightCharacter = answer.charAt(j);
+                                    }
                                 }
+                                ///////////////
                             }
+
+                            //
+                            if (j > 0
+                                    &&lastLeftCorrectCharacter == falseDoubletLeftCharacter
+                                    && lastLeftCorrectCharacter == lastRightCorrectCharacter
+                                    && falseDoubletLeftCharacter == falseDoubletRightCharacter){
+
+                                lastRightCorrectCharacter = '⚓';
+
+                                ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
+                                text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            }
+
+                            if ( i < original.length()) {
+                                lastRightOriginalCharacter = comparison.charAt(i);
+                                lastRightPreviousOriginalCharacter = comparison.charAt(i + 1);
+                            }
+                            //
 
                             if (i < original.length() && answer.length() >= original.length()) {
                                 charactersEqual = original.charAt(i) == answer.charAt(i + answer.length() - original.length());
 
-                                if (charactersEqual) {
+                                if (charactersEqual){
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -2038,11 +2092,20 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
                                 charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
 
-                                if (charactersEqual) {
+                                if (charactersEqual){
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                                 }
+
+                                //
+                                if(lastRightOriginalCharacter == lastRightPreviousOriginalCharacter
+                                        && lastRightOriginalCharacter != falseDoubletLeftCharacter){
+
+                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
+                                    text.setSpan(style, i+1, i+2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                }
+                                //
                             }
                             j--;
                         }
