@@ -453,6 +453,62 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                if (swap) {
+                    //Dialog
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setTitle("Reset progress");  // заголовок
+                    alertDialog.setMessage("Clear progress?"); // сообщение
+                    alertDialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int arg1) {
+                        }
+                    });
+                    alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int arg1) {
+
+                            listDictionary.clear();
+                            adapter.notifyDataSetChanged();
+
+                            for (Collocation collocationCopy : listDictionaryCopy) {
+                                collocationCopy.learnedEn = false;
+                                collocationCopy.learnedRu = false;
+                                collocationCopy.isDifficult = false;
+                                collocationCopy.en = collocationCopy.en
+                                        .replace("✓", "")
+                                        .replace("⚓", "");
+
+                                listDictionary.add(new Collocation(
+                                        collocationCopy.learnedEn,
+                                        collocationCopy.en,
+                                        collocationCopy.learnedRu,
+                                        collocationCopy.ru,
+                                        collocationCopy.isDifficult));
+                            }
+
+                            defineIndexesOfWords();
+                            answersWereHidden = false;
+                            adapter.notifyDataSetChanged();
+
+                            tvTextLearned.setText("0");
+                            tvTextOnRepetition.setText("0");
+                            tvTextLeft.setText(Integer.toString(listDictionary.size()));
+                            tvTextTotal.setText(Integer.toString(listDictionary.size()));
+
+                            tvProgressBar.setMax(listDictionary.size());
+                            tvProgressBar.setProgress(countOfLearnedWords);
+
+                            Toast.makeText(getContext(), "Progress is reset", Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+                    alertDialog.setCancelable(true);
+                    alertDialog.show();
+
+                    swap = false;
+                    buttonSwap.getBackground().clearColorFilter();
+
+                    return;
+                }
+
                 indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
                 if (indexOfTheSelectedRow < 0){
@@ -1304,8 +1360,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
         }
         rowBeginIndexOfNativeWords = rowBeginIndexOfWellLearnedWords + numberOfBlocks * numberOfCollocationsInABlock;
 
-        if (rowBeginIndexOfWellLearnedWords == 0){
-            rowBeginIndexOfWellLearnedWords = listDictionaryLocalCopy.size();
+        if (rowBeginIndexOfWellLearnedWords == 0 || rowBeginIndexOfLearnedWords == listDictionaryCopy.size()) {
+            rowBeginIndexOfWellLearnedWords = listDictionaryCopy.size();
+            rowBeginIndexOfLearnedWords  = listDictionaryCopy.size();
+            rowBeginIndexOfNativeWords = listDictionaryCopy.size();
         }
 
     }
