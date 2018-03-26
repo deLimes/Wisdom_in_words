@@ -2017,7 +2017,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         String comparison = original;
                         if(!answer.isEmpty()){
-                            comparison = original +  "\n" + answer;
+                            comparison = original + "\n" + answer;
                         }
                         text = new SpannableString(comparison);
                         //
@@ -2091,7 +2091,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     //
                                     ///////////////
                                     falseDoubletRightCharacter = '⚓';
-                                }else if(j > 0){
+                                }else if(j >= 0){
                                     if (falseDoubletRightCharacter == '⚓') {
                                         falseDoubletRightCharacter = answer.charAt(j);
                                     }
@@ -2113,7 +2113,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     //
                                     ///////////////
                                      falseDoubletRightCharacter = '⚓';
-                                }else if(j > 0){
+                                }else if(j >= 0){
                                     if (falseDoubletRightCharacter == '⚓') {
                                         falseDoubletRightCharacter = answer.charAt(j);
                                     }
@@ -2122,7 +2122,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             }
 
                             //
-                            if (j > 0
+                            if (j >= 0
                                     &&lastLeftCorrectCharacter == falseDoubletLeftCharacter
                                     && lastLeftCorrectCharacter == lastRightCorrectCharacter
                                     && falseDoubletLeftCharacter == falseDoubletRightCharacter){
@@ -2133,7 +2133,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                             }
 
-                            if ( i < original.length()) {
+                            if (i < original.length() - 1) {
                                 lastRightOriginalCharacter = comparison.charAt(i);
                                 lastRightPreviousOriginalCharacter = comparison.charAt(i + 1);
                             }
@@ -2147,15 +2147,16 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                                 }
-                            } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
-                                charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
+                            } else if (i < original.length() && answer.length() < original.length()) {//&& i >= original.length() - answer.length()) {
+                                if (i >= original.length() - answer.length()) {
+                                    charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
 
-                                if (charactersEqual){
+                                    if (charactersEqual) {
 
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                        ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
+                                        text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                    }
                                 }
-
                                 //
                                 if(lastRightOriginalCharacter == lastRightPreviousOriginalCharacter
                                         && lastRightOriginalCharacter != falseDoubletLeftCharacter){
