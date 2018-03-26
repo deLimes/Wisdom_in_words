@@ -2171,12 +2171,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                         boolean isDifficultTemp = collocation.isDifficult;
 
-                        if (answer.equals(original)) {
-                            collocation.isDifficult = false;
-                            collocationCopy.isDifficult = false;
-                        }else{
-                            collocation.isDifficult = true;
-                            collocationCopy.isDifficult = true;
+                        if(!englishLeft) {
+                            if (answer.equals(original)) {
+                                collocation.isDifficult = false;
+                                collocationCopy.isDifficult = false;
+                            } else {
+                                collocation.isDifficult = true;
+                                collocationCopy.isDifficult = true;
+                            }
                         }
 
                         //afterPressEnter = true;
