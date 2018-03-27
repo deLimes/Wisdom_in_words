@@ -38,6 +38,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,7 @@ import static android.os.Environment.getExternalStorageState;
 public class PageFragment extends android.support.v4.app.Fragment {
 
     InputMethodManager inputMethodManager;
+    SearchView searchView;
     ProgressBar tvProgressBar;
     TextView tvTextLearned;
     TextView tvTextOnRepetition;
@@ -205,7 +207,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         List<Fragment> fragments = getFragmentManager().getFragments();
         android.support.v4.app.Fragment frag2 = fragments.get(1);
 
-        final EditText searchView = (EditText) page.findViewById(R.id.searchView);
+        searchView = page.findViewById(R.id.searchView);
 
         tvProgressBar = (ProgressBar) page.findViewById(R.id.progressBar);
         tvTextLearned = (TextView) page.findViewById(R.id.tvTextLearned);
@@ -217,6 +219,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         editTextHostname = (EditText) page2.findViewById(R.id.hostname);
         editTextPortname = (EditText) page2.findViewById(R.id.portname);
+
+        searchView.setIconified (false);
 
         editTextNumberOfBlocks.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
@@ -279,6 +283,16 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonHideAnswers.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                if(listDictionaryCopy.size() != listDictionary.size()) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                            "Clean the filter!",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+
+                    return;
+                }
+
                 hideAnswers();
             }
 
@@ -290,6 +304,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 public void onClick(View v) {
 
                     showAnswers();
+
                 }
             });
 
@@ -298,7 +313,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonSort.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    if(!(listDictionaryCopy.size() == listDictionary.size())) {
+                    if(listDictionaryCopy.size() != listDictionary.size()) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                 "Clean the filter!",
                                 Toast.LENGTH_LONG);
@@ -509,8 +524,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     return;
                 }
 
-                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
-
                 if (indexOfTheSelectedRow < 0){
                     Toast.makeText(getContext(), "choose the collocation!", Toast.LENGTH_LONG)
                             .show();
@@ -550,7 +563,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonChange.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    if(!(listDictionaryCopy.size() == listDictionary.size())) {
+                    if(listDictionaryCopy.size() != listDictionary.size()) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                 "Clean the filter!",
                                 Toast.LENGTH_LONG);
@@ -581,7 +594,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonShuffle.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    if(!(listDictionaryCopy.size() == listDictionary.size())) {
+                    if(listDictionaryCopy.size() != listDictionary.size()) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                 "Clean the filter!",
                                 Toast.LENGTH_LONG);
@@ -910,6 +923,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         });
 
 
+        /*
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -927,6 +941,24 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     adapter.filter(query.toString());
                 }
                 textForViewing = false;
+            }
+        });
+        */
+        //OnQueryTextListener
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!textForViewing) {
+                    adapter.filter(newText.toString());
+                }
+                textForViewing = false;
+
+                return false;
             }
         });
 
@@ -996,6 +1028,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         */
         fillReceiverList(editTextHostname.getText().toString(), editTextPortname.getText().toString());
+        searchView.clearFocus();
+        buttonHideAnswers.requestFocus();
 
         isStart = true;
         isResumeAfterStop = false;
@@ -1843,7 +1877,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+            if(listDictionaryCopy.size() == listDictionary.size()) {
+                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+            }else{
+                return;
+            }
 
             if (!hasFocus) {
 
@@ -1902,8 +1940,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             String word = ((EditText) v).getText().toString();
 
-            if (word.isEmpty()) {
-                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+            if (word.isEmpty() && listDictionaryCopy.size() == listDictionary.size()) {
+
+                v.requestFocus();
+
                 if (indexOfTheSelectedRow < 0) {
                     return true;
                 }
@@ -1914,6 +1954,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 } else {
                     word = collocationCopy.en;
                 }
+            }
+
+            if (word.isEmpty()){
+                return true;
             }
 
             word = word.replace("✓", "")
@@ -1958,12 +2002,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
             toast.setGravity(Gravity.TOP, 0, 0);
             toast.show();
 
-            EditText searchView = (EditText) page.findViewById(R.id.searchView);
             textForViewing = true;
-            searchView.setText(word);
-//                }else{
-//                    itemEditText.setFocusableInTouchMode(true);
-//                }
+            searchView.setQuery(word, false);
 
             return false;
         }
@@ -1997,8 +2037,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
+                        if(listDictionaryCopy.size() != listDictionary.size()) {
+                            return true;
+                        }
                         String original, answer;
-                        indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
 
                         Collocation collocation =  listDictionary.get(indexOfTheSelectedRow);
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
