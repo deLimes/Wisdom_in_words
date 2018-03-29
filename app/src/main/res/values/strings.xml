@@ -3,4 +3,5 @@
     <string name="action_sync">Sync</string>
     <string name="action_save">Save</string>
     <string name="action_reset">Reset</string>
+    <string name="action_help">Help (video)</string>
 </resources>

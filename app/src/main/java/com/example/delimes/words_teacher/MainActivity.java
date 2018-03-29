@@ -17,11 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+        pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 
     }
@@ -92,6 +95,15 @@ public class MainActivity extends AppCompatActivity {
                 //*****************************((PageFragment)frag1).updateAdapter();
 
                 return true;
+
+
+            case R.id.action_help:
+                WebView mWebView = frag2.getView().findViewById(R.id.webView);
+                mWebView.loadUrl("https://www.youtube.com/watch?v=sFWIiEP4V9w");
+                pager.setCurrentItem(1);
+
+                return true;
+
             default:
                 //return true;
                 return super.onOptionsItemSelected(item);

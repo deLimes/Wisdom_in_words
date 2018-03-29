@@ -2,6 +2,31 @@
 <resources>
 
     <string-array name="dictionary">
+        <item>sort</item>
+        <item>сортировать</item>
+        <item>shuffle</item>
+        <item>перемешивать</item>
+        <item>show answers</item>
+        <item>показать ответы</item>
+        <item>hide answers</item>
+        <item>скрыть ответы</item>
+        <item>swap</item>
+        <item>менять/обмен</item>
+        <item>change</item>
+        <item>менять/перемена</item>
+        <item>learn new</item>
+        <item>изучать новые</item>
+        <item>repeat</item>
+        <item>повторять</item>
+        <item>sync</item>
+        <item>синхронизировать</item>
+        <item>save</item>
+        <item>сберечь</item>
+        <item>reset</item>
+        <item>сброс</item>
+        <item>help</item>
+        <item>помощь</item>
+
         <item>a little bit</item>
         <item>немного</item>
         <item>abandon</item>
@@ -1432,8 +1457,6 @@
         <item>вызов, трудная задача</item>
         <item>chance</item>
         <item>случай, возможность</item>
-        <item>change</item>
-        <item>менять/перемена</item>
         <item>changeable</item>
         <item>изменчивый, поддающийся изменениям</item>
         <item>channel</item>
@@ -7368,8 +7391,6 @@
         <item>отдавать, оплачивать</item>
         <item>repeal</item>
         <item>отменить, аннулировать</item>
-        <item>repeat</item>
-        <item>повторять</item>
         <item>repel</item>
         <item>отвергать, оклонять, отталкивать</item>
         <item>replace</item>
@@ -8798,8 +8819,6 @@
         <item>поддерживать, подкреплять</item>
         <item>swallow</item>
         <item>глотать/глоток</item>
-        <item>swap</item>
-        <item>менять/обмен</item>
         <item>sway</item>
         <item>влиять, воздействовать</item>
         <item>sway</item>

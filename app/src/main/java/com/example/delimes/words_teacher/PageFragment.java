@@ -67,6 +67,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -122,10 +123,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
-    int indexOfTheSelectedRow = 0, indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
+    int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
+    int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
+    int childPosition;
+    boolean collocationRemoved = false;
     //Socket socket;
 
     View page, page2;
@@ -283,17 +287,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonHideAnswers.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                if(listDictionaryCopy.size() != listDictionary.size()) {
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                            "Clean the filter!",
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-
-                    return;
-                }
-
                 hideAnswers();
+
             }
 
         });
@@ -423,6 +418,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         j++;
                     }
 
+                    int index = 0;
                     listDictionaryCopy.clear();
                     for (Collocation collocation : listDictionary) {
                         listDictionaryCopy.add(new Collocation(
@@ -430,9 +426,12 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.en,
                                 collocation.learnedRu,
                                 collocation.ru,
-                                collocation.isDifficult
+                                collocation.isDifficult,
+                                index
                         ));
+                        index++;
                     }
+
 
                     if(answersAreHidden){
                         hideAnswers();
@@ -496,7 +495,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                         collocationCopy.en,
                                         collocationCopy.learnedRu,
                                         collocationCopy.ru,
-                                        collocationCopy.isDifficult));
+                                        collocationCopy.isDifficult,
+                                        collocationCopy.index));
                             }
 
                             defineIndexesOfWords();
@@ -530,8 +530,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     return;
                 }
 
-                final Collocation collocation = listDictionary.get(indexOfTheSelectedRow);
-                final Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+                final Collocation collocation = listDictionary.get(indexOfTheFilteredSelectedRow);
+                final Collocation collocationCopy = listDictionaryCopy.get(collocation.index);
                 String strCollocation = collocationCopy.en + "~" + collocationCopy.ru;
 
                 //Dialog
@@ -544,13 +544,17 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 });
                 alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
-                        Toast.makeText(getContext(), "words deleted", Toast.LENGTH_LONG)
-                                .show();
+
                         listDictionary.remove(collocation);
                         listDictionaryCopy.remove(collocationCopy);
+
+                        collocationRemoved = true;
                         adapter.notifyDataSetChanged();
 
                         tvProgressBar.setMax(listDictionary.size());
+
+                        Toast.makeText(getContext(), "words deleted", Toast.LENGTH_LONG)
+                                .show();
                     }
                 });
                 alertDialog.setCancelable(true);
@@ -562,16 +566,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
         final View buttonChange = page.findViewById(R.id.buttonChange);
         buttonChange.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-                    if(listDictionaryCopy.size() != listDictionary.size()) {
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                "Clean the filter!",
-                                Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-
-                        return;
-                    }
 
                     boolean answersAreHidden = answersWereHidden;
                     if (answersWereHidden){
@@ -696,14 +690,17 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     listDictionaryCopy.clear();
+                    int index = 0;
                     for (Collocation collocation : listDictionary) {
                         listDictionaryCopy.add(new Collocation(
                                 collocation.learnedEn,
                                 collocation.en,
                                 collocation.learnedRu,
                                 collocation.ru,
-                                collocation.isDifficult
+                                collocation.isDifficult,
+                                index
                         ));
+                        index++;
                     }
 
                     if(answersAreHidden){
@@ -786,93 +783,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 }
             });
 
-        // Прослушиваем нажатия клавиш
-        searchView.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // TODO Auto-generated method stub
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        String strCollocation = ((EditText) v).getText().toString();
-                        if (strCollocation.contains("~")){
-                            String[] collocationParts = strCollocation.split("~");
-                            if(collocationParts.length != 2){
-                                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                        "Use format: [ENword][~][RUword]",
-                                        Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                return true;
-                            }
-                            Collocation collocation = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false);
-                            Collocation collocationCopy = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false);
-
-                            Character Symbol = collocation.en.charAt(0);
-                            boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
-                            boolean RussianLayout = false;//rusList.indexOf(Symbol) != -1;
-
-                            for (int i = 0; i < ArrayEnglishCharacters.length; i++) {
-                                if (ArrayEnglishCharacters[i] == Symbol) {
-                                    EnglishLayout = true;
-                                }
-                            }
-
-                            for (int i = 0; i < ArrayRussianCharacters.length; i++) {
-                                if (ArrayRussianCharacters[i] == Symbol) {
-                                    RussianLayout = true;
-                                }
-                            }
-
-                            if (EnglishLayout != RussianLayout) {
-                                EnglishTextLayout = EnglishLayout;
-                            }
-
-                            if (!EnglishTextLayout) {
-                                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                        "Use format: [ENword][~][RUword]",
-                                        Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                return true;
-                            }
-
-                            listDictionary.add(0, collocation);
-                            listDictionaryCopy.add(0, collocationCopy);
-                            adapter.notifyDataSetChanged();
-
-                            tvProgressBar.setMax(listDictionary.size());
-
-                            ((EditText) v).setText("");
-
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                            int countOfLeftWords = prefs.getInt("countOfLeftWords", 0);
-
-                            countOfLeftWords++;
-                            tvTextLeft.setText(Integer.toString(countOfLeftWords));
-                            tvTextTotal.setText(Integer.toString(listDictionary.size()));
-
-                            SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-
-                            editPrefs.putInt("countOfLeftWords", countOfLeftWords);
-                            editPrefs.putInt("countOfTotalWords", listDictionary.size());
-                            editPrefs.commit();
-
-
-                            return true;
-
-                        }else{
-                            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                    "Use format: [ENword][~][RUword]",
-                                    Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            return true;
-
-                        }
-                    }
-                return false;
-            }
-        });
-
         buttonSwap = page.findViewById(R.id.buttonSwap);
         buttonSwap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -922,33 +832,93 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
         });
 
-
-        /*
-        searchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable query) {
-                if (!textForViewing) {
-                    adapter.filter(query.toString());
-                }
-                textForViewing = false;
-            }
-        });
-        */
         //OnQueryTextListener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                String strCollocation = query;
+                if (strCollocation.contains("~")){
+                    String[] collocationParts = strCollocation.split("~");
+                    if(collocationParts.length != 2){
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                                "Use format: [ENword][~][RUword]",
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        return true;
+                    }
+                    Collocation collocation = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false, 0);
+                    Collocation collocationCopy = new Collocation(false, collocationParts[0].trim(), false, collocationParts[1].trim(), false, 0);
+
+                    Character Symbol = collocation.en.charAt(0);
+                    boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
+                    boolean RussianLayout = false;//rusList.indexOf(Symbol) != -1;
+
+                    for (int i = 0; i < ArrayEnglishCharacters.length; i++) {
+                        if (ArrayEnglishCharacters[i] == Symbol) {
+                            EnglishLayout = true;
+                        }
+                    }
+
+                    for (int i = 0; i < ArrayRussianCharacters.length; i++) {
+                        if (ArrayRussianCharacters[i] == Symbol) {
+                            RussianLayout = true;
+                        }
+                    }
+
+                    if (EnglishLayout != RussianLayout) {
+                        EnglishTextLayout = EnglishLayout;
+                    }
+
+                    if (!EnglishTextLayout) {
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                                "Use format: [ENword][~][RUword]",
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        return true;
+                    }
+
+                    listDictionary.add(0, collocation);
+                    listDictionaryCopy.add(0, collocationCopy);
+
+                    /*
+                    if(listDictionaryCopy.size() == listDictionary.size()){
+                        defineIndexesOfWords();
+                    }
+                    adapter.notifyDataSetChanged();
+                    */
+
+                    tvProgressBar.setMax(listDictionary.size());
+
+                    searchView.setQuery("", false);
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    int countOfLeftWords = prefs.getInt("countOfLeftWords", 0);
+
+                    countOfLeftWords++;
+                    tvTextLeft.setText(Integer.toString(countOfLeftWords));
+                    tvTextTotal.setText(Integer.toString(listDictionary.size()));
+
+                    SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+
+                    editPrefs.putInt("countOfLeftWords", countOfLeftWords);
+                    editPrefs.putInt("countOfTotalWords", listDictionary.size());
+                    editPrefs.commit();
+
+
+                    return true;
+
+                }else{
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                            "Use format: [ENword][~][RUword]",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return true;
+
+                }
             }
 
             @Override
@@ -1111,7 +1081,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         collocation.en,
                         collocation.learnedRu,
                         collocation.ru,
-                        collocation.isDifficult
+                        collocation.isDifficult,
+                        i
                 ));
             }
             //}
@@ -1156,16 +1127,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         listDictionary.clear();
         listDictionaryCopy.clear();
+        int index = 0;
         for (int i = 0; i < arrayDictionary.length; i += 2) {
-            Collocation collocation = new Collocation(false, arrayDictionary[i], false,  arrayDictionary[i + 1], false);
+            Collocation collocation = new Collocation(false, arrayDictionary[i], false,  arrayDictionary[i + 1], false, index);
             listDictionary.add(collocation);
             listDictionaryCopy.add(new Collocation(
                     collocation.learnedEn,
                     collocation.en,
                     collocation.learnedRu,
                     collocation.ru,
-                    collocation.isDifficult
+                    collocation.isDifficult,
+                    index
             ));
+            index++;
         }
         defineIndexesOfWords();
         answersWereHidden = false;
@@ -1224,11 +1198,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     private void showAnswers() {
 
+        for (Collocation collocation : listDictionary) {
+            Collocation collocationCopy = listDictionaryCopy.get(collocation.index);
+
+            collocation.ru = collocationCopy.ru;
+            collocation.en = collocationCopy.en;
+        }
+        answersWereHidden = false;
+        adapter.notifyDataSetChanged();
+
+        /*
         if(listDictionaryCopy.size() == listDictionary.size()) {
 
             for (int i = 0; i < listDictionaryCopy.size(); i++) {
                 Collocation collocationCopy = listDictionaryCopy.get(i);
-                Collocation collocation = listDictionary.get(i);
+                Collocation collocation = listDictionary.get(collocationCopy.filtredIndex);
 
                 collocation.ru = collocationCopy.ru;
                 collocation.en = collocationCopy.en;
@@ -1245,8 +1229,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP, 0, 0);
             toast.show();
-            */
+            /*
         }
+        */
 
     }
 
@@ -1318,14 +1303,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         List <Collocation> listDictionaryLocalCopy = new ArrayList<Collocation>();
 
+        int index = 0;
         for (Collocation collocation : listDictionary) {
+            collocation.index = index;
+            listDictionaryCopy.get(index).index = index;;
             listDictionaryLocalCopy.add(new Collocation(
                     collocation.learnedEn,
                     collocation.en,
                     collocation.learnedRu,
                     collocation.ru,
-                    collocation.isDifficult
+                    collocation.isDifficult,
+                    collocation.index
             ));
+            index++;
         }
 
         List<Collocation> listOfStudiedWords = new ArrayList<Collocation>();
@@ -1526,7 +1516,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocation.en,
                                 collocation.learnedRu,
                                 collocation.ru,
-                                collocation.isDifficult
+                                collocation.isDifficult,
+                                i
                         ));
                     }
 
@@ -1628,9 +1619,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             collocationCopy.en,
                             collocationCopy.learnedRu,
                             collocationCopy.ru,
-                            collocationCopy.isDifficult
+                            collocationCopy.isDifficult,
+                            collocationCopy.index
                     ));
                 }
+                defineIndexesOfWords();
                 if (answersWereHidden){
                     hideAnswers();
                 }else {
@@ -1646,7 +1639,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                 collocationCopy.en,
                                 collocationCopy.learnedRu,
                                 collocationCopy.ru,
-                                collocationCopy.isDifficult
+                                collocationCopy.isDifficult,
+                                collocationCopy.index
                         ));
                     }
                 }
@@ -1680,7 +1674,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
             final Collocation collocation = listDictionary.get(i);
-            final Collocation collocationCopy = listDictionaryCopy.get(i);
+            final Collocation collocationCopy = listDictionaryCopy.get(collocation.index);
 
             userInput = false;
             pairedMark = true;
@@ -1688,30 +1682,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
             userInput = true;
             pairedMark = false;
             viewHolder.editTextEnWord.setText(collocation.en);
+            viewHolder.editTextEnWord.setTag(R.id.Tag1, collocation.index);
+            viewHolder.editTextEnWord.setTag(R.id.Tag2, i);
 
             userInput = false;
             pairedMark = true;
             viewHolder.checkBoxLearnedRu.setChecked(collocation.learnedRu);
             userInput = true;
             pairedMark = false;
-
             viewHolder.editTextRuWord.setText(collocation.ru);
+            viewHolder.editTextRuWord.setTag(R.id.Tag1, collocation.index);
+            viewHolder.editTextRuWord.setTag(R.id.Tag2, i);
 
             viewHolder.checkBoxLearnedEn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                    if(userInput && listDictionaryCopy.size() != listDictionary.size()) {
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                "Clean the filter!",
-                                Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-
-                        userInput = false;
-                        buttonView.setChecked(!isChecked);
-                        return;
-                    }
 
                     if (userInput) {
                         collocation.learnedEn = isChecked;
@@ -1776,18 +1761,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
             viewHolder.checkBoxLearnedRu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                    if(userInput && listDictionaryCopy.size() != listDictionary.size()) {
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                "Clean the filter!",
-                                Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-
-                        userInput = false;
-                        buttonView.setChecked(!isChecked);
-                        return;
-                    }
 
                     if (userInput) {
                         collocation.learnedRu = isChecked;
@@ -1868,6 +1841,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public int getItemViewType(int position) {
 
+            childPosition = position;
             return defineViewType(position);
             //super.getItemViewType(position);
 
@@ -1877,15 +1851,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
+            /*
             if(listDictionaryCopy.size() == listDictionary.size()) {
                 indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
             }else{
                 return;
             }
+            */
+            indexOfTheSelectedRow = Integer.valueOf(v.getTag(R.id.Tag1).toString());
+            indexOfTheFilteredSelectedRow = Integer.valueOf(v.getTag(R.id.Tag2).toString());
 
             if (!hasFocus) {
 
-                if(!afterPressEnter && indexOfTheSelectedRow != -1) {
+                if(!afterPressEnter && indexOfTheSelectedRow != -1 && !collocationRemoved) {
 
                     Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
 
@@ -1922,6 +1900,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         ((EditText) v).setText(resultText);
                     }
                 }
+
+                collocationRemoved = false;
 
             }else{
 
@@ -2037,13 +2017,20 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
+                        /*
                         if(listDictionaryCopy.size() != listDictionary.size()) {
                             return true;
                         }
+                        */
                         String original, answer;
 
-                        Collocation collocation =  listDictionary.get(indexOfTheSelectedRow);
                         Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
+                        Collocation collocation = collocationCopy;
+
+                        if(listDictionaryCopy.size() == listDictionary.size()) {
+                            collocation =  listDictionary.get(indexOfTheSelectedRow);
+                        }
+
                         if (englishLeft) {
                             original = collocationCopy.ru;
                         } else {
@@ -2211,7 +2198,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             j--;
                         }
 
-                        boolean isDifficultTemp = collocation.isDifficult;
+                        boolean isDifficultTemp = collocationCopy.isDifficult;
 
                         if(!englishLeft) {
                             if (answer.equals(original)) {
@@ -2229,7 +2216,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
                                 || isDifficultTemp != collocation.isDifficult) {//text is set to onFocusChange
                             afterPressEnter = true;
-                            adapter.notifyItemChanged(indexOfTheSelectedRow);
+                            if(listDictionaryCopy.size() == listDictionary.size()){
+                                adapter.notifyItemChanged(indexOfTheSelectedRow);
+                            }else{
+                                adapter.notifyItemChanged(indexOfTheFilteredSelectedRow);
+                            }
                         }else{
                             ((EditText) v).setText(text);
                         }
