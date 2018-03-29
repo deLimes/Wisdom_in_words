@@ -549,6 +549,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         listDictionaryCopy.remove(collocationCopy);
 
                         collocationRemoved = true;
+                        defineIndexesOfWords();
                         adapter.notifyDataSetChanged();
 
                         tvProgressBar.setMax(listDictionary.size());
@@ -883,12 +884,12 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     listDictionary.add(0, collocation);
                     listDictionaryCopy.add(0, collocationCopy);
 
-                    /*
+
                     if(listDictionaryCopy.size() == listDictionary.size()){
                         defineIndexesOfWords();
                     }
                     adapter.notifyDataSetChanged();
-                    */
+
 
                     tvProgressBar.setMax(listDictionary.size());
 
