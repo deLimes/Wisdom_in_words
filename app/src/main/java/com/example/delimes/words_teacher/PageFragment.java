@@ -1504,7 +1504,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-                            answersWereHidden = false;
+
+                            if (answersWereHidden){
+                                hideAnswers();
+                            }
                             defineIndexesOfWords();
                             adapter.notifyDataSetChanged();
 
