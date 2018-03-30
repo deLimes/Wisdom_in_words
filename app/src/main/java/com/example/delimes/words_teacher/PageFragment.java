@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.CheckBox;
@@ -568,6 +570,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         buttonChange.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
+                    View current = getActivity().getCurrentFocus();
+                    if (current != null) current.clearFocus();
+
                     boolean answersAreHidden = answersWereHidden;
                     if (answersWereHidden){
                         showAnswers();
@@ -994,6 +999,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         */
         fillReceiverList(editTextHostname.getText().toString(), editTextPortname.getText().toString());
+
         searchView.clearFocus();
         buttonHideAnswers.requestFocus();
 
@@ -1990,7 +1996,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         /**
          * Реализация класса ViewHolder, хранящего ссылки на виджеты.
          */
-        class ViewHolder extends RecyclerView.ViewHolder implements View.OnKeyListener {
+        class ViewHolder extends RecyclerView.ViewHolder implements TextView.OnEditorActionListener {
             private CheckBox checkBoxLearnedEn;
             private EditText editTextEnWord;
             private CheckBox checkBoxLearnedRu;
@@ -2004,238 +2010,236 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 checkBoxLearnedRu = itemView.findViewById(R.id.checkBoxLearnedRu);
                 editTextRuWord = itemView.findViewById(R.id.editTextRuWord);
 
-                editTextEnWord.setOnKeyListener(this);
-                editTextRuWord.setOnKeyListener(this);
+                editTextEnWord.setOnEditorActionListener(this);
+                editTextRuWord.setOnEditorActionListener(this);
+
+                editTextEnWord.setImeOptions(EditorInfo.IME_ACTION_GO);
+                editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+                editTextRuWord.setImeOptions(EditorInfo.IME_ACTION_GO);
+                editTextRuWord.setRawInputType(InputType.TYPE_CLASS_TEXT);
             }
 
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                        /*
-                        if(listDictionaryCopy.size() != listDictionary.size()) {
-                            return true;
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+
+                    String original, answer;
+
+                    Collocation collocation =  listDictionary.get(indexOfTheFilteredSelectedRow);
+                    Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
+
+                    if (englishLeft) {
+                        original = collocationCopy.ru;
+                    } else {
+                        original = collocationCopy.en
+                                .replace("✓", "")
+                                .replace("⚓", "");
+                    }
+                    answer = ((EditText) v).getText().toString();
+                    String[] arrayAnswer = answer.split("\n");
+                    if (arrayAnswer.length > 1){
+                        answer = arrayAnswer[arrayAnswer.length - 1];
+                    }
+
+                    String comparison = original;
+                    if(!answer.isEmpty()){
+                        comparison = original + "\n"  + answer;
+                    }
+                    text = new SpannableString(comparison);
+                    //
+                    char falseDoubletLeftCharacter = '⚓';//any unique character
+                    char falseDoubletRightCharacter = '⚓';//any unique character
+                    char lastLeftCorrectCharacter = '⚓';//any unique character
+                    char lastRightCorrectCharacter = '⚓';//any unique character
+                    char lastRightOriginalCharacter = '⚓';//any unique character
+                    char lastRightPreviousOriginalCharacter = '✓';
+                    //
+
+                    for (int i = 0; i < original.length(); i++) {
+                        ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
+                        text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    }
+
+                    int j = 0;
+                    for (int i = original.length() + 1; i < comparison.length(); i++) {
+
+                        ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
+                        if(j < original.length()) {
+                            text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                         }
-                        */
-                        String original, answer;
 
-                        Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
-                        Collocation collocation = collocationCopy;
+                        if (j >= original.length() || ( original.charAt(j) != answer.charAt(j))) {//if (j >= original.length() || ( original.charAt(j) != answerCharAtJ)) {
 
-                        if(listDictionaryCopy.size() == listDictionary.size()) {
-                            collocation =  listDictionary.get(indexOfTheSelectedRow);
-                        }
-
-                        if (englishLeft) {
-                            original = collocationCopy.ru;
-                        } else {
-                            original = collocationCopy.en
-                                    .replace("✓", "")
-                                    .replace("⚓", "");
-                        }
-                        answer = ((EditText) v).getText().toString();
-                        String[] arrayAnswer = answer.split("\n");
-                        if (arrayAnswer.length > 1){
-                            answer = arrayAnswer[arrayAnswer.length - 1];
-                        }
-
-                        String comparison = original;
-                        if(!answer.isEmpty()){
-                            comparison = original + "\n" + answer;
-                        }
-                        text = new SpannableString(comparison);
-                        //
-                        char falseDoubletLeftCharacter = '⚓';//any unique character
-                        char falseDoubletRightCharacter = '⚓';//any unique character
-                        char lastLeftCorrectCharacter = '⚓';//any unique character
-                        char lastRightCorrectCharacter = '⚓';//any unique character
-                        char lastRightOriginalCharacter = '⚓';//any unique character
-                        char lastRightPreviousOriginalCharacter = '✓';
-                        //
-
-                        for (int i = 0; i < original.length(); i++) {
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
+                            style = new ForegroundColorSpan(Color.RED);
                             text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }
+                            //
+                            if (falseDoubletLeftCharacter == '⚓') {
+                                falseDoubletLeftCharacter = answer.charAt(j);
+                            }
+                            //
 
-                        int j = 0;
-                        for (int i = original.length() + 1; i < comparison.length(); i++) {
+                            if (j <= original.length()) {
 
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                            if(j < original.length()) {
+                                style = new ForegroundColorSpan(Color.BLUE);
                                 text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                             }
 
-                            if (j >= original.length() || ( original.charAt(j) != answer.charAt(j))) {//if (j >= original.length() || ( original.charAt(j) != answerCharAtJ)) {
+                        } else {
 
-                                style = new ForegroundColorSpan(Color.RED);
-                                text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
+                            text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            //
+                            falseDoubletLeftCharacter = '⚓';
+                            lastLeftCorrectCharacter = answer.charAt(j);
+                            //
+                        }
+                        j++;
+                    }
+
+
+                    j = answer.length() - 1;
+                    for (int i = comparison.length(); i >= 0; i--) {
+
+                        boolean charactersEqual;
+
+                        if (j >= answer.length() - original.length() && answer.length() >= original.length()) {
+                            charactersEqual = original.charAt(j - (answer.length() - original.length())) == answer.charAt(j);
+
+                            int pos = original.length() + 1 + j;
+                            ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
+                            if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
+                                text.removeSpan(spans[0]);
+
+                                ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
+                                text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                                 //
-                                if (falseDoubletLeftCharacter == '⚓') {
-                                    falseDoubletLeftCharacter = answer.charAt(j);
+                                lastRightCorrectCharacter = answer.charAt(j);
+                                //
+                                ///////////////
+                                falseDoubletRightCharacter = '⚓';
+                            }else if(j >= 0){
+                                if (falseDoubletRightCharacter == '⚓') {
+                                    falseDoubletRightCharacter = answer.charAt(j);
                                 }
-                                //
-
-                                if (j <= original.length()) {
-
-                                    style = new ForegroundColorSpan(Color.BLUE);
-                                    text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                }
-
-                            } else {
-
-                                style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                //
-                                falseDoubletLeftCharacter = '⚓';
-                                lastLeftCorrectCharacter = answer.charAt(j);
-                                //
                             }
-                            j++;
+                            ///////////////
+
+                        } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
+                            charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
+
+                            int pos = original.length() + 1 + (i - (original.length() - answer.length()));
+                            ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
+                            if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
+                                text.removeSpan(spans[0]);
+
+                                ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
+                                text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                //
+                                lastRightCorrectCharacter = answer.charAt(i - (original.length() - answer.length()));
+                                //
+                                ///////////////
+                                falseDoubletRightCharacter = '⚓';
+                            }else if(j >= 0){
+                                if (falseDoubletRightCharacter == '⚓') {
+                                    falseDoubletRightCharacter = answer.charAt(j);
+                                }
+                            }
+                            ///////////////
                         }
 
+                        //
+                        if (j >= 0
+                                &&lastLeftCorrectCharacter == falseDoubletLeftCharacter
+                                && lastLeftCorrectCharacter == lastRightCorrectCharacter
+                                && falseDoubletLeftCharacter == falseDoubletRightCharacter){
 
-                        j = answer.length() - 1;
-                        for (int i = comparison.length(); i >= 0; i--) {
+                            lastRightCorrectCharacter = '⚓';
 
-                            boolean charactersEqual;
+                            ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
+                            text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        }
 
-                            if (j >= answer.length() - original.length() && answer.length() >= original.length()) {
-                                charactersEqual = original.charAt(j - (answer.length() - original.length())) == answer.charAt(j);
+                        if (i < original.length() - 1) {
+                            lastRightOriginalCharacter = comparison.charAt(i);
+                            lastRightPreviousOriginalCharacter = comparison.charAt(i + 1);
+                        }
+                        //
 
-                                int pos = original.length() + 1 + j;
-                                ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
-                                if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
-                                    text.removeSpan(spans[0]);
+                        if (i < original.length() && answer.length() >= original.length()) {
+                            charactersEqual = original.charAt(i) == answer.charAt(i + answer.length() - original.length());
 
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                    text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                    //
-                                    lastRightCorrectCharacter = answer.charAt(j);
-                                    //
-                                    ///////////////
-                                    falseDoubletRightCharacter = '⚓';
-                                }else if(j >= 0){
-                                    if (falseDoubletRightCharacter == '⚓') {
-                                        falseDoubletRightCharacter = answer.charAt(j);
-                                    }
-                                }
-                                ///////////////
+                            if (charactersEqual){
 
-                            } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
+                                ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
+                                text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            }
+                        } else if (i < original.length() && answer.length() < original.length()) {//&& i >= original.length() - answer.length()) {
+                            if (i >= original.length() - answer.length()) {
                                 charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
 
-                                int pos = original.length() + 1 + (i - (original.length() - answer.length()));
-                                ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
-                                if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
-                                    text.removeSpan(spans[0]);
-
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                    text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                    //
-                                    lastRightCorrectCharacter = answer.charAt(i - (original.length() - answer.length()));
-                                    //
-                                    ///////////////
-                                     falseDoubletRightCharacter = '⚓';
-                                }else if(j >= 0){
-                                    if (falseDoubletRightCharacter == '⚓') {
-                                        falseDoubletRightCharacter = answer.charAt(j);
-                                    }
-                                }
-                                ///////////////
-                            }
-
-                            //
-                            if (j >= 0
-                                    &&lastLeftCorrectCharacter == falseDoubletLeftCharacter
-                                    && lastLeftCorrectCharacter == lastRightCorrectCharacter
-                                    && falseDoubletLeftCharacter == falseDoubletRightCharacter){
-
-                                lastRightCorrectCharacter = '⚓';
-
-                                ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
-                                text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            }
-
-                            if (i < original.length() - 1) {
-                                lastRightOriginalCharacter = comparison.charAt(i);
-                                lastRightPreviousOriginalCharacter = comparison.charAt(i + 1);
-                            }
-                            //
-
-                            if (i < original.length() && answer.length() >= original.length()) {
-                                charactersEqual = original.charAt(i) == answer.charAt(i + answer.length() - original.length());
-
-                                if (charactersEqual){
+                                if (charactersEqual) {
 
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                                 }
-                            } else if (i < original.length() && answer.length() < original.length()) {//&& i >= original.length() - answer.length()) {
-                                if (i >= original.length() - answer.length()) {
-                                    charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
-
-                                    if (charactersEqual) {
-
-                                        ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                        text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                    }
-                                }
-                                //
-                                if(lastRightOriginalCharacter == lastRightPreviousOriginalCharacter
-                                        && lastRightOriginalCharacter != falseDoubletLeftCharacter){
-
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
-                                    text.setSpan(style, i+1, i+2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                }
-                                //
                             }
-                            j--;
-                        }
+                            //
+                            if(lastRightOriginalCharacter == lastRightPreviousOriginalCharacter
+                                    && lastRightOriginalCharacter != falseDoubletLeftCharacter){
 
-                        boolean isDifficultTemp = collocationCopy.isDifficult;
-
-                        if(!englishLeft) {
-                            if (answer.equals(original)) {
-                                collocation.isDifficult = false;
-                                collocationCopy.isDifficult = false;
-                            } else {
-                                collocation.isDifficult = true;
-                                collocationCopy.isDifficult = true;
+                                ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
+                                text.setSpan(style, i+1, i+2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                             }
+                            //
                         }
-
-                        //afterPressEnter = true;
-                        //adapter.notifyItemChanged(indexOfTheSelectedRow);
-
-                        if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
-                                || isDifficultTemp != collocation.isDifficult) {//text is set to onFocusChange
-                            afterPressEnter = true;
-                            if(listDictionaryCopy.size() == listDictionary.size()){
-                                adapter.notifyItemChanged(indexOfTheSelectedRow);
-                            }else{
-                                adapter.notifyItemChanged(indexOfTheFilteredSelectedRow);
-                            }
-                        }else{
-                            ((EditText) v).setText(text);
-                        }
-
-                        if(indexOfTheSelectedRow != indexOfTheTempPreviousSelectedRow) {
-                            indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
-                        }
-                        indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
-
-                        //скрываем клавиатуру по окончании ввода
-                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-                        return true;
-
-
+                        j--;
                     }
+
+                    boolean isDifficultTemp = collocationCopy.isDifficult;
+
+                    if(!englishLeft) {
+                        if (answer.equals(original)) {
+                            collocation.isDifficult = false;
+                            collocationCopy.isDifficult = false;
+                        } else {
+                            collocation.isDifficult = true;
+                            collocationCopy.isDifficult = true;
+                        }
+                    }
+
+                    //afterPressEnter = true;
+                    //adapter.notifyItemChanged(indexOfTheSelectedRow);
+
+                    if(indexOfTheSelectedRow == indexOfThePreviousSelectedRow
+                            || isDifficultTemp != collocation.isDifficult) {//text is set to onFocusChange
+                        afterPressEnter = true;
+                        if(listDictionaryCopy.size() == listDictionary.size()){
+                            adapter.notifyItemChanged(indexOfTheSelectedRow);
+                        }else{
+                            adapter.notifyItemChanged(indexOfTheFilteredSelectedRow);
+                        }
+                    }else{
+                        ((EditText) v).setText(text);
+                    }
+
+                    if(indexOfTheSelectedRow != indexOfTheTempPreviousSelectedRow) {
+                        indexOfThePreviousSelectedRow = indexOfTheTempPreviousSelectedRow;
+                    }
+                    indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
+
+                    //скрываем клавиатуру по окончании ввода
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                    return true;
+
+
                 }
                 return false;
             }
+
+
         }
 
 
