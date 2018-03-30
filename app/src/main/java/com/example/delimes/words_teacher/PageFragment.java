@@ -423,6 +423,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     int index = 0;
                     listDictionaryCopy.clear();
                     for (Collocation collocation : listDictionary) {
+                        collocation.index = index;
                         listDictionaryCopy.add(new Collocation(
                                 collocation.learnedEn,
                                 collocation.en,
@@ -698,6 +699,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     listDictionaryCopy.clear();
                     int index = 0;
                     for (Collocation collocation : listDictionary) {
+                        collocation.index = index;
                         listDictionaryCopy.add(new Collocation(
                                 collocation.learnedEn,
                                 collocation.en,
@@ -1209,32 +1211,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
         answersWereHidden = false;
         adapter.notifyDataSetChanged();
 
-        /*
-        if(listDictionaryCopy.size() == listDictionary.size()) {
-
-            for (int i = 0; i < listDictionaryCopy.size(); i++) {
-                Collocation collocationCopy = listDictionaryCopy.get(i);
-                Collocation collocation = listDictionary.get(collocationCopy.filtredIndex);
-
-                collocation.ru = collocationCopy.ru;
-                collocation.en = collocationCopy.en;
-
-            }
-            answersWereHidden = false;
-            adapter.notifyDataSetChanged();
-
-
-        }else{
-            /*
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                    "Clean the filter!",
-                    Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 0, 0);
-            toast.show();
-            /*
-        }
-        */
-
     }
 
     private int defineViewType(int rowIndex){
@@ -1528,6 +1504,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
+                            answersWereHidden = false;
                             defineIndexesOfWords();
                             adapter.notifyDataSetChanged();
 
