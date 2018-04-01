@@ -276,7 +276,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 float backupValue = millisecondsPerInch;
                 try {
                     millisecondsPerInch = Integer.parseInt( ((EditText)v).getText().toString() );
-                    if( millisecondsPerInch < 50 ) numberOfCollocationsInABlock = 50;
+                    if( millisecondsPerInch < 1 ) numberOfCollocationsInABlock = 1;
                 } catch( NumberFormatException nfe ){
                     millisecondsPerInch = backupValue;
                     return true;
@@ -505,7 +505,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             tvTextLeft.setText(Integer.toString(listDictionaryCopy.size()));
                             tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
-                            tvProgressBar.setMax(listDictionary.size());
+                            tvProgressBar.setMax(listDictionaryCopy.size());
                             tvProgressBar.setProgress(countOfLearnedWords);
 
                             Toast.makeText(getContext(), "Progress is reset", Toast.LENGTH_LONG)
@@ -966,13 +966,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        englishLeft = prefs.getBoolean("englishLeft", false);
-        answersWereHidden = prefs.getBoolean("answersWereHidden", false);
-        indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
-
-        editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
-        editTextPortname.setText(prefs.getString("portname", "7373"));
 
         recyclerView.scrollToPosition(indexOfTheSelectedRow);
 
@@ -1087,13 +1080,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
         }else{
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+            englishLeft = prefs.getBoolean("englishLeft", true);
+            answersWereHidden = prefs.getBoolean("answersWereHidden", false);
+            indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
             millisecondsPerInch = prefs.getFloat("millisecondsPerInch", 1000f);
-            editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
 
             tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWords", 0) ));
             tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWords", 0) ));
-            tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWords",  listDictionary.size()) ));
-            tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionary.size()) ));
+            tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWords",  listDictionaryCopy.size()) ));
+            tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionaryCopy.size()) ));
+
+            editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
+            editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
+            editTextPortname.setText(prefs.getString("portname", "7373"));
         }
 
         defineIndexesOfWords();
@@ -1127,10 +1126,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         tvTextLearned.setText("0");
         tvTextOnRepetition.setText("0");
-        tvTextLeft.setText(Integer.toString(listDictionary.size()));
-        tvTextTotal.setText(Integer.toString(listDictionary.size()));
+        tvTextLeft.setText(Integer.toString(listDictionaryCopy.size()));
+        tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
-        tvProgressBar.setMax(listDictionary.size());
+        tvProgressBar.setMax(listDictionaryCopy.size());
         tvProgressBar.setProgress(countOfLearnedWords);
 
 
@@ -1160,8 +1159,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
         editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
-        editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
-        editPrefs.putInt("countOfTotalWords", listDictionary.size());
+        editPrefs.putInt("countOfLeftWords", listDictionaryCopy.size() - countOfLearnedWords);
+        editPrefs.putInt("countOfTotalWords", listDictionaryCopy.size());
 
         editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
 
@@ -1511,7 +1510,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             defineIndexesOfWords();
                             adapter.notifyDataSetChanged();
 
-                            tvProgressBar.setMax(listDictionary.size());
+                            tvProgressBar.setMax(listDictionaryCopy.size());
                             tvProgressBar.setProgress(countOfLearnedWords);
 
                             editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
@@ -1519,8 +1518,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                             tvTextLearned.setText(Integer.toString(countOfLearnedWords));
                             tvTextOnRepetition.setText(Integer.toString(countOfDifficultWords));
-                            tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
-                            tvTextTotal.setText(Integer.toString(listDictionary.size()));
+                            tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                            tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
                             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                     "Synchronization complete",
@@ -1870,13 +1869,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            /*
-            if(listDictionaryCopy.size() == listDictionary.size()) {
-                indexOfTheSelectedRow = recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
-            }else{
-                return;
-            }
-            */
             indexOfTheSelectedRow = Integer.valueOf(v.getTag(R.id.Tag1).toString());
             indexOfTheFilteredSelectedRow = Integer.valueOf(v.getTag(R.id.Tag2).toString());
 
@@ -1939,7 +1931,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             String word = ((EditText) v).getText().toString();
 
-            if (word.isEmpty() && listDictionaryCopy.size() == listDictionary.size()) {
+            if (word.isEmpty()) {
 
                 v.requestFocus();
 
