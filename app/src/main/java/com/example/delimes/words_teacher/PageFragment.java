@@ -281,12 +281,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     millisecondsPerInch = backupValue;
                     return true;
                 }
-                ///////////////////////////////////////////////////////////
-                /*
-                SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-                editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
-                editPrefs.commit();
-                */
 
                 return false;
             }
@@ -455,17 +449,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                     tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
-                    ///////////////////////////////////////////////////////////////////
-                    /*
-                    SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-                    editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
-                    editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
-                    editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
-                    editPrefs.putInt("countOfTotalWords", listDictionary.size());
-                    editPrefs.commit();
-                    */
-
-
                     if (answersWereHidden){
                         hideAnswers();
                     }
@@ -519,8 +502,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                             tvTextLearned.setText("0");
                             tvTextOnRepetition.setText("0");
-                            tvTextLeft.setText(Integer.toString(listDictionary.size()));
-                            tvTextTotal.setText(Integer.toString(listDictionary.size()));
+                            tvTextLeft.setText(Integer.toString(listDictionaryCopy.size()));
+                            tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
                             tvProgressBar.setMax(listDictionary.size());
                             tvProgressBar.setProgress(countOfLearnedWords);
@@ -566,7 +549,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         defineIndexesOfWords();
                         adapter.notifyDataSetChanged();
 
-                        tvProgressBar.setMax(listDictionary.size());
+                        tvProgressBar.setMax(listDictionaryCopy.size());
+                        tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                        tvTextOnRepetition.setText(Integer.toString(countOfDifficultWords));
+                        tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                        tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
                         Toast.makeText(getContext(), "words deleted", Toast.LENGTH_LONG)
                                 .show();
@@ -733,16 +720,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                     tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
-                    //////////////////////////////////////////////////////////////////////////////
-                    /*
-                    SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-                    editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
-                    editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
-                    editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
-                    editPrefs.putInt("countOfTotalWords", listDictionary.size());
-                    editPrefs.commit();
-                    */
-
                     if (answersWereHidden){
                         hideAnswers();
                     }
@@ -905,27 +882,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     listDictionary.add(0, collocation);
                     listDictionaryCopy.add(0, collocationCopy);
 
+                    defineIndexesOfWords();
                     adapter.notifyDataSetChanged();
 
-                    tvProgressBar.setMax(listDictionary.size());
+                    tvProgressBar.setMax(listDictionaryCopy.size());
 
                     searchView.setQuery("", false);
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    int countOfLeftWords = prefs.getInt("countOfLeftWords", 0);
-
-                    countOfLeftWords++;
-                    tvTextLeft.setText(Integer.toString(countOfLeftWords));
-                    tvTextTotal.setText(Integer.toString(listDictionary.size()));
-
-                    /////////////////////////////////////////////////
-                    /*
-                    SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-                    editPrefs.putInt("countOfLeftWords", countOfLeftWords);
-                    editPrefs.putInt("countOfTotalWords", listDictionary.size());
-                    editPrefs.commit();
-                    */
-
+                    tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                    tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
                     return true;
 
@@ -1557,16 +1522,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             tvTextOnRepetition.setText(Integer.toString(countOfDifficultWords));
                             tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                             tvTextTotal.setText(Integer.toString(listDictionary.size()));
-
-                            //////////////////////////////////////////////
-                            /*
-                            SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-                            editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
-                            editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
-                            editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
-                            editPrefs.putInt("countOfTotalWords", listDictionary.size());
-                            editPrefs.commit();
-                            */
 
                             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                     "Synchronization complete",
