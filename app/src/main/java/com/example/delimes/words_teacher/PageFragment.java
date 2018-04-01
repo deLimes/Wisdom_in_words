@@ -10,6 +10,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -132,6 +136,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean afterPressEnter = false;
     int childPosition;
     boolean collocationRemoved = false;
+    boolean playedNextPoint = false;
     //Socket socket;
 
     View page, page2;
@@ -276,9 +281,12 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     millisecondsPerInch = backupValue;
                     return true;
                 }
+                ///////////////////////////////////////////////////////////
+                /*
                 SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
                 editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
                 editPrefs.commit();
+                */
 
                 return false;
             }
@@ -447,12 +455,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                     tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
+                    ///////////////////////////////////////////////////////////////////
+                    /*
                     SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
                     editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
                     editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
                     editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
                     editPrefs.putInt("countOfTotalWords", listDictionary.size());
                     editPrefs.commit();
+                    */
 
 
                     if (answersWereHidden){
@@ -722,12 +733,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                     tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
+                    //////////////////////////////////////////////////////////////////////////////
+                    /*
                     SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
                     editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
                     editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
                     editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
                     editPrefs.putInt("countOfTotalWords", listDictionary.size());
                     editPrefs.commit();
+                    */
 
                     if (answersWereHidden){
                         hideAnswers();
@@ -904,11 +918,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     tvTextLeft.setText(Integer.toString(countOfLeftWords));
                     tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
+                    /////////////////////////////////////////////////
+                    /*
                     SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-
                     editPrefs.putInt("countOfLeftWords", countOfLeftWords);
                     editPrefs.putInt("countOfTotalWords", listDictionary.size());
                     editPrefs.commit();
+                    */
 
 
                     return true;
@@ -1103,26 +1119,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
         if (listDictionary.size() == 0) {
             Log.d("jkl", "restoreListDictionary: listDictionary.size() == 0");
             resetListDictionary();
+        }else{
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            millisecondsPerInch = prefs.getFloat("millisecondsPerInch", 1000f);
+            editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
+
+            tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWords", 0) ));
+            tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWords", 0) ));
+            tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWords",  listDictionary.size()) ));
+            tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionary.size()) ));
         }
 
         defineIndexesOfWords();
         tvProgressBar.setMax(listDictionary.size());
         tvProgressBar.setProgress(countOfLearnedWords);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        millisecondsPerInch = prefs.getFloat("millisecondsPerInch", 1000f);
-        editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
-        /*
-        editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
-        editTextPortname.setText(prefs.getString("portname", "7373"));
-        */
-
-        tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWords", 0) ));
-        tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWords", 0) ));
-        tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWords",  listDictionary.size()) ));
-        tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionary.size()) ));
-
     }
 
     public void resetListDictionary(){//boolean softwareReset
@@ -1181,6 +1192,14 @@ public class PageFragment extends android.support.v4.app.Fragment {
         editPrefs.putBoolean("englishLeft", englishLeft);
         editPrefs.putBoolean("answersWereHidden", answersWereHidden);
         editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+
+        editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
+        editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
+        editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
+        editPrefs.putInt("countOfTotalWords", listDictionary.size());
+
+        editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
+
         editPrefs.commit();
 
     }
@@ -1416,6 +1435,23 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     }
 
+    private void playNextPoint() {
+
+        playedNextPoint = true;
+
+        MediaPlayer mPlayer = MediaPlayer.create(getActivity(), R.raw.next_point);
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // TODO Auto-generated method stub
+                mp.release();
+            }
+        });
+        mPlayer.start();
+
+    }
+
 
     class Receiver extends Thread {
 
@@ -1522,12 +1558,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             tvTextLeft.setText(Integer.toString(listDictionary.size() - countOfLearnedWords));
                             tvTextTotal.setText(Integer.toString(listDictionary.size()));
 
+                            //////////////////////////////////////////////
+                            /*
                             SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
                             editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
                             editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
                             editPrefs.putInt("countOfLeftWords", listDictionary.size() - countOfLearnedWords);
                             editPrefs.putInt("countOfTotalWords", listDictionary.size());
                             editPrefs.commit();
+                            */
 
                             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                                     "Synchronization complete",
@@ -1700,15 +1739,34 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         if(collocationCopy.learnedEn && collocationCopy.learnedRu){
                             if (englishLeft) {
                                 viewHolder.editTextRuWord.setText(collocationCopy.ru);
-                                if (!pairedMark) tvProgressBar.setProgress(++countOfLearnedWords);
+                                if (!pairedMark){
+                                    tvProgressBar.setProgress(++countOfLearnedWords);
+
+                                    tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                    tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                    if (countOfLearnedWords % 1000 == 0 && !playedNextPoint) {
+                                        playNextPoint();
+                                    }
+                                }
                             } else {
                                 viewHolder.editTextEnWord.setText(collocationCopy.en);
                                 tvProgressBar.setProgress(++countOfLearnedWords);
+
+                                tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                if (countOfLearnedWords % 1000 == 0 && !playedNextPoint) {
+                                    playNextPoint();
+                                }
                             }
                         }else if(!collocationCopy.learnedEn && !collocationCopy.learnedRu){
                             if (englishLeft) {
                                 if (answersWereHidden) viewHolder.editTextRuWord.setText("");
-                                if(!pairedMark) tvProgressBar.setProgress(--countOfLearnedWords);
+                                if(!pairedMark){
+                                    tvProgressBar.setProgress(--countOfLearnedWords);
+
+                                    tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                    tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                }
                             } else {
                                 if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                             }
@@ -1718,6 +1776,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             } else {
                                 if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                                 tvProgressBar.setProgress(--countOfLearnedWords);
+
+                                tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
                             }
                         }
                         pairedMark = false;
@@ -1764,21 +1825,43 @@ public class PageFragment extends android.support.v4.app.Fragment {
                             if (englishLeft) {
                                 viewHolder.editTextRuWord.setText(collocationCopy.ru);
                                 tvProgressBar.setProgress(++countOfLearnedWords);
+
+                                tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                if (countOfLearnedWords % 1000 == 0 && !playedNextPoint) {
+                                    playNextPoint();
+                                }
                             } else {
                                 viewHolder.editTextEnWord.setText(collocationCopy.en);
-                                if (!pairedMark) tvProgressBar.setProgress(++countOfLearnedWords);
+                                if (!pairedMark){
+                                    tvProgressBar.setProgress(++countOfLearnedWords);
+
+                                    tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                    tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                    if (countOfLearnedWords % 1000 == 0 && !playedNextPoint) {
+                                        playNextPoint();
+                                    }
+                                }
                             }
                         }else if(!collocationCopy.learnedEn && !collocationCopy.learnedRu){
                             if (englishLeft) {
                                 if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                             } else {
                                 if (answersWereHidden) viewHolder.editTextEnWord.setText("");
-                                if(!pairedMark) tvProgressBar.setProgress(--countOfLearnedWords);
+                                if(!pairedMark){
+                                    tvProgressBar.setProgress(--countOfLearnedWords);
+
+                                    tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                    tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
+                                }
                             }
                         }else {
                             if (englishLeft) {
                                 if (answersWereHidden) viewHolder.editTextRuWord.setText("");
                                 tvProgressBar.setProgress(--countOfLearnedWords);
+
+                                tvTextLearned.setText(Integer.toString(countOfLearnedWords));
+                                tvTextLeft.setText(Integer.toString(listDictionaryCopy.size() - countOfLearnedWords));
                             } else {
                                 if (answersWereHidden) viewHolder.editTextEnWord.setText("");
                             }
@@ -2183,9 +2266,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         if (answer.equals(original)) {
                             collocation.isDifficult = false;
                             collocationCopy.isDifficult = false;
+                            if (isDifficultTemp){
+                                tvTextOnRepetition.setText(Integer.toString(--countOfDifficultWords));
+                            }
                         } else {
                             collocation.isDifficult = true;
                             collocationCopy.isDifficult = true;
+                            if (!isDifficultTemp){
+                                tvTextOnRepetition.setText(Integer.toString(++countOfDifficultWords));
+                            }
                         }
                     }
 
