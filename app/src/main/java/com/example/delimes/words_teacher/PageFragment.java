@@ -276,10 +276,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 float backupValue = millisecondsPerInch;
                 try {
                     millisecondsPerInch = Integer.parseInt( ((EditText)v).getText().toString() );
-                    if( millisecondsPerInch < 1 ) numberOfCollocationsInABlock = 1;
+                    if( millisecondsPerInch < 1 ) millisecondsPerInch = 1;
                 } catch( NumberFormatException nfe ){
                     millisecondsPerInch = backupValue;
-                    return true;
+                    return false;
                 }
 
                 return false;
