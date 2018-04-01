@@ -1266,16 +1266,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
         List <Collocation> listDictionaryLocalCopy = new ArrayList<Collocation>();
 
         int index = 0;
-        for (Collocation collocation : listDictionary) {
-            collocation.index = index;
-            listDictionaryCopy.get(index).index = index;;
+        for (Collocation collocationCopy : listDictionaryCopy) {
+            collocationCopy.index = index;
             listDictionaryLocalCopy.add(new Collocation(
-                    collocation.learnedEn,
-                    collocation.en,
-                    collocation.learnedRu,
-                    collocation.ru,
-                    collocation.isDifficult,
-                    collocation.index
+                    collocationCopy.learnedEn,
+                    collocationCopy.en,
+                    collocationCopy.learnedRu,
+                    collocationCopy.ru,
+                    collocationCopy.isDifficult,
+                    collocationCopy.index
             ));
             index++;
         }
