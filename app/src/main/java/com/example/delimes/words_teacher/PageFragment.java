@@ -85,6 +85,7 @@ import static android.os.Environment.getExternalStorageState;
 public class PageFragment extends android.support.v4.app.Fragment {
 
     InputMethodManager inputMethodManager;
+    ConstraintLayout rootView;
     SearchView searchView;
     ProgressBar tvProgressBar;
     TextView tvTextLearned;
@@ -218,6 +219,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         List<Fragment> fragments = getFragmentManager().getFragments();
         android.support.v4.app.Fragment frag2 = fragments.get(1);
 
+        rootView = page.findViewById(R.id.constraintLayout);
         searchView = page.findViewById(R.id.searchView);
 
         tvProgressBar = (ProgressBar) page.findViewById(R.id.progressBar);
@@ -230,8 +232,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         editTextHostname = (EditText) page2.findViewById(R.id.hostname);
         editTextPortname = (EditText) page2.findViewById(R.id.portname);
-
-        searchView.setIconified (false);
 
         editTextNumberOfBlocks.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
@@ -976,9 +976,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
         */
         fillReceiverList(editTextHostname.getText().toString(), editTextPortname.getText().toString());
 
-        searchView.clearFocus();
-        buttonHideAnswers.requestFocus();
-
         isStart = true;
         isResumeAfterStop = false;
 
@@ -1005,6 +1002,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
         }
         isStart = false;
         isResumeAfterStop = false;
+
+        rootView.requestFocus();
     }
 
     private void restoreListDictionary(){
