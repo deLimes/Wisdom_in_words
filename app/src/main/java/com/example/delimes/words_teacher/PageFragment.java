@@ -2334,9 +2334,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                                     } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
                                                             && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
 
-                                                        if ((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
-                                                                || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems)
-                                                                && (l>j && l>i)
+                                                        if (((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems)
+                                                                || (elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems )
+                                                                &&  l > k)//(l>j && l>i)
                                                                 ) {
                                                             continue;
                                                         } else {
@@ -2455,7 +2455,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                                                         if ((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
                                                                 || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems)
-                                                                && (l>j && l>s)
+                                                                && l > k//(l>j && l>s)
                                                                 ) {
                                                             continue;
                                                         }else{
