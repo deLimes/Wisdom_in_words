@@ -1417,7 +1417,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     }
 
-    public StateMap[] createStateMap(String line) {
+    public StateMap[] createStateMap2(String line) {
 
         StateMap[] stateMapOfLine = new StateMap[line.length()];
 
@@ -1425,7 +1425,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             char unitMain = line.charAt(i);
             int itemsNumberMain = 0;
             int numberOfItemsMain = 0;
-            StateMap[] states = new StateMap[line.length()];
+            StateMap[] statesMain = new StateMap[line.length()];
 
             for (int j = 0; j < line.length(); j++) {
                 int state;
@@ -1452,14 +1452,106 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 if(i == j){
                     state = 0;
                 }else if(i < j){
+                    state = 1;
+                }else{
+                    state = -1;
+                }
+
+//                if((numberOfItems > 1 && i != j &&  unit == unitMain)
+//                        || (itemsNumber > 1 &&  unit != unitMain) ) {
+                if(numberOfItems > 1 && i != j ) {
+                    statesMain[j] = new StateMap('⚓', false, state, j, itemsNumber, numberOfItems, new StateMap[0]);
+                }else {
+                    statesMain[j] = new StateMap(line.charAt(j), false, state, j, itemsNumber, numberOfItems, new StateMap[0]);
+                }
+            }
+            stateMapOfLine[i] = new StateMap(line.charAt(i), false, 0, i,  itemsNumberMain, numberOfItemsMain, statesMain);
+        }
+
+        return stateMapOfLine;
+    }
+
+    public StateMap[] createStateMap(String line) {
+
+        StateMap[] stateMapOfLine = new StateMap[line.length()];
+
+        for (int i = 0; i < line.length(); i++) {
+            char unitMain = line.charAt(i);
+            int itemsNumberMain = 0;
+            int numberOfItemsMain = 0;
+            StateMap[] statesMain = new StateMap[line.length()];
+
+            for (int j = 0; j < line.length(); j++) {
+                int state;
+                char unit = line.charAt(j);
+                int itemsNumber = 0;
+                int numberOfItems = 0;
+                StateMap[] states = new StateMap[0];
+
+                for (int k = 0; k < line.length(); k++) {
+                    if(unit == line.charAt(k)){
+                        numberOfItems++;
+                        if(j == k){
+                            itemsNumber = numberOfItems;
+                        }
+                    }
+                }
+
+                if(unitMain == line.charAt(j)){
+                    numberOfItemsMain++;
+                    if(i == j){
+                        itemsNumberMain = numberOfItemsMain;
+                    }
+                }
+
+                if(numberOfItems > 1){
+                    states = new StateMap[line.length()];
+
+                    for (int k = 0; k < line.length(); k++) {
+                        int stateEmbedded;
+                        char unitEmbedded = line.charAt(k);
+                        int itemsNumberEmbedded = 0;
+                        int numberOfItemsEmbedded = 0;
+
+                        for (int l = 0; l < line.length(); l++) {
+                            if(unitEmbedded == line.charAt(l)){
+                                numberOfItemsEmbedded++;
+                                if(k == l){
+                                    itemsNumberEmbedded = numberOfItemsEmbedded;
+                                }
+                            }
+                        }
+
+                        if(j == k){
+                            state = 0;
+                        }else if(j < k){
+                            state = -1;
+                        }else{
+                            state = 1;
+                        }
+
+                        if(unit == unitEmbedded
+                                //&& (numberOfItems != numberOfItemsEmbedded)
+                                && (j != k)
+                                ){
+                            states[k] = new StateMap('⚓', false, state, k, itemsNumberEmbedded, numberOfItemsEmbedded, new StateMap[0]);
+                        }else {
+                            states[k] = new StateMap(line.charAt(k), false, state, k, itemsNumberEmbedded, numberOfItemsEmbedded, new StateMap[0]);
+                        }
+                    }
+                }
+
+                if(i == j){
+                    state = 0;
+                }else if(i < j){
                     state = -1;
                 }else{
                     state = 1;
                 }
 
-                states[j] = new StateMap(line.charAt(j), false, state, j, itemsNumber, numberOfItems, new StateMap[0]);;
+                statesMain[j] = new StateMap(line.charAt(j), false, state, j, itemsNumber, numberOfItems, states);
             }
-            stateMapOfLine[i] = new StateMap(line.charAt(i), false, 0, i,  itemsNumberMain, numberOfItemsMain, states);
+            stateMapOfLine[i] = new StateMap(line.charAt(i), false, 0, i,  itemsNumberMain, numberOfItemsMain, statesMain);
         }
 
         return stateMapOfLine;
@@ -2210,36 +2302,94 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     for (int k = 0; k < stateMapOfOriginal[i].states.length; k++) {
                                         StateMap elementStateMapOfOriginal = stateMapOfOriginal[i].states[k];
 
-                                        for (int l = 0; l < stateMapOfAnswer[j].states.length; l++) {
-                                            StateMap elementStateMapOfAnswer = stateMapOfAnswer[j].states[l];
+                                        if (elementStateMapOfOriginal.unit != '⚓' ) {
+                                            for (int l = 0; l < stateMapOfAnswer[j].states.length; l++) {
+                                                StateMap elementStateMapOfAnswer = stateMapOfAnswer[j].states[l];
 
-                                            if (!elementStateMapOfAnswer.used) {
-                                                if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                        && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
+                                                /*
+                                                if (!elementStateMapOfAnswer.used) {
 
-                                                    stateMapOfAnswer[j].states[l].used = true;
-                                                    break;
-
-                                                } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                        && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
-
-                                                    if (elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
-                                                            || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems
+                                                    if ((elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state)
                                                             ) {
-                                                        continue;
-                                                    } else {
+
+                                                        elementStateMapOfAnswer.used = true;
+                                                        break;
+
+                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
+
                                                         wrongPlace = true;
                                                         break;
                                                     }
                                                 }
+                                                */
+                                                if (!elementStateMapOfAnswer.used) {
+                                                    if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
+
+                                                        stateMapOfAnswer[j].states[l].used = true;
+                                                        break;
+
+                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
+
+                                                        if ((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
+                                                                || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems)
+                                                                && (l>j && l>i)
+                                                                ) {
+                                                            continue;
+                                                        } else {
+                                                            wrongPlace = true;
+                                                            break;
+                                                        }
+
+                                                    }
+
+                                                }
+
+
 
                                             }
-
                                         }
                                         if (wrongPlace) {
                                             break;
                                         }
                                     }
+
+                                    /*
+                                    for (int k = 0; k < stateMapOfAnswer[j].states.length; k++) {
+                                        StateMap elementStateMapOfAnswer = stateMapOfAnswer[j].states[k];
+
+                                        if (elementStateMapOfAnswer.unit != '⚓' ) {
+                                            for (int l = 0; l < stateMapOfOriginal[i].states.length; l++) {
+                                                StateMap elementStateMapOfOriginal = stateMapOfOriginal[i].states[l];
+
+                                                if (!elementStateMapOfOriginal.used) {
+
+                                                    if ((elementStateMapOfAnswer.unit.equals(elementStateMapOfOriginal.unit)
+                                                            && elementStateMapOfAnswer.state == elementStateMapOfOriginal.state)
+                                                            ) {
+
+                                                        stateMapOfOriginal[i].states[l].used = true;
+                                                        break;
+
+                                                    } else if (elementStateMapOfAnswer.unit.equals(elementStateMapOfOriginal.unit)
+                                                            && elementStateMapOfAnswer.state != elementStateMapOfOriginal.state) {
+
+                                                        wrongPlace = true;
+                                                        break;
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+                                        if (wrongPlace) {
+                                            break;
+                                        }
+                                    }
+                                    */
 
                                 } else {
                                     wrongPlace = true;
@@ -2270,27 +2420,50 @@ public class PageFragment extends android.support.v4.app.Fragment {
                                     for (int k = 0; k < stateMapOfOriginal[j].states.length; k++) {
                                         StateMap elementStateMapOfOriginal = stateMapOfOriginal[j].states[k];
 
-                                        for (int l = 0; l < stateMapOfAnswer[s].states.length; l++) {
-                                            StateMap elementStateMapOfAnswer = stateMapOfAnswer[s].states[l];
+                                        if (elementStateMapOfOriginal.unit != '⚓' ) {
+                                            for (int l = 0; l < stateMapOfAnswer[s].states.length; l++) {
+                                                StateMap elementStateMapOfAnswer = stateMapOfAnswer[s].states[l];
 
-                                            if (!elementStateMapOfAnswer.used) {
-                                                if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                        && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
+                                                /*
+                                                if (!elementStateMapOfAnswer.used) {
 
-                                                    stateMapOfAnswer[s].states[l].used = true;
-                                                    break;
-
-                                                }else if(elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                        && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state){
-
-                                                    if (elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
-                                                            || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems
+                                                    if ((elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state)
                                                             ) {
-                                                        continue;
-                                                    }else{
+
+                                                        elementStateMapOfAnswer.used = true;
+                                                        break;
+
+                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
+
                                                         wrongPlace = true;
                                                         break;
                                                     }
+
+                                                }
+                                                */
+                                                if (!elementStateMapOfAnswer.used) {
+                                                    if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
+
+                                                        stateMapOfAnswer[s].states[l].used = true;
+                                                        break;
+
+                                                    }else if(elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
+                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state){
+
+                                                        if ((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
+                                                                || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems)
+                                                                && (l>j && l>s)
+                                                                ) {
+                                                            continue;
+                                                        }else{
+                                                            wrongPlace = true;
+                                                            break;
+                                                        }
+                                                    }
+
                                                 }
 
                                             }
