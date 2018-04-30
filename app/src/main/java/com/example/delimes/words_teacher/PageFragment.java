@@ -1417,164 +1417,60 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     }
 
-    public StateMap[] createStateMap2(String line) {
+    public Character[] createArrayOfCharactersByLine(String line){
 
-        StateMap[] stateMapOfLine = new StateMap[line.length()];
-
+        Character[] arrayOfCharacters = new Character[line.length()];
         for (int i = 0; i < line.length(); i++) {
-            char unitMain = line.charAt(i);
-            int itemsNumberMain = 0;
-            int numberOfItemsMain = 0;
-            StateMap[] statesMain = new StateMap[line.length()];
-
-            for (int j = 0; j < line.length(); j++) {
-                int state;
-                char unit = line.charAt(j);
-                int itemsNumber = 0;
-                int numberOfItems = 0;
-
-                for (int k = 0; k < line.length(); k++) {
-                    if(unit == line.charAt(k)){
-                        numberOfItems++;
-                        if(j == k){
-                            itemsNumber = numberOfItems;
-                        }
-                    }
-                }
-
-                if(unitMain == line.charAt(j)){
-                    numberOfItemsMain++;
-                    if(i == j){
-                        itemsNumberMain = numberOfItemsMain;
-                    }
-                }
-
-                if(i == j){
-                    state = 0;
-                }else if(i < j){
-                    state = 1;
-                }else{
-                    state = -1;
-                }
-
-//                if((numberOfItems > 1 && i != j &&  unit == unitMain)
-//                        || (itemsNumber > 1 &&  unit != unitMain) ) {
-                if(numberOfItems > 1 && i != j ) {
-                    statesMain[j] = new StateMap('⚓', false, state, j, itemsNumber, numberOfItems, new StateMap[0]);
-                }else {
-                    statesMain[j] = new StateMap(line.charAt(j), false, state, j, itemsNumber, numberOfItems, new StateMap[0]);
-                }
-            }
-            stateMapOfLine[i] = new StateMap(line.charAt(i), false, 0, i,  itemsNumberMain, numberOfItemsMain, statesMain);
+            arrayOfCharacters[i] = line.charAt(i);
         }
 
-        return stateMapOfLine;
+        return arrayOfCharacters;
     }
 
-    public StateMap[] createStateMap(String line) {
+    public StateMap[] createStateMap(String original, String answer) {
 
-        StateMap[] stateMapOfLine = new StateMap[line.length()];
+        Character[] x = createArrayOfCharactersByLine(original);
+        Character[] y = createArrayOfCharactersByLine(answer);
 
-        for (int i = 0; i < line.length(); i++) {
-            char unitMain = line.charAt(i);
-            int itemsNumberMain = 0;
-            int numberOfItemsMain = 0;
-            StateMap[] statesMain = new StateMap[line.length()];
-
-            for (int j = 0; j < line.length(); j++) {
-                int state;
-                char unit = line.charAt(j);
-                int itemsNumber = 0;
-                int numberOfItems = 0;
-                StateMap[] states = new StateMap[0];
-
-                for (int k = 0; k < line.length(); k++) {
-                    if(unit == line.charAt(k)){
-                        numberOfItems++;
-                        if(j == k){
-                            itemsNumber = numberOfItems;
-                        }
-                    }
+        int m = x.length;
+        int n = y.length;
+        int[][] len = new int[m + 1][n + 1];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (x[i] == y[j]) {
+                    len[i + 1][j + 1] = len[i][j] + 1;
+                } else {
+                    len[i + 1][j + 1] = Math.max(len[i + 1][j], len[i][j + 1]);
                 }
-
-                if(unitMain == line.charAt(j)){
-                    numberOfItemsMain++;
-                    if(i == j){
-                        itemsNumberMain = numberOfItemsMain;
-                    }
-                }
-
-                if(numberOfItems > 1){
-                    states = new StateMap[line.length()];
-
-                    for (int k = 0; k < line.length(); k++) {
-                        int stateEmbedded;
-                        char unitEmbedded = line.charAt(k);
-                        int itemsNumberEmbedded = 0;
-                        int numberOfItemsEmbedded = 0;
-
-                        for (int l = 0; l < line.length(); l++) {
-                            if(unitEmbedded == line.charAt(l)){
-                                numberOfItemsEmbedded++;
-                                if(k == l){
-                                    itemsNumberEmbedded = numberOfItemsEmbedded;
-                                }
-                            }
-                        }
-
-                        if(j == k){
-                            state = 0;
-                        }else if(j < k){
-                            state = -1;
-                        }else{
-                            state = 1;
-                        }
-
-                        if(unit == unitEmbedded
-                                //&& (numberOfItems != numberOfItemsEmbedded)
-                                && (j != k)
-                                ){
-                            states[k] = new StateMap('⚓', false, state, k, itemsNumberEmbedded, numberOfItemsEmbedded, new StateMap[0]);
-                        }else {
-                            states[k] = new StateMap(line.charAt(k), false, state, k, itemsNumberEmbedded, numberOfItemsEmbedded, new StateMap[0]);
-                        }
-                    }
-                }
-
-                if(i == j){
-                    state = 0;
-                }else if(i < j){
-                    state = -1;
-                }else{
-                    state = 1;
-                }
-
-                statesMain[j] = new StateMap(line.charAt(j), false, state, j, itemsNumber, numberOfItems, states);
             }
-            stateMapOfLine[i] = new StateMap(line.charAt(i), false, 0, i,  itemsNumberMain, numberOfItemsMain, statesMain);
+        }
+        int cnt = len[m][n];
+        StateMap[] res = new StateMap[cnt];
+        for (int i = m - 1, j = n - 1; i >= 0 && j >= 0;) {
+            if (x[i] == y[j]) {
+                res[--cnt] = new StateMap(x[i], i, j);
+                --i;
+                --j;
+            } else if (len[i + 1][j] > len[i][j + 1]) {
+                --j;
+            } else {
+                --i;
+            }
         }
 
-        return stateMapOfLine;
+        return res;
     }
 
     class StateMap {
 
         Character unit;
-        boolean used;
-        int state;
-        int index;
-        int itemsNumber;
-        int numberOfItems;
-        StateMap[] states;
+        int indexX;
+        int indexY;
 
-        public StateMap(Character unit, boolean used, int state, int index, int itemsNumber,int numberOfItems, StateMap[] states) {
+        public StateMap(Character unit, int indexX, int indexY) {
             this.unit = unit;
-            this.used = used;
-            this.state = state;
-            this.index = index;
-            this.itemsNumber = itemsNumber;
-            this.numberOfItems = numberOfItems;
-            this.states = states;
+            this.indexX = indexX;
+            this.indexY = indexY;
         }
     }
 
@@ -2221,65 +2117,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     text = new SpannableString(comparison);
 
-                    /*
-                    String strA = original;
-                    String strB = answer;
-                    String matchingUnits = "";
-
-                    List<Character> listStrB = createListByLine(strB);
-
-                    for (int i = 0; i < strA.length(); i++) {
-                        for (int j = 0; j < listStrB.size(); j++) {
-                            if(listStrB.get(j).equals(strA.charAt(i))){
-                                matchingUnits = matchingUnits + strA.charAt(i);
-                                listStrB.remove(j);
-                                break;
-                            }
-
-                        }
-                    }
-
-                    List<Character> listStrA = createListByLine(matchingUnits);
-                    listStrB = createListByLine(matchingUnits);
-
-                    for (int i = 0; i < comparison.length(); i++) {
-                        if (i <= strA.length()){
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
-                            text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }else{
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
-                            text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }
-
-                    }
-
-                    for (int i = 0; i < comparison.length(); i++) {
-                        if(i <= strA.length()){
-                            for (int j = 0; j < listStrA.size(); j++) {
-                                if(listStrA.get(j).equals(comparison.charAt(i))){
-                                    listStrA.remove(j);
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                    break;
-                                }
-                            }
-                        }else{
-                            for (int j = 0; j < listStrB.size(); j++) {
-                                if(listStrB.get(j).equals(comparison.charAt(i))){
-                                    listStrB.remove(j);
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                    break;
-                                }
-                            }
-                        }
-
-                    }
-                    */
-
-                    StateMap[] stateMapOfOriginal = createStateMap(original);
-                    StateMap[] stateMapOfAnswer = createStateMap(answer);
-
                     for (int i = 0; i < comparison.length(); i++) {
                         if (i <= original.length()){
                             ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
@@ -2291,407 +2128,30 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
                     }
 
-
-                    for (int i = 0; i < comparison.length(); i++) {
-                        if (i < original.length()) {
-
-                            for (int j = 0; j < stateMapOfAnswer.length; j++) {
-                                boolean wrongPlace = false;
-                                if (!stateMapOfAnswer[j].used && stateMapOfOriginal[i].unit.equals(stateMapOfAnswer[j].unit)) {
-
-                                    for (int k = 0; k < stateMapOfOriginal[i].states.length; k++) {
-                                        StateMap elementStateMapOfOriginal = stateMapOfOriginal[i].states[k];
-
-                                        if (elementStateMapOfOriginal.unit != '⚓' ) {
-                                            for (int l = 0; l < stateMapOfAnswer[j].states.length; l++) {
-                                                StateMap elementStateMapOfAnswer = stateMapOfAnswer[j].states[l];
-
-                                                /*
-                                                if (!elementStateMapOfAnswer.used) {
-
-                                                    if ((elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state)
-                                                            ) {
-
-                                                        elementStateMapOfAnswer.used = true;
-                                                        break;
-
-                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
-
-                                                        wrongPlace = true;
-                                                        break;
-                                                    }
-                                                }
-                                                */
-                                                if (!elementStateMapOfAnswer.used) {
-                                                    if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
-
-                                                        stateMapOfAnswer[j].states[l].used = true;
-                                                        break;
-
-                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
-
-                                                        if (((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems)
-                                                                || (elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems )
-                                                                &&  l > k)//(l>j && l>i)
-                                                                ) {
-                                                            continue;
-                                                        } else {
-                                                            wrongPlace = true;
-                                                            break;
-                                                        }
-
-                                                    }
-
-                                                }
-
-
-
-                                            }
-                                        }
-                                        if (wrongPlace) {
-                                            break;
-                                        }
-                                    }
-
-                                    /*
-                                    for (int k = 0; k < stateMapOfAnswer[j].states.length; k++) {
-                                        StateMap elementStateMapOfAnswer = stateMapOfAnswer[j].states[k];
-
-                                        if (elementStateMapOfAnswer.unit != '⚓' ) {
-                                            for (int l = 0; l < stateMapOfOriginal[i].states.length; l++) {
-                                                StateMap elementStateMapOfOriginal = stateMapOfOriginal[i].states[l];
-
-                                                if (!elementStateMapOfOriginal.used) {
-
-                                                    if ((elementStateMapOfAnswer.unit.equals(elementStateMapOfOriginal.unit)
-                                                            && elementStateMapOfAnswer.state == elementStateMapOfOriginal.state)
-                                                            ) {
-
-                                                        stateMapOfOriginal[i].states[l].used = true;
-                                                        break;
-
-                                                    } else if (elementStateMapOfAnswer.unit.equals(elementStateMapOfOriginal.unit)
-                                                            && elementStateMapOfAnswer.state != elementStateMapOfOriginal.state) {
-
-                                                        wrongPlace = true;
-                                                        break;
-                                                    }
-
-                                                }
-
-                                            }
-                                        }
-                                        if (wrongPlace) {
-                                            break;
-                                        }
-                                    }
-                                    */
-
-                                } else {
-                                    wrongPlace = true;
-                                }
-                                if (!wrongPlace) {
-                                    stateMapOfAnswer[j].used = true;
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
-                                    break;
-                                }
-                            }
-
-                        }
-                    }
-
-                    stateMapOfOriginal = createStateMap(original);
-                    stateMapOfAnswer = createStateMap(answer);
+                    StateMap[] stateMap = createStateMap(original, answer);
 
                     int s = 0;
                     for (int i = 0; i < comparison.length(); i++) {
-                        if (i > original.length()) {
-
-                            for (int j = 0; j < stateMapOfOriginal.length; j++) {
-                                boolean wrongPlace = false;
-                                if (!stateMapOfOriginal[j].used && stateMapOfAnswer[s].unit.equals(stateMapOfOriginal[j].unit)) {
-
-                                    for (int k = 0; k < stateMapOfOriginal[j].states.length; k++) {
-                                        StateMap elementStateMapOfOriginal = stateMapOfOriginal[j].states[k];
-
-                                        if (elementStateMapOfOriginal.unit != '⚓' ) {
-                                            for (int l = 0; l < stateMapOfAnswer[s].states.length; l++) {
-                                                StateMap elementStateMapOfAnswer = stateMapOfAnswer[s].states[l];
-
-                                                /*
-                                                if (!elementStateMapOfAnswer.used) {
-
-                                                    if ((elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state)
-                                                            ) {
-
-                                                        elementStateMapOfAnswer.used = true;
-                                                        break;
-
-                                                    } else if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state) {
-
-                                                        wrongPlace = true;
-                                                        break;
-                                                    }
-
-                                                }
-                                                */
-                                                if (!elementStateMapOfAnswer.used) {
-                                                    if (elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state == elementStateMapOfAnswer.state) {
-
-                                                        stateMapOfAnswer[s].states[l].used = true;
-                                                        break;
-
-                                                    }else if(elementStateMapOfOriginal.unit.equals(elementStateMapOfAnswer.unit)
-                                                            && elementStateMapOfOriginal.state != elementStateMapOfAnswer.state){
-
-                                                        if ((elementStateMapOfOriginal.itemsNumber < elementStateMapOfOriginal.numberOfItems
-                                                                || elementStateMapOfAnswer.itemsNumber < elementStateMapOfAnswer.numberOfItems)
-                                                                && l > k//(l>j && l>s)
-                                                                ) {
-                                                            continue;
-                                                        }else{
-                                                            wrongPlace = true;
-                                                            break;
-                                                        }
-                                                    }
-
-                                                }
-
-                                            }
-                                        }
-                                        if (wrongPlace) {
-                                            break;
-                                        }
-                                    }
-
-                                } else {
-                                    wrongPlace = true;
+                        if(i <= original.length()){
+                            for (int j = 0; j < stateMap.length; j++) {
+                                if(stateMap[j].unit.equals(comparison.charAt(i)) && stateMap[j].indexX == i){
+                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
+                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                                    break;
                                 }
-                                if (!wrongPlace) {
-                                    stateMapOfOriginal[j].used = true;
+                            }
+                        }else{
+                            for (int j = 0; j < stateMap.length; j++) {
+                                if(stateMap[j].unit.equals(comparison.charAt(i)) && stateMap[j].indexY == s){
                                     ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
                                     text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
                                     break;
                                 }
                             }
                             s++;
                         }
+
                     }
-
-
-
-                    /*
-                    //03
-                    char lastLeftCorrectCharacter = '✓';
-                    char falseDoubletLeftCharacter = '✓';
-                    char lastRightCorrectCharacter = '⚓';
-                    char falseDoubletRightCharacter = '⚓';
-
-                    char lastRightOriginalCharacter = '⚓';
-                    char lastRightPreviousOriginalCharacter = '✓';
-
-                    char  lastRightPreviousCharacter = '⚓';
-                    char lastRightCharacter = '⚓';
-                    char lastDoubletRightCharacter = '⚓';
-
-                    int positionFalseDoubletRightCharacter = -1;
-                    int positionLastRightCorrectCharacter = -1;
-                    //03
-
-                    for (int i = 0; i < original.length(); i++) {
-                        ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
-                        text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                    }
-
-                    int j = 0;
-                    for (int i = original.length() + 1; i < comparison.length(); i++) {
-
-                        ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                        if(j < original.length()) {
-                            text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }
-
-                        if (j >= original.length() || ( original.charAt(j) != answer.charAt(j))) {//if (j >= original.length() || ( original.charAt(j) != answerCharAtJ)) {
-
-                            style = new ForegroundColorSpan(Color.RED);
-                            text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            //
-                            if (falseDoubletLeftCharacter == '⚓') {
-                                falseDoubletLeftCharacter = answer.charAt(j);
-                            }
-                            //
-
-                            if (j <= original.length()) {
-
-                                style = new ForegroundColorSpan(Color.BLUE);
-                                text.setSpan(style, j, j + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            }
-
-                        } else {
-
-                            style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                            text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            //
-                            falseDoubletLeftCharacter = '⚓';
-                            lastLeftCorrectCharacter = answer.charAt(j);
-                            //
-                        }
-                        j++;
-                    }
-
-
-                    j = answer.length() - 1;
-                    for (int i = comparison.length(); i >= 0; i--) {
-
-                        boolean charactersEqual;
-
-                        if (j >= answer.length() - original.length() && answer.length() >= original.length()) {
-                            charactersEqual = original.charAt(j - (answer.length() - original.length())) == answer.charAt(j);
-
-                            int pos = original.length() + 1 + j;
-                            ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
-                            if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
-                                text.removeSpan(spans[0]);
-
-                                ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                //
-                                lastRightCorrectCharacter = answer.charAt(j);
-                                positionLastRightCorrectCharacter = j;
-                                //
-                                ///////////////
-                                falseDoubletRightCharacter = '⚓';
-                            }else if(!charactersEqual && j >= 0){
-                                if (falseDoubletRightCharacter == '⚓') {
-                                    falseDoubletRightCharacter = answer.charAt(j);
-                                    positionFalseDoubletRightCharacter = j;
-                                }
-                            }
-                            ///////////////
-                            //03
-                            if(j >= 0){
-                                if (j < answer.length() - 1) {
-                                    lastRightPreviousCharacter = answer.charAt(j + 1);
-                                };
-                                lastRightCharacter = answer.charAt(j);;
-                                if(j > 0) {
-                                    lastDoubletRightCharacter = answer.charAt(j - 1);
-                                }
-                            }
-                            //03
-
-                        } else if (i < original.length() && answer.length() < original.length() && i >= original.length() - answer.length()) {
-                            charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
-
-                            int pos = original.length() + 1 + (i - (original.length() - answer.length()));
-                            ForegroundColorSpan[] spans = text.getSpans(pos, pos + 1,  ForegroundColorSpan.class);
-                            if(spans[0].getForegroundColor() == Color.RED && charactersEqual){
-                                text.removeSpan(spans[0]);
-
-                                ForegroundColorSpan style = new ForegroundColorSpan(Color.rgb(0, 128, 0));
-                                text.setSpan(style, pos, pos + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                //
-                                lastRightCorrectCharacter = answer.charAt(i - (original.length() - answer.length()));
-                                positionLastRightCorrectCharacter =  i + 1 - (original.length() - answer.length());
-                                //
-                                ///////////////
-                                falseDoubletRightCharacter = '⚓';
-                            }else if(!charactersEqual && j >= 0){
-                                if (falseDoubletRightCharacter == '⚓') {
-                                    falseDoubletRightCharacter = answer.charAt(j);
-                                    positionFalseDoubletRightCharacter = j;
-                                }
-                            }
-                            ///////////////
-                        }
-
-                        //03
-                        //*
-//                        if (j >= 0
-//                                &&lastLeftCorrectCharacter == falseDoubletLeftCharacter
-//                                && lastLeftCorrectCharacter == lastRightCorrectCharacter
-//                                && falseDoubletLeftCharacter == falseDoubletRightCharacter){
-//
-//                            lastRightCorrectCharacter = '⚓';
-//
-//                            ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
-//                            text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-//                        }
-
-
-                        if (j >= 0
-                                && lastRightCorrectCharacter == falseDoubletRightCharacter
-                                && j != positionFalseDoubletRightCharacter
-                                && lastRightCorrectCharacter != '⚓'
-                                ){
-
-                            lastRightCorrectCharacter = '⚓';
-
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
-                            text.setSpan(style, i, i+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }
-
-                        if (j >= 0
-                                && lastLeftCorrectCharacter == falseDoubletLeftCharacter
-                                && falseDoubletLeftCharacter == lastRightCharacter
-                                && lastRightCharacter == lastDoubletRightCharacter
-                                && j != positionLastRightCorrectCharacter
-                                && lastRightCorrectCharacter != '⚓'){
-
-                            lastRightCharacter = '⚓';
-                            lastRightCorrectCharacter = '⚓';
-
-                            ForegroundColorSpan style = new ForegroundColorSpan(Color.RED);
-                            text.setSpan(style, i-1, i, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                        }
-
-                        if (i < original.length() - 1) {
-                            lastRightOriginalCharacter = comparison.charAt(i);
-                            lastRightPreviousOriginalCharacter = comparison.charAt(i + 1);
-                        }
-                        //03
-
-                        if (i < original.length() && answer.length() >= original.length()) {
-                            charactersEqual = original.charAt(i) == answer.charAt(i + answer.length() - original.length());
-
-                            if (charactersEqual){
-
-                                ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            }
-                        } else if (i < original.length() && answer.length() < original.length()) {//&& i >= original.length() - answer.length()) {
-                            if (i >= original.length() - answer.length()) {
-                                charactersEqual = original.charAt(i) == answer.charAt(i - (original.length() - answer.length()));
-
-                                if (charactersEqual) {
-
-                                    ForegroundColorSpan style = new ForegroundColorSpan(Color.GRAY);
-                                    text.setSpan(style, i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                                }
-                            }
-                            //03
-                            if(lastRightOriginalCharacter == lastRightPreviousOriginalCharacter
-                                    && lastRightOriginalCharacter != falseDoubletLeftCharacter
-                                    && i != positionLastRightCorrectCharacter){
-
-                                ForegroundColorSpan style = new ForegroundColorSpan(Color.BLUE);
-                                text.setSpan(style, i+1, i+2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            }
-                            //03
-                        }
-                        j--;
-                    }
-                    */
 
                     boolean isDifficultTemp = collocationCopy.isDifficult;
 
