@@ -605,6 +605,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         return;
                     }
 
+                    //Очищаем фокус
+                    rootView.requestFocus();
+                    //скрываем клавиатуру
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
                     boolean answersAreHidden = answersWereHidden;
                     if (answersWereHidden){
                         showAnswers();
