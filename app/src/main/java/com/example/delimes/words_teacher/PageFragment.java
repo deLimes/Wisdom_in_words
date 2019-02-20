@@ -1,5 +1,6 @@
 package com.example.delimes.words_teacher;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -205,6 +206,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
+    //@SuppressWarnings("unchecked")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -324,7 +326,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                         return;
                     }
 
-                    Comparator enRuComparator = new Comparator<Collocation>() {
+                    Comparator<Collocation> enRuComparator = new Comparator<Collocation>() {
                         @Override
                         public int compare(Collocation o1, Collocation o2) {
                             if(englishLeft){
@@ -374,6 +376,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
 
                     Collections.sort(listOfStudiedWords, enRuComparator);
+
+
+
                     Collections.sort(listOfFavoriteWords, enRuComparator);
                     Collections.sort(listOfDifficultWords, enRuComparator);
                     Collections.sort(listDictionary, enRuComparator);
@@ -608,7 +613,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     //Очищаем фокус
                     rootView.requestFocus();
                     //скрываем клавиатуру
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    //inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                     boolean answersAreHidden = answersWereHidden;
                     if (answersWereHidden){
@@ -2196,8 +2202,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     }
                     indexOfTheTempPreviousSelectedRow = indexOfTheSelectedRow;
 
-                    //скрываем клавиатуру по окончании ввода
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    //скрываем клавиатуру по окончании ввода шилдт ООП.интуит.ру
+//                    Activity activity = getActivity();
+//                    View view = new View(activity);
+//                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                     return true;
 
