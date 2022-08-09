@@ -2044,8 +2044,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
             }
 
             String text = "https://translate.google.com/?hl=ru#en/ru/" + word;
+            //String text = "https://context.reverso.net/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/" + word;
             if (EnglishTextLayout) {
                 text = "https://translate.google.com/?hl=ru#en/ru/" + word;
+                //text = "https://context.reverso.net/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/" + word;
             } else {
                 text = "https://translate.google.com/?hl=ru#ru/en/" + word;
             }
@@ -2092,7 +2094,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 editTextRuWord.setOnEditorActionListener(this);
 
                 editTextEnWord.setImeOptions(EditorInfo.IME_ACTION_GO);
-                editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT);
+                editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
                 editTextRuWord.setImeOptions(EditorInfo.IME_ACTION_GO);
                 editTextRuWord.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -2205,7 +2207,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                     //скрываем клавиатуру по окончании ввода шилдт ООП.интуит.ру
 //                    Activity activity = getActivity();
 //                    View view = new View(activity);
-//                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                     return true;
 
