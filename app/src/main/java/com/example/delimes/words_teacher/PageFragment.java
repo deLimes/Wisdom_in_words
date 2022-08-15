@@ -2094,7 +2094,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 editTextRuWord.setOnEditorActionListener(this);
 
                 editTextEnWord.setImeOptions(EditorInfo.IME_ACTION_GO);
-                editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                //editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                editTextEnWord.setRawInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
                 editTextRuWord.setImeOptions(EditorInfo.IME_ACTION_GO);
                 editTextRuWord.setRawInputType(InputType.TYPE_CLASS_TEXT);
