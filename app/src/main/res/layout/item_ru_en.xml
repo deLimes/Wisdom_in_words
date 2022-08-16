@@ -69,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
+                android:importantForAutofill="no"
                 android:background="@android:color/transparent"
                 android:text="tvTaskName"
                 app:layout_constraintLeft_toRightOf="@+id/checkBoxLearnedEn"
