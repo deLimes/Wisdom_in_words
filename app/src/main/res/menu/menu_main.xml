@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/action_irregular_verbs"
+        android:orderInCategory="100"
+        android:title="@string/action_irregular_verbs"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_sync"
         android:orderInCategory="100"
         android:title="@string/action_sync"

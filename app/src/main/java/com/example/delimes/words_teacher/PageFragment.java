@@ -15,6 +15,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -142,6 +143,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     boolean collocationRemoved = false;
     boolean playedNextPoint = false;
     public enum ComparisonValue {BEFORE, EQUAL, AFTER};
+    boolean isIrregularVerbs = false;
     //Socket socket;
 
     View page, page2;
@@ -156,6 +158,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 Toast.makeText(getActivity(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
                 return;
             }
+
             // получаем путь к SD
             File sdPath = getExternalStorageDirectory();
             // добавляем свой каталог к пути
@@ -164,7 +167,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
             sdPath.mkdirs();
             // формируем объект File, который содержит путь к файлу
             File sdFile = new File(sdPath, "savedListDictionary");
-
+            if (isIrregularVerbs) {
+                sdFile = new File(sdPath, "savedListDictionaryIrregularVerbs");
+            }
             String jsonStr = new Gson().toJson(listDictionaryCopy);
 
             try {
@@ -1012,6 +1017,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         super.onResume();
 
         if (isStart || isResumeAfterStop) {
+            isIrregularVerbs = false;
             restore();
         }
         isStart = false;
@@ -1020,7 +1026,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         rootView.requestFocus();
     }
 
-    private void restoreListDictionary(){
+    public void restoreListDictionary(boolean isIrregularVerbs){
+
+        this.isIrregularVerbs = isIrregularVerbs;
 
         // проверяем доступность SD
         if (!getExternalStorageState().equals(
@@ -1035,6 +1043,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
         File sdFile = new File(sdPath, "savedListDictionary");
+        if (isIrregularVerbs) {
+            sdFile = new File(sdPath, "savedListDictionaryIrregularVerbs");
+        }
         if (!sdFile.exists()){
             try {
                 sdFile.createNewFile();
@@ -1103,6 +1114,13 @@ public class PageFragment extends android.support.v4.app.Fragment {
             tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWords",  listDictionaryCopy.size()) ));
             tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionaryCopy.size()) ));
 
+            if (isIrregularVerbs){
+                tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWordsIr", 0) ));
+                tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWordsIr", 0) ));
+                tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWordsIr",  listDictionaryCopy.size()) ));
+                tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWordsIr", listDictionaryCopy.size()) ));
+            }
+
             editTexScrollingSpeed.setText(Integer.toString( (int) millisecondsPerInch));
             editTextHostname.setText(prefs.getString("hostname", "192.168.0.1"));
             editTextPortname.setText(prefs.getString("portname", "7373"));
@@ -1111,12 +1129,15 @@ public class PageFragment extends android.support.v4.app.Fragment {
         defineIndexesOfWords();
         tvProgressBar.setMax(listDictionary.size());
         tvProgressBar.setProgress(countOfLearnedWords);
+        adapter.notifyDataSetChanged();
     }
 
     public void resetListDictionary(){//boolean softwareReset
 
         String[] arrayDictionary = getResources().getStringArray(R.array.dictionary);
-
+        if (isIrregularVerbs) {
+            arrayDictionary = getResources().getStringArray(R.array.dictionary_irregular_verbs);
+        }
         listDictionary.clear();
         listDictionaryCopy.clear();
         int index = 0;
@@ -1150,7 +1171,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     public void restore(){
 
-        restoreListDictionary();
+        restoreListDictionary(false);
 
         editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
         editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
@@ -1158,6 +1179,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         if (answersWereHidden){
             hideAnswers();
         }
+
     }
 
    
@@ -1170,10 +1192,17 @@ public class PageFragment extends android.support.v4.app.Fragment {
         editPrefs.putBoolean("answersWereHidden", answersWereHidden);
         editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
 
-        editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
-        editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
-        editPrefs.putInt("countOfLeftWords", listDictionaryCopy.size() - countOfLearnedWords);
-        editPrefs.putInt("countOfTotalWords", listDictionaryCopy.size());
+        if (!isIrregularVerbs) {
+            editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
+            editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
+            editPrefs.putInt("countOfLeftWords", listDictionaryCopy.size() - countOfLearnedWords);
+            editPrefs.putInt("countOfTotalWords", listDictionaryCopy.size());
+        }else {
+            editPrefs.putInt("countOfLearnedWordsIr", countOfLearnedWords);
+            editPrefs.putInt("countOfDifficultWordsIr", countOfDifficultWords);
+            editPrefs.putInt("countOfLeftWordsIr", listDictionaryCopy.size() - countOfLearnedWords);
+            editPrefs.putInt("countOfTotalWordsIr", listDictionaryCopy.size());
+        }
 
         editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
 
@@ -2077,10 +2106,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
          * Реализация класса ViewHolder, хранящего ссылки на виджеты.
          */
         class ViewHolder extends RecyclerView.ViewHolder implements TextView.OnEditorActionListener {
-            private CheckBox checkBoxLearnedEn;
-            private EditText editTextEnWord;
-            private CheckBox checkBoxLearnedRu;
-            private EditText editTextRuWord;
+            private final CheckBox checkBoxLearnedEn;
+            private final EditText editTextEnWord;
+            private final CheckBox checkBoxLearnedRu;
+            private final EditText editTextRuWord;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -2094,8 +2123,21 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 editTextRuWord.setOnEditorActionListener(this);
 
                 editTextEnWord.setImeOptions(EditorInfo.IME_ACTION_GO);
-                //editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                editTextEnWord.setRawInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                //editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_FILTER | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                //editTextEnWord.setPrivateImeOptions("nm");
+                //editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
+                editTextEnWord.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                //editTextEnWord.setRawInputType(editTextEnWord.getInputType());;
+//
+//                if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M){
+//                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    editTextEnWord.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+//                }
+
+                //editTextEnWord.setRawInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
 
                 editTextRuWord.setImeOptions(EditorInfo.IME_ACTION_GO);
                 editTextRuWord.setRawInputType(InputType.TYPE_CLASS_TEXT);

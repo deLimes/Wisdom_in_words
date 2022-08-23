@@ -10020,4 +10020,2328 @@
 
     </string-array>
 
+    <string-array name="dictionary_irregular_verbs">
+        <item>abide</item>
+        <item>терпіти; дотримуватися чогось, бути вірним V1</item>
+        <item>abode / abided</item>
+        <item>терпіти; дотримуватися чогось, бути вірним V2</item>
+        <item>abode / abided</item>
+        <item>терпіти; дотримуватися чогось, бути вірним V3</item>
+        <item>arise</item>
+        <item>виникати, підніматися V1</item>
+        <item>arose</item>
+        <item>виникати, підніматися V2</item>
+        <item>arisen</item>
+        <item>виникати, підніматися V3</item>
+        <item>awake</item>
+        <item>будити, викликати, прокидатися, розуміти V1</item>
+        <item>awaked / awoke</item>
+        <item>будити, викликати, прокидатися, розуміти V2</item>
+        <item>awaked / awoken</item>
+        <item>будити, викликати, прокидатися, розуміти V3</item>
+        <item>backslide</item>
+        <item>відступатися від віри, знову вдаватися до пороку V1</item>
+        <item>backslid</item>
+        <item>відступатися від віри, знову вдаватися до пороку V2</item>
+        <item>backslidden / backslid</item>
+        <item>відступатися від віри, знову вдаватися до пороку V3</item>
+        <item>be</item>
+        <item>бути, існувати V1</item>
+        <item>was, were</item>
+        <item>бути, існувати V2</item>
+        <item>been</item>
+        <item>бути, існувати V3</item>
+        <item>bear</item>
+        <item>нести, виносити, тримати, мати почуття V1</item>
+        <item>bore / beared</item>
+        <item>нести, виносити, тримати, мати почуття V2</item>
+        <item>born / borne / beared</item>
+        <item>нести, виносити, тримати, мати почуття V3</item>
+        <item>beat</item>
+        <item>бити, перемагати V1</item>
+        <item>beat</item>
+        <item>бити, перемагати V2</item>
+        <item>beaten / beat</item>
+        <item>бити, перемагати V3</item>
+        <item>become</item>
+        <item>ставати, робитись V1</item>
+        <item>became</item>
+        <item>ставати, робитись V2</item>
+        <item>become</item>
+        <item>ставати, робитись V3</item>
+        <item>befall</item>
+        <item>траплятися, видаватися, випадати на долю V1</item>
+        <item>befell</item>
+        <item>траплятися, видаватися, випадати на долю V2</item>
+        <item>befallen</item>
+        <item>траплятися, видаватися, випадати на долю V3</item>
+        <item>begin</item>
+        <item>починати V1</item>
+        <item>began</item>
+        <item>починати V2</item>
+        <item>begun</item>
+        <item>починати V3</item>
+        <item>behold</item>
+        <item>побачити, помітити, споглядати, спостерігати V1</item>
+        <item>beheld</item>
+        <item>побачити, помітити, споглядати, спостерігати V2</item>
+        <item>beheld</item>
+        <item>побачити, помітити, споглядати, спостерігати V3</item>
+        <item>bend</item>
+        <item>гнути, згинати V1</item>
+        <item>bent</item>
+        <item>гнути, згинати V2</item>
+        <item>bent</item>
+        <item>гнути, згинати V3</item>
+        <item>bereave</item>
+        <item>позбавляти, віднімати, відбирати V1</item>
+        <item>bereft / bereaved</item>
+        <item>позбавляти, віднімати, відбирати V2</item>
+        <item>bereft / bereaved</item>
+        <item>позбавляти, віднімати, відбирати V3</item>
+        <item>beseech</item>
+        <item>просити, благати V1</item>
+        <item>besought / beseeched</item>
+        <item>просити, благати V2</item>
+        <item>besought / beseeched</item>
+        <item>просити, благати V3</item>
+        <item>beset</item>
+        <item>оточувати, осаджувати, перегороджувати V1</item>
+        <item>beset </item>
+        <item>оточувати, осаджувати, перегороджувати V2</item>
+        <item>beset </item>
+        <item>оточувати, осаджувати, перегороджувати V3</item>
+        <item>bet</item>
+        <item>битися об заклад, бути впевненим V1</item>
+        <item>bet / betted </item>
+        <item>битися об заклад, бути впевненим V2</item>
+        <item>bet / betted </item>
+        <item>битися об заклад, бути впевненим V3</item>
+        <item>bid</item>
+        <item>запрошувати, вітати, прощатися V1</item>
+        <item>bid / bade</item>
+        <item>запрошувати, вітати, прощатися V2</item>
+        <item>bidden</item>
+        <item>запрошувати, вітати, прощатися V3</item>
+        <item>bid</item>
+        <item>пропонувати ціну, брати участь, просити V1</item>
+        <item>bid</item>
+        <item>пропонувати ціну, брати участь, просити V2</item>
+        <item>bid</item>
+        <item>пропонувати ціну, брати участь, просити V3</item>
+        <item>bide</item>
+        <item>вичікувати, терпіти, проживати, знаходитися V1</item>
+        <item>bode / bided</item>
+        <item>вичікувати, терпіти, проживати, знаходитися V2</item>
+        <item>bided</item>
+        <item>вичікувати, терпіти, проживати, знаходитися V3</item>
+        <item>bind</item>
+        <item>зв\'язувати, пов\'язувати, скріплювати V1</item>
+        <item>bound</item>
+        <item>зв\'язувати, пов\'язувати, скріплювати V2</item>
+        <item>bound</item>
+        <item>зв\'язувати, пов\'язувати, скріплювати V3</item>
+        <item>bite</item>
+        <item>кусати, клювати, жалити V1</item>
+        <item>bit</item>
+        <item>кусати, клювати, жалити V2</item>
+        <item>bitten</item>
+        <item>кусати, клювати, жалити V3</item>
+        <item>bleed</item>
+        <item>кровоточити, спливати кров\'ю V1</item>
+        <item>bled</item>
+        <item>кровоточити, спливати кров\'ю V2</item>
+        <item>bled</item>
+        <item>кровоточити, спливати кров\'ю V3</item>
+        <item>bless</item>
+        <item>благословляти, освячувати, перехрестити V1</item>
+        <item>blessed / blest</item>
+        <item>благословляти, освячувати, перехрестити V2</item>
+        <item>blessed / blest</item>
+        <item>благословляти, освячувати, перехрестити V3</item>
+        <item>blow</item>
+        <item>дути, видувати, віяти, вибухати V1</item>
+        <item>blew</item>
+        <item>дути, видувати, віяти, вибухати V2</item>
+        <item>blown</item>
+        <item>дути, видувати, віяти, вибухати V3</item>
+        <item>break</item>
+        <item>ламати, переривати, розбивати V1</item>
+        <item>broke</item>
+        <item>ламати, переривати, розбивати V2</item>
+        <item>broken</item>
+        <item>ламати, переривати, розбивати V3</item>
+        <item>breed</item>
+        <item>розводити, виховувати, розмножуватися, плодитися V1</item>
+        <item>bred</item>
+        <item>розводити, виховувати, розмножуватися, плодитися V2</item>
+        <item>bred</item>
+        <item>розводити, виховувати, розмножуватися, плодитися V3</item>
+        <item>bring</item>
+        <item>приносити, приводити, доводити V1</item>
+        <item>brought</item>
+        <item>приносити, приводити, доводити V2</item>
+        <item>brought</item>
+        <item>приносити, приводити, доводити V3</item>
+        <item>broadcast</item>
+        <item>віщати, поширювати, передавати по радіо / телебаченню V1</item>
+        <item>broadcast / broadcasted</item>
+        <item>віщати, поширювати, передавати по радіо / телебаченню V2</item>
+        <item>broadcast / broadcasted</item>
+        <item>віщати, поширювати, передавати по радіо / телебаченню V3</item>
+        <item>build</item>
+        <item>будувати, споруджувати V1</item>
+        <item>built</item>
+        <item>будувати, споруджувати V2</item>
+        <item>built</item>
+        <item>будувати, споруджувати V3</item>
+        <item>burn</item>
+        <item>горіти, спалювати V1</item>
+        <item>burned / burnt</item>
+        <item>горіти, спалювати V2</item>
+        <item>burned / burnt</item>
+        <item>горіти, спалювати V3</item>
+        <item>burst</item>
+        <item>вибухати, розриватися, виникати, бути переповненим V1</item>
+        <item>burst</item>
+        <item>вибухати, розриватися, виникати, бути переповненим V2</item>
+        <item>burst</item>
+        <item>вибухати, розриватися, виникати, бути переповненим V3</item>
+        <item>bust</item>
+        <item>зламати, руйнувати, розоритися, бити V1</item>
+        <item>busted / bust</item>
+        <item>зламати, руйнувати, розоритися, бити V2</item>
+        <item>busted / bust</item>
+        <item>зламати, руйнувати, розоритися, бити V3</item>
+        <item>buy</item>
+        <item>купувати V1</item>
+        <item>bought</item>
+        <item>купувати V2</item>
+        <item>bought</item>
+        <item>купувати V3</item>
+        <item>cast</item>
+        <item>кидати, відкидати, звільнити, відливати метал V1</item>
+        <item>cast</item>
+        <item>кидати, відкидати, звільнити, відливати метал V2</item>
+        <item>cast</item>
+        <item>кидати, відкидати, звільнити, відливати метал V3</item>
+        <item>catch</item>
+        <item>зловити, ловити, наздогнати V1</item>
+        <item>caught</item>
+        <item>зловити, ловити, наздогнати V2</item>
+        <item>caught</item>
+        <item>зловити, ловити, наздогнати V3</item>
+        <item>chide</item>
+        <item>сварити, дорікати, бурчати, ревіти V1</item>
+        <item>chided / chid</item>
+        <item>сварити, дорікати, бурчати, ревіти V2</item>
+        <item>chided / chid / chidden</item>
+        <item>сварити, дорікати, бурчати, ревіти V3</item>
+        <item>choose</item>
+        <item>вибирати V1</item>
+        <item>chose</item>
+        <item>вибирати V2</item>
+        <item>chosen</item>
+        <item>вибирати V3</item>
+        <item>cleave</item>
+        <item>розколювати, розсікати V1</item>
+        <item>klɛft / kləʊv</item>
+        <item>розколювати, розсікати V2</item>
+        <item>klɛft / ˈkləʊvn</item>
+        <item>розколювати, розсікати V3</item>
+        <item>cling</item>
+        <item>чіплятися, триматися, липнути V1</item>
+        <item>clung</item>
+        <item>чіплятися, триматися, липнути V2</item>
+        <item>clung</item>
+        <item>чіплятися, триматися, липнути V3</item>
+        <item>clothe</item>
+        <item>одягнути, одягати, висловлювати, обдаровувати V1</item>
+        <item>clothed / clad</item>
+        <item>одягнути, одягати, висловлювати, обдаровувати V2</item>
+        <item>clothed / clad</item>
+        <item>одягнути, одягати, висловлювати, обдаровувати V3</item>
+        <item>come</item>
+        <item>приходити V1</item>
+        <item>came</item>
+        <item>приходити V2</item>
+        <item>come</item>
+        <item>приходити V3</item>
+        <item>cost</item>
+        <item>оцінювати, коштувати V1</item>
+        <item>cost</item>
+        <item>оцінювати, коштувати V2</item>
+        <item>cost</item>
+        <item>оцінювати, коштувати V3</item>
+        <item>creep</item>
+        <item>повзати, крастися, охоплювати, наводити жах V1</item>
+        <item>crept</item>
+        <item>повзати, крастися, охоплювати, наводити жах V2</item>
+        <item>crept</item>
+        <item>повзати, крастися, охоплювати, наводити жах V3</item>
+        <item>crossbreed</item>
+        <item>схрещувати V1</item>
+        <item>crossbred</item>
+        <item>схрещувати V2</item>
+        <item>crossbred</item>
+        <item>схрещувати V3</item>
+        <item>cut</item>
+        <item>різати, обрізати V1</item>
+        <item>cut</item>
+        <item>різати, обрізати V2</item>
+        <item>cut</item>
+        <item>різати, обрізати V3</item>
+        <item>dare</item>
+        <item>сміти, кидати виклик, ризикувати V1</item>
+        <item>durst </item>
+        <item>сміти, кидати виклик, ризикувати V2</item>
+        <item>dared </item>
+        <item>сміти, кидати виклик, ризикувати V3</item>
+        <item>daydream</item>
+        <item>марити, мріяти, фантазувати V1</item>
+        <item>daydreamed / daydreamt</item>
+        <item>марити, мріяти, фантазувати V2</item>
+        <item>daydreamed / daydreamt</item>
+        <item>марити, мріяти, фантазувати V3</item>
+        <item>deal</item>
+        <item>мати справу, торгувати, розглядати питання V1</item>
+        <item>dealt</item>
+        <item>мати справу, торгувати, розглядати питання V2</item>
+        <item>dealt</item>
+        <item>мати справу, торгувати, розглядати питання V3</item>
+        <item>dig</item>
+        <item>копати, рити, шукати V1</item>
+        <item>dug</item>
+        <item>копати, рити, шукати V2</item>
+        <item>dug</item>
+        <item>копати, рити, шукати V3</item>
+        <item>disprove</item>
+        <item>спростовувати, доводити хибність V1</item>
+        <item>disproved</item>
+        <item>спростовувати, доводити хибність V2</item>
+        <item>disproved / disproven</item>
+        <item>спростовувати, доводити хибність V3</item>
+        <item>dive</item>
+        <item>пірнати, стрибати вниз, занурюватися V1</item>
+        <item>dove / dived</item>
+        <item>пірнати, стрибати вниз, занурюватися V2</item>
+        <item>dived</item>
+        <item>пірнати, стрибати вниз, занурюватися V3</item>
+        <item>do</item>
+        <item>робити, виконувати V1</item>
+        <item>did</item>
+        <item>робити, виконувати V2</item>
+        <item>done</item>
+        <item>робити, виконувати V3</item>
+        <item>draw</item>
+        <item>креслити, малювати, уявляти; тягти, волочити V1</item>
+        <item>drew</item>
+        <item>креслити, малювати, уявляти; тягти, волочити V2</item>
+        <item>drawn</item>
+        <item>креслити, малювати, уявляти; тягти, волочити V3</item>
+        <item>dream</item>
+        <item>бачити сни, мріяти V1</item>
+        <item>dreamed / dreamt</item>
+        <item>бачити сни, мріяти V2</item>
+        <item>dreamed / dreamt</item>
+        <item>бачити сни, мріяти V3</item>
+        <item>drink</item>
+        <item>пити, випивати V1</item>
+        <item>drank</item>
+        <item>пити, випивати V2</item>
+        <item>drunk</item>
+        <item>пити, випивати V3</item>
+        <item>drive</item>
+        <item>водити (машину), управляти, їздити V1</item>
+        <item>drove</item>
+        <item>водити (машину), управляти, їздити V2</item>
+        <item>driven</item>
+        <item>водити (машину), управляти, їздити V3</item>
+        <item>dwell</item>
+        <item>жити, мешкати, перебувати, зупинятися (десь) V1</item>
+        <item>dwelt / dwelled</item>
+        <item>жити, мешкати, перебувати, зупинятися (десь) V2</item>
+        <item>dwelt / dwelled</item>
+        <item>жити, мешкати, перебувати, зупинятися (десь) V3</item>
+        <item>eat</item>
+        <item>їсти, харчуватися, роз\'їдати V1</item>
+        <item>ate</item>
+        <item>їсти, харчуватися, роз\'їдати V2</item>
+        <item>eaten</item>
+        <item>їсти, харчуватися, роз\'їдати V3</item>
+        <item>fall</item>
+        <item>падати, опадати, опускатися V1</item>
+        <item>fell</item>
+        <item>падати, опадати, опускатися V2</item>
+        <item>fallen</item>
+        <item>падати, опадати, опускатися V3</item>
+        <item>feed</item>
+        <item>годувати V1</item>
+        <item>fed</item>
+        <item>годувати V2</item>
+        <item>fed</item>
+        <item>годувати V3</item>
+        <item>feel</item>
+        <item>відчувати V1</item>
+        <item>felt</item>
+        <item>відчувати V2</item>
+        <item>felt</item>
+        <item>відчувати V3</item>
+        <item>fight</item>
+        <item>боротися, битися V1</item>
+        <item>fought</item>
+        <item>боротися, битися V2</item>
+        <item>fought</item>
+        <item>боротися, битися V3</item>
+        <item>find</item>
+        <item>знаходити, натрапити, виявляти V1</item>
+        <item>found</item>
+        <item>знаходити, натрапити, виявляти V2</item>
+        <item>found</item>
+        <item>знаходити, натрапити, виявляти V3</item>
+        <item>fit</item>
+        <item>підганяти, прилаштовувати, пристосовувати, оснащувати V1</item>
+        <item>fitted / fit</item>
+        <item>підганяти, прилаштовувати, пристосовувати, оснащувати V2</item>
+        <item>fitted / fit</item>
+        <item>підганяти, прилаштовувати, пристосовувати, оснащувати V3</item>
+        <item>flee</item>
+        <item>бігти, тікати, рятуватися втечею V1</item>
+        <item>fled</item>
+        <item>бігти, тікати, рятуватися втечею V2</item>
+        <item>fled</item>
+        <item>бігти, тікати, рятуватися втечею V3</item>
+        <item>fling</item>
+        <item>кидати, кидати V1</item>
+        <item>flung</item>
+        <item>кидати, кидати V2</item>
+        <item>flung</item>
+        <item>кидати, кидати V3</item>
+        <item>fly</item>
+        <item>літати, пролітати V1</item>
+        <item>flew</item>
+        <item>літати, пролітати V2</item>
+        <item>flown</item>
+        <item>літати, пролітати V3</item>
+        <item>forbear</item>
+        <item>утримуватися, терпіти, переносити V1</item>
+        <item>forbore</item>
+        <item>утримуватися, терпіти, переносити V2</item>
+        <item>forborne</item>
+        <item>утримуватися, терпіти, переносити V3</item>
+        <item>forbid</item>
+        <item>забороняти V1</item>
+        <item>forbade</item>
+        <item>забороняти V2</item>
+        <item>forbidden</item>
+        <item>забороняти V3</item>
+        <item>forecast</item>
+        <item>прогнозувати, передбачати V1</item>
+        <item>forecast</item>
+        <item>прогнозувати, передбачати V2</item>
+        <item>forecast</item>
+        <item>прогнозувати, передбачати V3</item>
+        <item>forego</item>
+        <item>передувати, йти попереду V1</item>
+        <item>forewent</item>
+        <item>передувати, йти попереду V2</item>
+        <item>foregone</item>
+        <item>передувати, йти попереду V3</item>
+        <item>foresee</item>
+        <item>передбачати, знати заздалегідь V1</item>
+        <item>foresaw</item>
+        <item>передбачати, знати заздалегідь V2</item>
+        <item>foreseen</item>
+        <item>передбачати, знати заздалегідь V3</item>
+        <item>foretell</item>
+        <item>передбачати, прогнозувати V1</item>
+        <item>foretold</item>
+        <item>передбачати, прогнозувати V2</item>
+        <item>foretold</item>
+        <item>передбачати, прогнозувати V3</item>
+        <item>forget</item>
+        <item>забувати V1</item>
+        <item>forgot</item>
+        <item>забувати V2</item>
+        <item>forgotten / forgot</item>
+        <item>забувати V3</item>
+        <item>forgive</item>
+        <item>прощати, забути (борг) V1</item>
+        <item>forgave</item>
+        <item>прощати, забути (борг) V2</item>
+        <item>forgiven</item>
+        <item>прощати, забути (борг) V3</item>
+        <item>forgo</item>
+        <item>відмовлятися, утримуватися V1</item>
+        <item>forwent</item>
+        <item>відмовлятися, утримуватися V2</item>
+        <item>forgone</item>
+        <item>відмовлятися, утримуватися V3</item>
+        <item>forsake</item>
+        <item>кидати, залишати, відмовлятися V1</item>
+        <item>forsook</item>
+        <item>кидати, залишати, відмовлятися V2</item>
+        <item>forsaken</item>
+        <item>кидати, залишати, відмовлятися V3</item>
+        <item>forswear</item>
+        <item>зрікатися, відмовлятися, відкидати V1</item>
+        <item>forswore</item>
+        <item>зрікатися, відмовлятися, відкидати V2</item>
+        <item>forsworn</item>
+        <item>зрікатися, відмовлятися, відкидати V3</item>
+        <item>freeze</item>
+        <item>замерзати, заморожувати V1</item>
+        <item>froze</item>
+        <item>замерзати, заморожувати V2</item>
+        <item>frozen</item>
+        <item>замерзати, заморожувати V3</item>
+        <item>frostbite</item>
+        <item>обморозити, відморозити V1</item>
+        <item>frostbit</item>
+        <item>обморозити, відморозити V2</item>
+        <item>frostbitten</item>
+        <item>обморозити, відморозити V3</item>
+        <item>get</item>
+        <item>отримувати, ставати V1</item>
+        <item>got</item>
+        <item>отримувати, ставати V2</item>
+        <item>gotten / got</item>
+        <item>отримувати, ставати V3</item>
+        <item>gild</item>
+        <item>золотити, покривати позолотою, прикрашати V1</item>
+        <item>gilded / gilt</item>
+        <item>золотити, покривати позолотою, прикрашати V2</item>
+        <item>gilded / gilt</item>
+        <item>золотити, покривати позолотою, прикрашати V3</item>
+        <item>give</item>
+        <item>давати V1</item>
+        <item>gave</item>
+        <item>давати V2</item>
+        <item>given</item>
+        <item>давати V3</item>
+        <item>go</item>
+        <item>йти, їхати V1</item>
+        <item>went</item>
+        <item>йти, їхати V2</item>
+        <item>gone</item>
+        <item>йти, їхати V3</item>
+        <item>grind</item>
+        <item>молоти, розтерти, шліфувати, точити V1</item>
+        <item>ground</item>
+        <item>молоти, розтерти, шліфувати, точити V2</item>
+        <item>ground</item>
+        <item>молоти, розтерти, шліфувати, точити V3</item>
+        <item>grow</item>
+        <item>рости, вирощувати V1</item>
+        <item>grew</item>
+        <item>рости, вирощувати V2</item>
+        <item>grown</item>
+        <item>рости, вирощувати V3</item>
+        <item>hand-feed</item>
+        <item>годувати, давати з рук V1</item>
+        <item>hand-fed</item>
+        <item>годувати, давати з рук V2</item>
+        <item>hand-fed</item>
+        <item>годувати, давати з рук V3</item>
+        <item>handwrite</item>
+        <item>писати від руки V1</item>
+        <item>handwrote</item>
+        <item>писати від руки V2</item>
+        <item>handwritten</item>
+        <item>писати від руки V3</item>
+        <item>hang</item>
+        <item>висіти, вішати V1</item>
+        <item>hung</item>
+        <item>висіти, вішати V2</item>
+        <item>hung</item>
+        <item>висіти, вішати V3</item>
+        <item>have</item>
+        <item>мати, володіти V1</item>
+        <item>had</item>
+        <item>мати, володіти V2</item>
+        <item>had</item>
+        <item>мати, володіти V3</item>
+        <item>hear</item>
+        <item>чути, слухати V1</item>
+        <item>heard</item>
+        <item>чути, слухати V2</item>
+        <item>heard</item>
+        <item>чути, слухати V3</item>
+        <item>heave</item>
+        <item>піднімати, кидати, рухати, випускати, здійматися V1</item>
+        <item>heaved / hove</item>
+        <item>піднімати, кидати, рухати, випускати, здійматися V2</item>
+        <item>heaved / hove</item>
+        <item>піднімати, кидати, рухати, випускати, здійматися V3</item>
+        <item>hew</item>
+        <item>рубати, тесати, відбувати, узгоджуватися, дотримуватися V1</item>
+        <item>hewed</item>
+        <item>рубати, тесати, відбувати, узгоджуватися, дотримуватися V2</item>
+        <item>hewn / hewed</item>
+        <item>рубати, тесати, відбувати, узгоджуватися, дотримуватися V3</item>
+        <item>hide</item>
+        <item>ховати, ховатися V1</item>
+        <item>hid</item>
+        <item>ховати, ховатися V2</item>
+        <item>hidden</item>
+        <item>ховати, ховатися V3</item>
+        <item>hit</item>
+        <item>ударяти, вражати, попадати, натрапити, досягати V1</item>
+        <item>hit</item>
+        <item>ударяти, вражати, попадати, натрапити, досягати V2</item>
+        <item>hit</item>
+        <item>ударяти, вражати, попадати, натрапити, досягати V3</item>
+        <item>hold</item>
+        <item>займати, тримати, утримувати V1</item>
+        <item>held</item>
+        <item>займати, тримати, утримувати V2</item>
+        <item>held</item>
+        <item>займати, тримати, утримувати V3</item>
+        <item>hurt</item>
+        <item>пошкодити, заподіювати біль, кривдити, поранити V1</item>
+        <item>hurt</item>
+        <item>пошкодити, заподіювати біль, кривдити, поранити V2</item>
+        <item>hurt</item>
+        <item>пошкодити, заподіювати біль, кривдити, поранити V3</item>
+        <item>inbreed</item>
+        <item>вирощувати, виховувати щось в когось V1</item>
+        <item>inbred</item>
+        <item>вирощувати, виховувати щось в когось V2</item>
+        <item>inbred</item>
+        <item>вирощувати, виховувати щось в когось V3</item>
+        <item>inlay</item>
+        <item>інкрустувати, робити вставку V1</item>
+        <item>inlaid</item>
+        <item>інкрустувати, робити вставку V2</item>
+        <item>inlaid</item>
+        <item>інкрустувати, робити вставку V3</item>
+        <item>input</item>
+        <item>ввести, вводити (дані), вкладати (гроші) V1</item>
+        <item>input / inputted</item>
+        <item>ввести, вводити (дані), вкладати (гроші) V2</item>
+        <item>input / inputted</item>
+        <item>ввести, вводити (дані), вкладати (гроші) V3</item>
+        <item>interbreed</item>
+        <item>схрещувати, схрещуватися V1</item>
+        <item>interbred</item>
+        <item>схрещувати, схрещуватися V2</item>
+        <item>interbred</item>
+        <item>схрещувати, схрещуватися V3</item>
+        <item>interweave</item>
+        <item>заткати, вплітати, переплітати, змішувати V1</item>
+        <item>interwove / interweaved</item>
+        <item>заткати, вплітати, переплітати, змішувати V2</item>
+        <item>interwoven / interweaved</item>
+        <item>заткати, вплітати, переплітати, змішувати V3</item>
+        <item>interwind</item>
+        <item>переплітати, перемотувати V1</item>
+        <item>interwound</item>
+        <item>переплітати, перемотувати V2</item>
+        <item>interwound</item>
+        <item>переплітати, перемотувати V3</item>
+        <item>jerry-build</item>
+        <item>будувати халтурно, нашвидкуруч V1</item>
+        <item>jerry-built</item>
+        <item>будувати халтурно, нашвидкуруч V2</item>
+        <item>jerry-built</item>
+        <item>будувати халтурно, нашвидкуруч V3</item>
+        <item>keep</item>
+        <item>тримати, зберігати, залишати, утримувати V1</item>
+        <item>kept</item>
+        <item>тримати, зберігати, залишати, утримувати V2</item>
+        <item>kept</item>
+        <item>тримати, зберігати, залишати, утримувати V3</item>
+        <item>kneel</item>
+        <item>ставати на коліна, схиляти коліна V1</item>
+        <item>knelt / kneeled</item>
+        <item>ставати на коліна, схиляти коліна V2</item>
+        <item>knelt / kneeled</item>
+        <item>ставати на коліна, схиляти коліна V3</item>
+        <item>knit</item>
+        <item>в\'язати, штопати V1</item>
+        <item>knitted / knit</item>
+        <item>в\'язати, штопати V2</item>
+        <item>knitted / knit</item>
+        <item>в\'язати, штопати V3</item>
+        <item>know</item>
+        <item>знати, вміти, бути знайомим V1</item>
+        <item>knew</item>
+        <item>знати, вміти, бути знайомим V2</item>
+        <item>known</item>
+        <item>знати, вміти, бути знайомим V3</item>
+        <item>lay</item>
+        <item>класти, валити, накривати V1</item>
+        <item>laid</item>
+        <item>класти, валити, накривати V2</item>
+        <item>laid</item>
+        <item>класти, валити, накривати V3</item>
+        <item>lead</item>
+        <item>вести, очолювати, супроводжувати V1</item>
+        <item>led</item>
+        <item>вести, очолювати, супроводжувати V2</item>
+        <item>led</item>
+        <item>вести, очолювати, супроводжувати V3</item>
+        <item>lean</item>
+        <item>спиратися, нахилятися, притулятися V1</item>
+        <item>leaned / leant </item>
+        <item>спиратися, нахилятися, притулятися V2</item>
+        <item>leaned / leant</item>
+        <item>спиратися, нахилятися, притулятися V3</item>
+        <item>leap</item>
+        <item>стрибати, скакати V1</item>
+        <item>leaped / leapt</item>
+        <item>стрибати, скакати V2</item>
+        <item>leaped / leapt</item>
+        <item>стрибати, скакати V3</item>
+        <item>learn</item>
+        <item>вчитися, дізнаватися V1</item>
+        <item>learned / learnt</item>
+        <item>вчитися, дізнаватися V2</item>
+        <item>learned / learnt</item>
+        <item>вчитися, дізнаватися V3</item>
+        <item>leave</item>
+        <item>залишати, кидати, лишити, піти їхати V1</item>
+        <item>left</item>
+        <item>залишати, кидати, лишити, піти їхати V2</item>
+        <item>left</item>
+        <item>залишати, кидати, лишити, піти їхати V3</item>
+        <item>lend</item>
+        <item>позичати, давати на час V1</item>
+        <item>lent</item>
+        <item>позичати, давати на час V2</item>
+        <item>lent</item>
+        <item>позичати, давати на час V3</item>
+        <item>let</item>
+        <item>дозволяти, допускати, випускати, проливати V1</item>
+        <item>let</item>
+        <item>дозволяти, допускати, випускати, проливати V2</item>
+        <item>let</item>
+        <item>дозволяти, допускати, випускати, проливати V3</item>
+        <item>lie</item>
+        <item>лежати, розташуватися, перебувати, знаходитися V1</item>
+        <item>lay</item>
+        <item>лежати, розташуватися, перебувати, знаходитися V2</item>
+        <item>lain</item>
+        <item>лежати, розташуватися, перебувати, знаходитися V3</item>
+        <item>light</item>
+        <item>світити, запалювати, світитися, опромінювати, натрапити, обрушитися V1</item>
+        <item>lit / lighted</item>
+        <item>світити, запалювати, світитися, опромінювати, натрапити, обрушитися V2</item>
+        <item>lit / lighted</item>
+        <item>світити, запалювати, світитися, опромінювати, натрапити, обрушитися V3</item>
+        <item>lip-read</item>
+        <item>читати з губ, розуміти по губах V1</item>
+        <item>lip-read</item>
+        <item>читати з губ, розуміти по губах V2</item>
+        <item>lip-read</item>
+        <item>читати з губ, розуміти по губах V3</item>
+        <item>lose</item>
+        <item>втрачати, губити, позбавлятися, пропадати V1</item>
+        <item>lost</item>
+        <item>втрачати, губити, позбавлятися, пропадати V2</item>
+        <item>lost</item>
+        <item>втрачати, губити, позбавлятися, пропадати V3</item>
+        <item>make</item>
+        <item>робити, виробляти, здійснювати V1</item>
+        <item>made</item>
+        <item>робити, виробляти, здійснювати V2</item>
+        <item>made</item>
+        <item>робити, виробляти, здійснювати V3</item>
+        <item>mean</item>
+        <item>означати, мати на увазі V1</item>
+        <item>meant</item>
+        <item>означати, мати на увазі V2</item>
+        <item>meant</item>
+        <item>означати, мати на увазі V3</item>
+        <item>meet</item>
+        <item>зустрічати, знайомитися V1</item>
+        <item>met</item>
+        <item>зустрічати, знайомитися V2</item>
+        <item>met</item>
+        <item>зустрічати, знайомитися V3</item>
+        <item>miscast</item>
+        <item>неправильно розподіляти ролі V1</item>
+        <item>miscast</item>
+        <item>неправильно розподіляти ролі V2</item>
+        <item>miscast</item>
+        <item>неправильно розподіляти ролі V3</item>
+        <item>misdeal</item>
+        <item>чинити, поводитися неправильно, помилятися при здачі (карт) V1</item>
+        <item>misdealt</item>
+        <item>чинити, поводитися неправильно, помилятися при здачі (карт) V2</item>
+        <item>misdealt</item>
+        <item>чинити, поводитися неправильно, помилятися при здачі (карт) V3</item>
+        <item>misdo</item>
+        <item>робити неправильно, недбало, помилятися V1</item>
+        <item>misdid</item>
+        <item>робити неправильно, недбало, помилятися V2</item>
+        <item>misdone</item>
+        <item>робити неправильно, недбало, помилятися V3</item>
+        <item>mishear</item>
+        <item>недочути, погано почути V1</item>
+        <item>misheard</item>
+        <item>недочути, погано почути V2</item>
+        <item>misheard</item>
+        <item>недочути, погано почути V3</item>
+        <item>mislay</item>
+        <item>покласти не на місце, загубити V1</item>
+        <item>mislaid</item>
+        <item>покласти не на місце, загубити V2</item>
+        <item>mislaid</item>
+        <item>покласти не на місце, загубити V3</item>
+        <item>mislead</item>
+        <item>вводити в оману, обманювати, збивати зі шляху V1</item>
+        <item>misled</item>
+        <item>вводити в оману, обманювати, збивати зі шляху V2</item>
+        <item>misled</item>
+        <item>вводити в оману, обманювати, збивати зі шляху V3</item>
+        <item>mislearn</item>
+        <item>навчатися, вчити неправильно V1</item>
+        <item>mislearned / mislearnt</item>
+        <item>навчатися, вчити неправильно V2</item>
+        <item>mislearned / mislearnt</item>
+        <item>навчатися, вчити неправильно V3</item>
+        <item>misread</item>
+        <item>прочитати неправильно, неправильно тлумачити V1</item>
+        <item>misread</item>
+        <item>прочитати неправильно, неправильно тлумачити V2</item>
+        <item>misread</item>
+        <item>прочитати неправильно, неправильно тлумачити V3</item>
+        <item>missay</item>
+        <item>обмовитися, сказати неправильно V1</item>
+        <item>missaid</item>
+        <item>обмовитися, сказати неправильно V2</item>
+        <item>missaid</item>
+        <item>обмовитися, сказати неправильно V3</item>
+        <item>misset</item>
+        <item>неправильно встановити V1</item>
+        <item>misset</item>
+        <item>неправильно встановити V2</item>
+        <item>misset</item>
+        <item>неправильно встановити V3</item>
+        <item>misspeak</item>
+        <item>говорити, вимовляти неправильно V1</item>
+        <item>misspoke</item>
+        <item>говорити, вимовляти неправильно V2</item>
+        <item>misspoken</item>
+        <item>говорити, вимовляти неправильно V3</item>
+        <item>misspell</item>
+        <item>писати з помилками, робити орфографічні помилки V1</item>
+        <item>misspelled / misspelt</item>
+        <item>писати з помилками, робити орфографічні помилки V2</item>
+        <item>misspelled / misspelt</item>
+        <item>писати з помилками, робити орфографічні помилки V3</item>
+        <item>misspend</item>
+        <item>нерозумно, марно витрачати, розтринькати V1</item>
+        <item>misspent</item>
+        <item>нерозумно, марно витрачати, розтринькати V2</item>
+        <item>misspent</item>
+        <item>нерозумно, марно витрачати, розтринькати V3</item>
+        <item>misswear</item>
+        <item>давати неправдиву клятву V1</item>
+        <item>misswore</item>
+        <item>давати неправдиву клятву V2</item>
+        <item>missworn</item>
+        <item>давати неправдиву клятву V3</item>
+        <item>mistake</item>
+        <item>помилятися, помилитися у виборі V1</item>
+        <item>mistook</item>
+        <item>помилятися, помилитися у виборі V2</item>
+        <item>mistaken</item>
+        <item>помилятися, помилитися у виборі V3</item>
+        <item>misteach</item>
+        <item>неправильно навчати V1</item>
+        <item>mistaught</item>
+        <item>неправильно навчати V2</item>
+        <item>mistaught</item>
+        <item>неправильно навчати V3</item>
+        <item>misunderstand</item>
+        <item>не розуміти, зрозуміти неправильно V1</item>
+        <item>misunderstood</item>
+        <item>не розуміти, зрозуміти неправильно V2</item>
+        <item>misunderstood</item>
+        <item>не розуміти, зрозуміти неправильно V3</item>
+        <item>miswrite</item>
+        <item>неправильно написати V1</item>
+        <item>miswrote</item>
+        <item>неправильно написати V2</item>
+        <item>miswritten</item>
+        <item>неправильно написати V3</item>
+        <item>mow</item>
+        <item>косити, стригти (газон), жати V1</item>
+        <item>mowed</item>
+        <item>косити, стригти (газон), жати V2</item>
+        <item>mowed / mown</item>
+        <item>косити, стригти (газон), жати V3</item>
+        <item>offset</item>
+        <item>відшкодовувати, компенсувати, відгалужуватися, відступати V1</item>
+        <item>offset</item>
+        <item>відшкодовувати, компенсувати, відгалужуватися, відступати V2</item>
+        <item>offset</item>
+        <item>відшкодовувати, компенсувати, відгалужуватися, відступати V3</item>
+        <item>outbid</item>
+        <item>перебивати ціну, перевершити, затьмарити V1</item>
+        <item>outbid</item>
+        <item>перебивати ціну, перевершити, затьмарити V2</item>
+        <item>outbid</item>
+        <item>перебивати ціну, перевершити, затьмарити V3</item>
+        <item>outdo</item>
+        <item>перевершити, вражати, побороти V1</item>
+        <item>outdid</item>
+        <item>перевершити, вражати, побороти V2</item>
+        <item>outdone</item>
+        <item>перевершити, вражати, побороти V3</item>
+        <item>outdraw</item>
+        <item>домогтися більшої популярності, перевершити конкурентів V1</item>
+        <item>outdrew</item>
+        <item>домогтися більшої популярності, перевершити конкурентів V2</item>
+        <item>outdrawn</item>
+        <item>домогтися більшої популярності, перевершити конкурентів V3</item>
+        <item>outdrink</item>
+        <item>перепити (когось), випити більше, ніж хтось інший V1</item>
+        <item>outdrank</item>
+        <item>перепити (когось), випити більше, ніж хтось інший V2</item>
+        <item>outdrunk</item>
+        <item>перепити (когось), випити більше, ніж хтось інший V3</item>
+        <item>outdrive</item>
+        <item>обігнати, випередити V1</item>
+        <item>outdrove</item>
+        <item>обігнати, випередити V2</item>
+        <item>outdriven</item>
+        <item>обігнати, випередити V3</item>
+        <item>outfight</item>
+        <item>мати перевагу над супротивником, перемагати V1</item>
+        <item>outfought</item>
+        <item>мати перевагу над супротивником, перемагати V2</item>
+        <item>outfought</item>
+        <item>мати перевагу над супротивником, перемагати V3</item>
+        <item>outfly</item>
+        <item>вилітати, літати швидше, далі (ніж будь-хто) V1</item>
+        <item>outflew</item>
+        <item>вилітати, літати швидше, далі (ніж будь-хто) V2</item>
+        <item>outflown</item>
+        <item>вилітати, літати швидше, далі (ніж будь-хто) V3</item>
+        <item>outgrow</item>
+        <item>випереджати в рості, переростати, позбавлятися з віком V1</item>
+        <item>outgrew</item>
+        <item>випереджати в рості, переростати, позбавлятися з віком V2</item>
+        <item>outgrown</item>
+        <item>випереджати в рості, переростати, позбавлятися з віком V3</item>
+        <item>outleap</item>
+        <item>перестрибувати, вистрибувати, стрибати краще V1</item>
+        <item>outleaped / outleapt</item>
+        <item>перестрибувати, вистрибувати, стрибати краще V2</item>
+        <item>outleaped / outleapt</item>
+        <item>перестрибувати, вистрибувати, стрибати краще V3</item>
+        <item>outlie</item>
+        <item>знаходитися назовні, поза чимось, жити в наметі V1</item>
+        <item>outlay</item>
+        <item>знаходитися назовні, поза чимось, жити в наметі V2</item>
+        <item>outlain</item>
+        <item>знаходитися назовні, поза чимось, жити в наметі V3</item>
+        <item>outrun</item>
+        <item>випереджати, обігнати, втекти (від когось) V1</item>
+        <item>outran</item>
+        <item>випереджати, обігнати, втекти (від когось) V2</item>
+        <item>outrun</item>
+        <item>випереджати, обігнати, втекти (від когось) V3</item>
+        <item>outsell</item>
+        <item>продавати, продаватися краще, перевершувати в ціні V1</item>
+        <item>outsold</item>
+        <item>продавати, продаватися краще, перевершувати в ціні V2</item>
+        <item>outsold</item>
+        <item>продавати, продаватися краще, перевершувати в ціні V3</item>
+        <item>outshine</item>
+        <item>затьмарити V1</item>
+        <item>outshined / outshone</item>
+        <item>затьмарити V2</item>
+        <item>outshined / outshone</item>
+        <item>затьмарити V3</item>
+        <item>outshoot</item>
+        <item>вистрілити, стріляти краще, відкидати, викидати V1</item>
+        <item>outshot</item>
+        <item>вистрілити, стріляти краще, відкидати, викидати V2</item>
+        <item>outshot</item>
+        <item>вистрілити, стріляти краще, відкидати, викидати V3</item>
+        <item>outsing</item>
+        <item>перевершити в співі, співати краще V1</item>
+        <item>outsang</item>
+        <item>перевершити в співі, співати краще V2</item>
+        <item>outsung</item>
+        <item>перевершити в співі, співати краще V3</item>
+        <item>outsit</item>
+        <item>пересидіти, засидітися V1</item>
+        <item>outsat</item>
+        <item>пересидіти, засидітися V2</item>
+        <item>outsat</item>
+        <item>пересидіти, засидітися V3</item>
+        <item>outsleep</item>
+        <item>проспати, прогавити V1</item>
+        <item>outslept</item>
+        <item>проспати, прогавити V2</item>
+        <item>outslept</item>
+        <item>проспати, прогавити V3</item>
+        <item>outsmell</item>
+        <item>пахнути сильніше, ніж щось V1</item>
+        <item>outsmelled / outsmelt</item>
+        <item>пахнути сильніше, ніж щось V2</item>
+        <item>outsmelled / outsmelt</item>
+        <item>пахнути сильніше, ніж щось V3</item>
+        <item>outspeak</item>
+        <item>говорити краще, висловитися, заявити V1</item>
+        <item>outspoke</item>
+        <item>говорити краще, висловитися, заявити V2</item>
+        <item>outspoken</item>
+        <item>говорити краще, висловитися, заявити V3</item>
+        <item>outspeed</item>
+        <item>переганяти, бути швидшим, діяти швидше V1</item>
+        <item>outsped / outspeeded</item>
+        <item>переганяти, бути швидшим, діяти швидше V2</item>
+        <item>outsped / outspeeded</item>
+        <item>переганяти, бути швидшим, діяти швидше V3</item>
+        <item>outspend</item>
+        <item>перевершити за видатками, витрачати більше V1</item>
+        <item>outspent</item>
+        <item>перевершити за видатками, витрачати більше V2</item>
+        <item>outspent</item>
+        <item>перевершити за видатками, витрачати більше V3</item>
+        <item>outstand</item>
+        <item>виділятися, кидатися в очі, витримати V1</item>
+        <item>outstood</item>
+        <item>виділятися, кидатися в очі, витримати V2</item>
+        <item>outstood</item>
+        <item>виділятися, кидатися в очі, витримати V3</item>
+        <item>outswear</item>
+        <item>перевершувати в лихослів\'ї V1</item>
+        <item>outswore</item>
+        <item>перевершувати в лихослів\'ї V2</item>
+        <item>outsworn</item>
+        <item>перевершувати в лихослів\'ї V3</item>
+        <item>outswim</item>
+        <item>перевершувати в плаванні, плавати краще V1</item>
+        <item>outswam</item>
+        <item>перевершувати в плаванні, плавати краще V2</item>
+        <item>outswum</item>
+        <item>перевершувати в плаванні, плавати краще V3</item>
+        <item>outthink</item>
+        <item>перевершувати у кмітливості, перехитрити, виявитися розумнішим V1</item>
+        <item>outthought</item>
+        <item>перевершувати у кмітливості, перехитрити, виявитися розумнішим V2</item>
+        <item>outthought</item>
+        <item>перевершувати у кмітливості, перехитрити, виявитися розумнішим V3</item>
+        <item>outthrow</item>
+        <item>викидати, виділяти; кидати краще, точніше V1</item>
+        <item>outthrew</item>
+        <item>викидати, виділяти; кидати краще, точніше V2</item>
+        <item>outthrown</item>
+        <item>викидати, виділяти; кидати краще, точніше V3</item>
+        <item>outwear</item>
+        <item>зношувати, вичерпувати, служити довше, ніж (що-небудь) V1</item>
+        <item>outwore</item>
+        <item>зношувати, вичерпувати, служити довше, ніж (що-небудь) V2</item>
+        <item>worn</item>
+        <item>зношувати, вичерпувати, служити довше, ніж (що-небудь) V3</item>
+        <item>outwrite</item>
+        <item>писати краще V1</item>
+        <item>outwrote</item>
+        <item>писати краще V2</item>
+        <item>outwritten</item>
+        <item>писати краще V3</item>
+        <item>overbid</item>
+        <item>перебивати ціну; перевершити V1</item>
+        <item>overbid</item>
+        <item>перебивати ціну; перевершити V2</item>
+        <item>overbid</item>
+        <item>перебивати ціну; перевершити V3</item>
+        <item>overbreed</item>
+        <item>розводити, вирощувати тварин в надмірній кількості V1</item>
+        <item>overbred</item>
+        <item>розводити, вирощувати тварин в надмірній кількості V2</item>
+        <item>overbred</item>
+        <item>розводити, вирощувати тварин в надмірній кількості V3</item>
+        <item>overbuild</item>
+        <item>надбудовувати, надмірно забудовувати, будувати занадто багато / вишукано V1</item>
+        <item>overbuilt</item>
+        <item>надбудовувати, надмірно забудовувати, будувати занадто багато / вишукано V2</item>
+        <item>overbuilt</item>
+        <item>надбудовувати, надмірно забудовувати, будувати занадто багато / вишукано V3</item>
+        <item>overbuy</item>
+        <item>купувати занадто багато, занадто дорого V1</item>
+        <item>overbought</item>
+        <item>купувати занадто багато, занадто дорого V2</item>
+        <item>overbought</item>
+        <item>купувати занадто багато, занадто дорого V3</item>
+        <item>overcome</item>
+        <item>подолати, побороти V1</item>
+        <item>overcame</item>
+        <item>подолати, побороти V2</item>
+        <item>overcome</item>
+        <item>подолати, побороти V3</item>
+        <item>overdo</item>
+        <item>перестаратися, переборщити, перебільшувати, перевтомлюватися V1</item>
+        <item>overdid</item>
+        <item>перестаратися, переборщити, перебільшувати, перевтомлюватися V2</item>
+        <item>overdone</item>
+        <item>перестаратися, переборщити, перебільшувати, перевтомлюватися V3</item>
+        <item>overdraw</item>
+        <item>перевищити кредит, перебільшувати V1</item>
+        <item>overdrew</item>
+        <item>перевищити кредит, перебільшувати V2</item>
+        <item>overdrawn</item>
+        <item>перевищити кредит, перебільшувати V3</item>
+        <item>overdrink</item>
+        <item>перепитися, занадто багато пити V1</item>
+        <item>overdrank</item>
+        <item>перепитися, занадто багато пити V2</item>
+        <item>overdrunk</item>
+        <item>перепитися, занадто багато пити V3</item>
+        <item>overeat</item>
+        <item>переїсти, з\'їсти занадто багато V1</item>
+        <item>overate</item>
+        <item>переїсти, з\'їсти занадто багато V2</item>
+        <item>overeaten</item>
+        <item>переїсти, з\'їсти занадто багато V3</item>
+        <item>overfeed</item>
+        <item>перегодовувати, об\'їдатися V1</item>
+        <item>overfed</item>
+        <item>перегодовувати, об\'їдатися V2</item>
+        <item>overfed</item>
+        <item>перегодовувати, об\'їдатися V3</item>
+        <item>overfly</item>
+        <item>перелітати, пролітати над чимось, вилітати за межі V1</item>
+        <item>overflew</item>
+        <item>перелітати, пролітати над чимось, вилітати за межі V2</item>
+        <item>overflown</item>
+        <item>перелітати, пролітати над чимось, вилітати за межі V3</item>
+        <item>overhang</item>
+        <item>виступати, нависати, погрожувати, завішувати прикрасами V1</item>
+        <item>overhung</item>
+        <item>виступати, нависати, погрожувати, завішувати прикрасами V2</item>
+        <item>overhung</item>
+        <item>виступати, нависати, погрожувати, завішувати прикрасами V3</item>
+        <item>overhear</item>
+        <item>підслуховувати, ненавмисно почути V1</item>
+        <item>overheard</item>
+        <item>підслуховувати, ненавмисно почути V2</item>
+        <item>overheard</item>
+        <item>підслуховувати, ненавмисно почути V3</item>
+        <item>overlay</item>
+        <item>покривати, перекривати, навантажувати V1</item>
+        <item>overlaid</item>
+        <item>покривати, перекривати, навантажувати V2</item>
+        <item>overlaid</item>
+        <item>покривати, перекривати, навантажувати V3</item>
+        <item>overlie</item>
+        <item>лежати над чимось / на чомусь, перекривати V1</item>
+        <item>overlay</item>
+        <item>лежати над чимось / на чомусь, перекривати V2</item>
+        <item>overlain</item>
+        <item>лежати над чимось / на чомусь, перекривати V3</item>
+        <item>overpay</item>
+        <item>переплачувати, відшкодовувати з надлишком V1</item>
+        <item>overpaid</item>
+        <item>переплачувати, відшкодовувати з надлишком V2</item>
+        <item>overpaid</item>
+        <item>переплачувати, відшкодовувати з надлишком V3</item>
+        <item>override</item>
+        <item>переїхати, задавити; зневажати, відкидати, скасовувати V1</item>
+        <item>overrode</item>
+        <item>переїхати, задавити; зневажати, відкидати, скасовувати V2</item>
+        <item>overridden</item>
+        <item>переїхати, задавити; зневажати, відкидати, скасовувати V3</item>
+        <item>overrun</item>
+        <item>заповнювати, охоплювати, переходити межі, захоплювати, грабувати V1</item>
+        <item>overran</item>
+        <item>заповнювати, охоплювати, переходити межі, захоплювати, грабувати V2</item>
+        <item>overrun</item>
+        <item>заповнювати, охоплювати, переходити межі, захоплювати, грабувати V3</item>
+        <item>oversee</item>
+        <item>спостерігати, наглядати, стежити, підглянути V1</item>
+        <item>oversaw</item>
+        <item>спостерігати, наглядати, стежити, підглянути V2</item>
+        <item>overseen</item>
+        <item>спостерігати, наглядати, стежити, підглянути V3</item>
+        <item>oversell</item>
+        <item>нав\'язувати продукцію, розпродати, продати повністю / більше своїх запасів V1</item>
+        <item>oversold</item>
+        <item>нав\'язувати продукцію, розпродати, продати повністю / більше своїх запасів V2</item>
+        <item>oversold</item>
+        <item>нав\'язувати продукцію, розпродати, продати повністю / більше своїх запасів V3</item>
+        <item>overset</item>
+        <item>порушувати порядок, засмучувати, перекидатися V1</item>
+        <item>overset</item>
+        <item>порушувати порядок, засмучувати, перекидатися V2</item>
+        <item>overset</item>
+        <item>порушувати порядок, засмучувати, перекидатися V3</item>
+        <item>oversew</item>
+        <item>зшивати через край V1</item>
+        <item>oversewed</item>
+        <item>зшивати через край V2</item>
+        <item>oversewn / oversewed</item>
+        <item>зшивати через край V3</item>
+        <item>overshoot</item>
+        <item>промахнутися, перейти кордони, стріляти до знемоги V1</item>
+        <item>overshot</item>
+        <item>промахнутися, перейти кордони, стріляти до знемоги V2</item>
+        <item>overshot</item>
+        <item>промахнутися, перейти кордони, стріляти до знемоги V3</item>
+        <item>oversleep</item>
+        <item>проспати, заспатися V1</item>
+        <item>overslept</item>
+        <item>проспати, заспатися V2</item>
+        <item>overslept</item>
+        <item>проспати, заспатися V3</item>
+        <item>overspeak</item>
+        <item>забагато розмовляти V1</item>
+        <item>overspoke</item>
+        <item>забагато розмовляти V2</item>
+        <item>overspoken</item>
+        <item>забагато розмовляти V3</item>
+        <item>overspend</item>
+        <item>витрачати занадто багато, смітити грошима, розладнувати своє здоров\'я V1</item>
+        <item>overspent</item>
+        <item>витрачати занадто багато, смітити грошима, розладнувати своє здоров\'я V2</item>
+        <item>overspent</item>
+        <item>витрачати занадто багато, смітити грошима, розладнувати своє здоров\'я V3</item>
+        <item>overspill</item>
+        <item>проливати, переповнювати, перенаселяти V1</item>
+        <item>overspilled / overspilt</item>
+        <item>проливати, переповнювати, перенаселяти V2</item>
+        <item>overspilled / overspilt</item>
+        <item>проливати, переповнювати, перенаселяти V3</item>
+        <item>overtake</item>
+        <item>наздогнати, наздоганяти, опановувати, обігнати V1</item>
+        <item>overtook</item>
+        <item>наздогнати, наздоганяти, опановувати, обігнати V2</item>
+        <item>overtaken</item>
+        <item>наздогнати, наздоганяти, опановувати, обігнати V3</item>
+        <item>overthink</item>
+        <item>надумати зайвого, занадто багато думати V1</item>
+        <item>overthought</item>
+        <item>надумати зайвого, занадто багато думати V2</item>
+        <item>overthought</item>
+        <item>надумати зайвого, занадто багато думати V3</item>
+        <item>overthrow</item>
+        <item>кидати занадто далеко, скидати, руйнувати V1</item>
+        <item>overthrew</item>
+        <item>кидати занадто далеко, скидати, руйнувати V2</item>
+        <item>overthrown</item>
+        <item>кидати занадто далеко, скидати, руйнувати V3</item>
+        <item>overwind</item>
+        <item>перекрутити, крутити занадто сильно, швидко V1</item>
+        <item>overwound</item>
+        <item>перекрутити, крутити занадто сильно, швидко V2</item>
+        <item>overwound</item>
+        <item>перекрутити, крутити занадто сильно, швидко V3</item>
+        <item>overwrite</item>
+        <item>переписувати, писати поверх тексту, багато писати V1</item>
+        <item>overwrote</item>
+        <item>переписувати, писати поверх тексту, багато писати V2</item>
+        <item>overwritten</item>
+        <item>переписувати, писати поверх тексту, багато писати V3</item>
+        <item>partake</item>
+        <item>брати участь, розділяти, покуштувати, скористатися V1</item>
+        <item>partook</item>
+        <item>брати участь, розділяти, покуштувати, скористатися V2</item>
+        <item>partaken</item>
+        <item>брати участь, розділяти, покуштувати, скористатися V3</item>
+        <item>pay</item>
+        <item>платити, винагороджувати, помститися V1</item>
+        <item>paid</item>
+        <item>платити, винагороджувати, помститися V2</item>
+        <item>paid</item>
+        <item>платити, винагороджувати, помститися V3</item>
+        <item>plead</item>
+        <item>захищати підсудного, клопотати, просити V1</item>
+        <item>pleaded / pled</item>
+        <item>захищати підсудного, клопотати, просити V2</item>
+        <item>pleaded / pled</item>
+        <item>захищати підсудного, клопотати, просити V3</item>
+        <item>prebuild</item>
+        <item>попередньо зібрати, вибудувати V1</item>
+        <item>prebuilt</item>
+        <item>попередньо зібрати, вибудувати V2</item>
+        <item>prebuilt</item>
+        <item>попередньо зібрати, вибудувати V3</item>
+        <item>predo</item>
+        <item>зробити заздалегідь, підготувати V1</item>
+        <item>predid</item>
+        <item>зробити заздалегідь, підготувати V2</item>
+        <item>predone</item>
+        <item>зробити заздалегідь, підготувати V3</item>
+        <item>premake</item>
+        <item>підготувати, зробити наперед, заздалегідь V1</item>
+        <item>premade</item>
+        <item>підготувати, зробити наперед, заздалегідь V2</item>
+        <item>premade</item>
+        <item>підготувати, зробити наперед, заздалегідь V3</item>
+        <item>prepay</item>
+        <item>передплачувати, платити наперед V1</item>
+        <item>prepaid</item>
+        <item>передплачувати, платити наперед V2</item>
+        <item>prepaid</item>
+        <item>передплачувати, платити наперед V3</item>
+        <item>presell</item>
+        <item>рекламувати продукт до його появи в продажу, продавати наперед V1</item>
+        <item>presoldpreset</item>
+        <item>рекламувати продукт до його появи в продажу, продавати наперед V2</item>
+        <item>prespresetold</item>
+        <item>рекламувати продукт до його появи в продажу, продавати наперед V3</item>
+        <item>preshrink</item>
+        <item>обробляти тканину для запобігання її стяжки V1</item>
+        <item>preshrink</item>
+        <item>обробляти тканину для запобігання її стяжки V2</item>
+        <item>preshrunk</item>
+        <item>обробляти тканину для запобігання її стяжки V3</item>
+        <item>proofread</item>
+        <item>читати коректуру, корегувати V1</item>
+        <item>proofread</item>
+        <item>читати коректуру, корегувати V2</item>
+        <item>proofread</item>
+        <item>читати коректуру, корегувати V3</item>
+        <item>prove</item>
+        <item>доводити, засвідчувати V1</item>
+        <item>proved</item>
+        <item>доводити, засвідчувати V2</item>
+        <item>pruːvd</item>
+        <item>доводити, засвідчувати V3</item>
+        <item>put</item>
+        <item>класти, покласти V1</item>
+        <item>put</item>
+        <item>класти, покласти V2</item>
+        <item>put</item>
+        <item>класти, покласти V3</item>
+        <item>quick-freeze</item>
+        <item>швидко заморожувати, замерзати V1</item>
+        <item>quick-froze</item>
+        <item>швидко заморожувати, замерзати V2</item>
+        <item>quick-frozen</item>
+        <item>швидко заморожувати, замерзати V3</item>
+        <item>quit</item>
+        <item>залишати, покидати, виходити V1</item>
+        <item>quit / quitted </item>
+        <item>залишати, покидати, виходити V2</item>
+        <item>quit / quitted</item>
+        <item>залишати, покидати, виходити V3</item>
+        <item>read</item>
+        <item>читати V1</item>
+        <item>read [red]</item>
+        <item>читати V2</item>
+        <item>read [red]</item>
+        <item>читати V3</item>
+        <item>reawake</item>
+        <item>знову будити V1</item>
+        <item>reawoke</item>
+        <item>знову будити V2</item>
+        <item>reawaken</item>
+        <item>знову будити V3</item>
+        <item>rebid</item>
+        <item>робити повторну ставку V1</item>
+        <item>rebid</item>
+        <item>робити повторну ставку V2</item>
+        <item>rebid</item>
+        <item>робити повторну ставку V3</item>
+        <item>rebind</item>
+        <item>знову переплітати (книгу), робити нову палітурку V1</item>
+        <item>rebound</item>
+        <item>знову переплітати (книгу), робити нову палітурку V2</item>
+        <item>rebound</item>
+        <item>знову переплітати (книгу), робити нову палітурку V3</item>
+        <item>rebroadcast</item>
+        <item>ретранслювати, знову показувати (передачу) V1</item>
+        <item>rebroadcast / rebroadcasted</item>
+        <item>ретранслювати, знову показувати (передачу) V2</item>
+        <item>rebroadcast / rebroadcasted</item>
+        <item>ретранслювати, знову показувати (передачу) V3</item>
+        <item>rebuild</item>
+        <item>перебудовувати V1</item>
+        <item>rebuilt</item>
+        <item>перебудовувати V2</item>
+        <item>rebuilt</item>
+        <item>перебудовувати V3</item>
+        <item>recast</item>
+        <item>переробляти, змінювати, перераховувати V1</item>
+        <item>recast</item>
+        <item>переробляти, змінювати, перераховувати V2</item>
+        <item>recast</item>
+        <item>переробляти, змінювати, перераховувати V3</item>
+        <item>recut</item>
+        <item>вдруге нарізати, повторно вирізати (сцени з фільму) V1</item>
+        <item>recut</item>
+        <item>вдруге нарізати, повторно вирізати (сцени з фільму) V2</item>
+        <item>recut</item>
+        <item>вдруге нарізати, повторно вирізати (сцени з фільму) V3</item>
+        <item>redeal</item>
+        <item>роздати знову карти в грі V1</item>
+        <item>redealt</item>
+        <item>роздати знову карти в грі V2</item>
+        <item>redealt</item>
+        <item>роздати знову карти в грі V3</item>
+        <item>redo</item>
+        <item>переробляти, робити ремонт V1</item>
+        <item>redid</item>
+        <item>переробляти, робити ремонт V2</item>
+        <item>redone</item>
+        <item>переробляти, робити ремонт V3</item>
+        <item>redraw</item>
+        <item>перемальовувати, оновлювати малюнок, виставляти зворотний вексель V1</item>
+        <item>redrew</item>
+        <item>перемальовувати, оновлювати малюнок, виставляти зворотний вексель V2</item>
+        <item>redrawn</item>
+        <item>перемальовувати, оновлювати малюнок, виставляти зворотний вексель V3</item>
+        <item>refit</item>
+        <item>переустатковувати, лагодити, знову підганяти (за розміром) V1</item>
+        <item>refitted / refit</item>
+        <item>переустатковувати, лагодити, знову підганяти (за розміром) V2</item>
+        <item>refitted / refit</item>
+        <item>переустатковувати, лагодити, знову підганяти (за розміром) V3</item>
+        <item>regrind</item>
+        <item>перешліфовувати, переточувати, притирати V1</item>
+        <item>reground</item>
+        <item>перешліфовувати, переточувати, притирати V2</item>
+        <item>reground</item>
+        <item>перешліфовувати, переточувати, притирати V3</item>
+        <item>regrow</item>
+        <item>відростати знову V1</item>
+        <item>regrew</item>
+        <item>відростати знову V2</item>
+        <item>regrown</item>
+        <item>відростати знову V3</item>
+        <item>rehang</item>
+        <item>переважувати V1</item>
+        <item>rehung</item>
+        <item>переважувати V2</item>
+        <item>rehung</item>
+        <item>переважувати V3</item>
+        <item>rehear</item>
+        <item>почути знову, розглядати справу повторно V1</item>
+        <item>reheard</item>
+        <item>почути знову, розглядати справу повторно V2</item>
+        <item>reheard</item>
+        <item>почути знову, розглядати справу повторно V3</item>
+        <item>reknit</item>
+        <item>в\'язати заново, з\'єднувати заново V1</item>
+        <item>reknitted / reknit</item>
+        <item>в\'язати заново, з\'єднувати заново V2</item>
+        <item>reknitted / reknit</item>
+        <item>в\'язати заново, з\'єднувати заново V3</item>
+        <item>relay</item>
+        <item>класти заново, замінювати (черепицю, кахель) V1</item>
+        <item>relaid</item>
+        <item>класти заново, замінювати (черепицю, кахель) V2</item>
+        <item>relaid</item>
+        <item>класти заново, замінювати (черепицю, кахель) V3</item>
+        <item>relearn</item>
+        <item>вчитися заново, переучуватися V1</item>
+        <item>relearned / relearnt</item>
+        <item>вчитися заново, переучуватися V2</item>
+        <item>relearned / relearnt</item>
+        <item>вчитися заново, переучуватися V3</item>
+        <item>relight</item>
+        <item>запалити, запалитися знову, спалахнути V1</item>
+        <item>relit / relighted</item>
+        <item>запалити, запалитися знову, спалахнути V2</item>
+        <item>relit / relighted</item>
+        <item>запалити, запалитися знову, спалахнути V3</item>
+        <item>remake</item>
+        <item>переробляти, робити заново V1</item>
+        <item>remade</item>
+        <item>переробляти, робити заново V2</item>
+        <item>remade</item>
+        <item>переробляти, робити заново V3</item>
+        <item>rend</item>
+        <item>відривати, роздирати, розщеплювати V1</item>
+        <item>rent / rended</item>
+        <item>відривати, роздирати, розщеплювати V2</item>
+        <item>rent / rended</item>
+        <item>відривати, роздирати, розщеплювати V3</item>
+        <item>repay</item>
+        <item>віддавати, повертати, відшкодовувати, відплачувати V1</item>
+        <item>repaid</item>
+        <item>віддавати, повертати, відшкодовувати, відплачувати V2</item>
+        <item>repaid</item>
+        <item>віддавати, повертати, відшкодовувати, відплачувати V3</item>
+        <item>reread</item>
+        <item>перечитувати V1</item>
+        <item>reread</item>
+        <item>перечитувати V2</item>
+        <item>reread</item>
+        <item>перечитувати V3</item>
+        <item>rerun</item>
+        <item>перезапускати, повторно проводити, показувати V1</item>
+        <item>reran</item>
+        <item>перезапускати, повторно проводити, показувати V2</item>
+        <item>rerun</item>
+        <item>перезапускати, повторно проводити, показувати V3</item>
+        <item>resell</item>
+        <item>перепродавати V1</item>
+        <item>resold</item>
+        <item>перепродавати V2</item>
+        <item>resold</item>
+        <item>перепродавати V3</item>
+        <item>resend</item>
+        <item>посилати, відправляти знову V1</item>
+        <item>resent</item>
+        <item>посилати, відправляти знову V2</item>
+        <item>resent</item>
+        <item>посилати, відправляти знову V3</item>
+        <item>reset</item>
+        <item>знову налаштовувати, встановлювати, скидати (налаштування) V1</item>
+        <item>reset</item>
+        <item>знову налаштовувати, встановлювати, скидати (налаштування) V2</item>
+        <item>reset</item>
+        <item>знову налаштовувати, встановлювати, скидати (налаштування) V3</item>
+        <item>resew</item>
+        <item>пришивати заново, перешивати V1</item>
+        <item>resewed</item>
+        <item>пришивати заново, перешивати V2</item>
+        <item>resewn / resewed</item>
+        <item>пришивати заново, перешивати V3</item>
+        <item>retake</item>
+        <item>знову взяти, перезнімати, перездавати (іспит) V1</item>
+        <item>retook</item>
+        <item>знову взяти, перезнімати, перездавати (іспит) V2</item>
+        <item>retaken</item>
+        <item>знову взяти, перезнімати, перездавати (іспит) V3</item>
+        <item>reteach</item>
+        <item>переучувати, вчити заново V1</item>
+        <item>retaught</item>
+        <item>переучувати, вчити заново V2</item>
+        <item>retaught</item>
+        <item>переучувати, вчити заново V3</item>
+        <item>retear</item>
+        <item>знову розривати, відривати V1</item>
+        <item>retore</item>
+        <item>знову розривати, відривати V2</item>
+        <item>retorn</item>
+        <item>знову розривати, відривати V3</item>
+        <item>retell</item>
+        <item>переказувати, розповідати знову V1</item>
+        <item>retold</item>
+        <item>переказувати, розповідати знову V2</item>
+        <item>retold</item>
+        <item>переказувати, розповідати знову V3</item>
+        <item>rethink</item>
+        <item>переглядати свою думку, заново осмислити V1</item>
+        <item>rethought</item>
+        <item>переглядати свою думку, заново осмислити V2</item>
+        <item>rethought</item>
+        <item>переглядати свою думку, заново осмислити V3</item>
+        <item>retread</item>
+        <item>змінити покришку, перенавчати, заново давати роботу V1</item>
+        <item>retread</item>
+        <item>змінити покришку, перенавчати, заново давати роботу V2</item>
+        <item>retread</item>
+        <item>змінити покришку, перенавчати, заново давати роботу V3</item>
+        <item>retrofit</item>
+        <item>модифікувати, підганяти, налаштовувати V1</item>
+        <item>retrofitted / retrofit</item>
+        <item>модифікувати, підганяти, налаштовувати V2</item>
+        <item>retrofitted / retrofit</item>
+        <item>модифікувати, підганяти, налаштовувати V3</item>
+        <item>rewake</item>
+        <item>будити, пробуджуватися заново V1</item>
+        <item>rewoke / rewaked</item>
+        <item>будити, пробуджуватися заново V2</item>
+        <item>rewaken / rewaked</item>
+        <item>будити, пробуджуватися заново V3</item>
+        <item>rewear</item>
+        <item>носити заново V1</item>
+        <item>rewore</item>
+        <item>носити заново V2</item>
+        <item>reworn</item>
+        <item>носити заново V3</item>
+        <item>reweave</item>
+        <item>переткати, плести, ткати заново, знову з\'єднуватися V1</item>
+        <item>rewove / reweaved</item>
+        <item>переткати, плести, ткати заново, знову з\'єднуватися V2</item>
+        <item>rewoven / reweaved</item>
+        <item>переткати, плести, ткати заново, знову з\'єднуватися V3</item>
+        <item>rewed</item>
+        <item>одружитися вдруге V1</item>
+        <item>rewed / rewedded</item>
+        <item>одружитися вдруге V2</item>
+        <item>rewed / rewedded</item>
+        <item>одружитися вдруге V3</item>
+        <item>rewet</item>
+        <item>повторно зволожувати, мочити знову V1</item>
+        <item>rewet / rewetted</item>
+        <item>повторно зволожувати, мочити знову V2</item>
+        <item>rewet / rewetted</item>
+        <item>повторно зволожувати, мочити знову V3</item>
+        <item>rewin</item>
+        <item>знову перемогти, перемогти після програшу V1</item>
+        <item>rewon</item>
+        <item>знову перемогти, перемогти після програшу V2</item>
+        <item>rewon</item>
+        <item>знову перемогти, перемогти після програшу V3</item>
+        <item>rewind</item>
+        <item>перемотувати (назад) V1</item>
+        <item>rewound</item>
+        <item>перемотувати (назад) V2</item>
+        <item>rewound</item>
+        <item>перемотувати (назад) V3</item>
+        <item>rewrite</item>
+        <item>переписувати, редагувати, відповідати письмово V1</item>
+        <item>rewrote</item>
+        <item>переписувати, редагувати, відповідати письмово V2</item>
+        <item>rewritten</item>
+        <item>переписувати, редагувати, відповідати письмово V3</item>
+        <item>rid</item>
+        <item>звільняти, рятувати V1</item>
+        <item>rid</item>
+        <item>звільняти, рятувати V2</item>
+        <item>rid</item>
+        <item>звільняти, рятувати V3</item>
+        <item>ride</item>
+        <item>їхати верхи, кататися, їхати (в транспорті) V1</item>
+        <item>rode</item>
+        <item>їхати верхи, кататися, їхати (в транспорті) V2</item>
+        <item>ridden</item>
+        <item>їхати верхи, кататися, їхати (в транспорті) V3</item>
+        <item>ring</item>
+        <item>дзвонити, дзвеніти V1</item>
+        <item>rang</item>
+        <item>дзвонити, дзвеніти V2</item>
+        <item>rung</item>
+        <item>дзвонити, дзвеніти V3</item>
+        <item>rise</item>
+        <item>підніматися, сходити V1</item>
+        <item>rose</item>
+        <item>підніматися, сходити V2</item>
+        <item>risen</item>
+        <item>підніматися, сходити V3</item>
+        <item>roughcast</item>
+        <item>накидати план, намічати, грубо штукатурити V1</item>
+        <item>roughcast</item>
+        <item>накидати план, намічати, грубо штукатурити V2</item>
+        <item>roughcast</item>
+        <item>накидати план, намічати, грубо штукатурити V3</item>
+        <item>run</item>
+        <item>бігти, гнати, управляти, текти V1</item>
+        <item>ran</item>
+        <item>бігти, гнати, управляти, текти V2</item>
+        <item>run</item>
+        <item>бігти, гнати, управляти, текти V3</item>
+        <item>sand-cast</item>
+        <item>відливати метал в піщану форму V1</item>
+        <item>sand-cast</item>
+        <item>відливати метал в піщану форму V2</item>
+        <item>sand-cast</item>
+        <item>відливати метал в піщану форму V3</item>
+        <item>saw</item>
+        <item>пиляти, розпиляти V1</item>
+        <item>sawed</item>
+        <item>пиляти, розпиляти V2</item>
+        <item>sawed / sawn</item>
+        <item>пиляти, розпиляти V3</item>
+        <item>say</item>
+        <item>говорити, сказати V1</item>
+        <item>said</item>
+        <item>говорити, сказати V2</item>
+        <item>said</item>
+        <item>говорити, сказати V3</item>
+        <item>see</item>
+        <item>бачити, дивитися V1</item>
+        <item>saw</item>
+        <item>бачити, дивитися V2</item>
+        <item>seen</item>
+        <item>бачити, дивитися V3</item>
+        <item>seek</item>
+        <item>шукати, домагатися V1</item>
+        <item>sought</item>
+        <item>шукати, домагатися V2</item>
+        <item>sought</item>
+        <item>шукати, домагатися V3</item>
+        <item>sell</item>
+        <item>продавати V1</item>
+        <item>sold</item>
+        <item>продавати V2</item>
+        <item>sold</item>
+        <item>продавати V3</item>
+        <item>send</item>
+        <item>посилати, відправляти V1</item>
+        <item>sent</item>
+        <item>посилати, відправляти V2</item>
+        <item>sent</item>
+        <item>посилати, відправляти V3</item>
+        <item>set</item>
+        <item>поміщати, ставити V1</item>
+        <item>set</item>
+        <item>поміщати, ставити V2</item>
+        <item>set</item>
+        <item>поміщати, ставити V3</item>
+        <item>sew</item>
+        <item>шити, штопати V1</item>
+        <item>sewed</item>
+        <item>шити, штопати V2</item>
+        <item>sewn / sewed</item>
+        <item>шити, штопати V3</item>
+        <item>shake</item>
+        <item>трясти, струшувати V1</item>
+        <item>shook</item>
+        <item>трясти, струшувати V2</item>
+        <item>shaken</item>
+        <item>трясти, струшувати V3</item>
+        <item>shave</item>
+        <item>голитися V1</item>
+        <item>shaved</item>
+        <item>голитися V2</item>
+        <item>shaved / shaven</item>
+        <item>голитися V3</item>
+        <item>shear</item>
+        <item>різати, вистригати, розсікати V1</item>
+        <item>sheared</item>
+        <item>різати, вистригати, розсікати V2</item>
+        <item>sheared / shorn</item>
+        <item>різати, вистригати, розсікати V3</item>
+        <item>shed</item>
+        <item>проливати, втрачати, скидати V1</item>
+        <item>shed</item>
+        <item>проливати, втрачати, скидати V2</item>
+        <item>shed</item>
+        <item>проливати, втрачати, скидати V3</item>
+        <item>shine</item>
+        <item>сяяти, світити V1</item>
+        <item>shined / shone</item>
+        <item>сяяти, світити V2</item>
+        <item>shined / shone</item>
+        <item>сяяти, світити V3</item>
+        <item>shit</item>
+        <item>какати, гадити, срати V1</item>
+        <item>shit / shat / shitted</item>
+        <item>какати, гадити, срати V2</item>
+        <item>shit/ shat / shitted</item>
+        <item>какати, гадити, срати V3</item>
+        <item>shoe</item>
+        <item>взувати, підкувати, підбивати V1</item>
+        <item>shod</item>
+        <item>взувати, підкувати, підбивати V2</item>
+        <item>shod</item>
+        <item>взувати, підкувати, підбивати V3</item>
+        <item>shoot</item>
+        <item>стріляти, полювати V1</item>
+        <item>shot</item>
+        <item>стріляти, полювати V2</item>
+        <item>shot</item>
+        <item>стріляти, полювати V3</item>
+        <item>show</item>
+        <item>показувати, показуватися, виставляти V1</item>
+        <item>showed</item>
+        <item>показувати, показуватися, виставляти V2</item>
+        <item>shown / showed</item>
+        <item>показувати, показуватися, виставляти V3</item>
+        <item>shrink</item>
+        <item>сідати, давати усадку, стискатися V1</item>
+        <item>shrank / shrunk</item>
+        <item>сідати, давати усадку, стискатися V2</item>
+        <item>shrunk / shrunken</item>
+        <item>сідати, давати усадку, стискатися V3</item>
+        <item>shut</item>
+        <item>закривати V1</item>
+        <item>shut</item>
+        <item>закривати V2</item>
+        <item>shut</item>
+        <item>закривати V3</item>
+        <item>sight-read</item>
+        <item>грати, співати з листа, читати ноти, текст з листа V1</item>
+        <item>sight-read</item>
+        <item>грати, співати з листа, читати ноти, текст з листа V2</item>
+        <item>sight-read</item>
+        <item>грати, співати з листа, читати ноти, текст з листа V3</item>
+        <item>sing</item>
+        <item>співати V1</item>
+        <item>sang</item>
+        <item>співати V2</item>
+        <item>sung</item>
+        <item>співати V3</item>
+        <item>sink</item>
+        <item>тонути, опускатися, занурюватися V1</item>
+        <item>sank / sunk</item>
+        <item>тонути, опускатися, занурюватися V2</item>
+        <item>sunk</item>
+        <item>тонути, опускатися, занурюватися V3</item>
+        <item>sit</item>
+        <item>сидіти, садити, перебувати V1</item>
+        <item>sat</item>
+        <item>сидіти, садити, перебувати V2</item>
+        <item>sat</item>
+        <item>сидіти, садити, перебувати V3</item>
+        <item>slay</item>
+        <item>вбивати, знищувати V1</item>
+        <item>slew / slayed</item>
+        <item>вбивати, знищувати V2</item>
+        <item>slain / slayed</item>
+        <item>вбивати, знищувати V3</item>
+        <item>sleep</item>
+        <item>спати V1</item>
+        <item>slept</item>
+        <item>спати V2</item>
+        <item>slept</item>
+        <item>спати V3</item>
+        <item>slide</item>
+        <item>ковзати, повзати, кататися V1</item>
+        <item>slid</item>
+        <item>ковзати, повзати, кататися V2</item>
+        <item>slid</item>
+        <item>ковзати, повзати, кататися V3</item>
+        <item>sling</item>
+        <item>жбурляти, вішати через плече, підвішувати V1</item>
+        <item>slung</item>
+        <item>жбурляти, вішати через плече, підвішувати V2</item>
+        <item>slung</item>
+        <item>жбурляти, вішати через плече, підвішувати V3</item>
+        <item>slink</item>
+        <item>крастися, підкрадатися, народжувати передчасно V1</item>
+        <item>slinked / slunk</item>
+        <item>крастися, підкрадатися, народжувати передчасно V2</item>
+        <item>slinked / slunk</item>
+        <item>крастися, підкрадатися, народжувати передчасно V3</item>
+        <item>slit</item>
+        <item>розрізати, перерізати V1</item>
+        <item>slit</item>
+        <item>розрізати, перерізати V2</item>
+        <item>slit</item>
+        <item>розрізати, перерізати V3</item>
+        <item>smell</item>
+        <item>пахнути, нюхати V1</item>
+        <item>smelled / smelt</item>
+        <item>пахнути, нюхати V2</item>
+        <item>smelled / smelt</item>
+        <item>пахнути, нюхати V3</item>
+        <item>smite</item>
+        <item>вражати, бити, мучити V1</item>
+        <item>smote</item>
+        <item>вражати, бити, мучити V2</item>
+        <item>smitten</item>
+        <item>вражати, бити, мучити V3</item>
+        <item>sneak</item>
+        <item>крастися, підкрадатися, красти, вислизати V1</item>
+        <item>sneaked / snuck</item>
+        <item>крастися, підкрадатися, красти, вислизати V2</item>
+        <item>sneaked / snuck</item>
+        <item>крастися, підкрадатися, красти, вислизати V3</item>
+        <item>sow</item>
+        <item>сіяти, засівати, поширювати V1</item>
+        <item>sowed</item>
+        <item>сіяти, засівати, поширювати V2</item>
+        <item>sown / sowed</item>
+        <item>сіяти, засівати, поширювати V3</item>
+        <item>speak</item>
+        <item>говорити V1</item>
+        <item>spoke</item>
+        <item>говорити V2</item>
+        <item>spoken</item>
+        <item>говорити V3</item>
+        <item>speed</item>
+        <item>поспішати, прискорювати, квапити V1</item>
+        <item>sped / speeded</item>
+        <item>поспішати, прискорювати, квапити V2</item>
+        <item>sped / speeded</item>
+        <item>поспішати, прискорювати, квапити V3</item>
+        <item>spell</item>
+        <item>замовляти, зачаровувати; змінити, дати відпочинок; писати, вимовляти слово по буквах V1</item>
+        <item>spelled / spelt</item>
+        <item>замовляти, зачаровувати; змінити, дати відпочинок; писати, вимовляти слово по буквах V2</item>
+        <item>spelled / spelt</item>
+        <item>замовляти, зачаровувати; змінити, дати відпочинок; писати, вимовляти слово по буквах V3</item>
+        <item>spend</item>
+        <item>витрачати, виснажувати V1</item>
+        <item>spent</item>
+        <item>витрачати, виснажувати V2</item>
+        <item>spent</item>
+        <item>витрачати, виснажувати V3</item>
+        <item>spill</item>
+        <item>проливати, розливатися V1</item>
+        <item>spilled / spilt</item>
+        <item>проливати, розливатися V2</item>
+        <item>spilled / spilt</item>
+        <item>проливати, розливатися V3</item>
+        <item>spin</item>
+        <item>прясти, крутити, вертіти, плести V1</item>
+        <item>spun</item>
+        <item>прясти, крутити, вертіти, плести V2</item>
+        <item>spun</item>
+        <item>прясти, крутити, вертіти, плести V3</item>
+        <item>spit</item>
+        <item>плювати, пронизувати, насаджувати, бризкати, капати V1</item>
+        <item>spit / spat</item>
+        <item>плювати, пронизувати, насаджувати, бризкати, капати V2</item>
+        <item>spit / spat</item>
+        <item>плювати, пронизувати, насаджувати, бризкати, капати V3</item>
+        <item>spoil</item>
+        <item>псувати, балувати V1</item>
+        <item>spoiled / spoilt</item>
+        <item>псувати, балувати V2</item>
+        <item>spoiled / spoilt</item>
+        <item>псувати, балувати V3</item>
+        <item>spread</item>
+        <item>поширюватися, розстеляти V1</item>
+        <item>spread</item>
+        <item>поширюватися, розстеляти V2</item>
+        <item>spread</item>
+        <item>поширюватися, розстеляти V3</item>
+        <item>spring</item>
+        <item>стрибати, вскочити V1</item>
+        <item>sprang / sprung</item>
+        <item>стрибати, вскочити V2</item>
+        <item>sprung</item>
+        <item>стрибати, вскочити V3</item>
+        <item>stand</item>
+        <item>стояти, бути розташованим V1</item>
+        <item>stood</item>
+        <item>стояти, бути розташованим V2</item>
+        <item>stood</item>
+        <item>стояти, бути розташованим V3</item>
+        <item>stave</item>
+        <item>пробивати, розбивати V1</item>
+        <item>staved / stove</item>
+        <item>пробивати, розбивати V2</item>
+        <item>staved / stove</item>
+        <item>пробивати, розбивати V3</item>
+        <item>steal</item>
+        <item>красти, викрадати, домагатися V1</item>
+        <item>stole</item>
+        <item>красти, викрадати, домагатися V2</item>
+        <item>stolen</item>
+        <item>красти, викрадати, домагатися V3</item>
+        <item>stick</item>
+        <item>встромляти, колоти, приклеювати, липнути V1</item>
+        <item>stuck</item>
+        <item>встромляти, колоти, приклеювати, липнути V2</item>
+        <item>stuck</item>
+        <item>встромляти, колоти, приклеювати, липнути V3</item>
+        <item>sting</item>
+        <item>жалити, заподіювати біль, обманювати V1</item>
+        <item>stung</item>
+        <item>жалити, заподіювати біль, обманювати V2</item>
+        <item>stung</item>
+        <item>жалити, заподіювати біль, обманювати V3</item>
+        <item>stink</item>
+        <item>смердіти, погано пахнути; бути поганим V1</item>
+        <item>stunk / stank</item>
+        <item>смердіти, погано пахнути; бути поганим V2</item>
+        <item>stunk</item>
+        <item>смердіти, погано пахнути; бути поганим V3</item>
+        <item>strew</item>
+        <item>усіяти, розкидати, посипати V1</item>
+        <item>strewed</item>
+        <item>усіяти, розкидати, посипати V2</item>
+        <item>strewn / strewed</item>
+        <item>усіяти, розкидати, посипати V3</item>
+        <item>stride</item>
+        <item>крокувати, сидіти верхи V1</item>
+        <item>strode</item>
+        <item>крокувати, сидіти верхи V2</item>
+        <item>stridden</item>
+        <item>крокувати, сидіти верхи V3</item>
+        <item>strike</item>
+        <item>ударяти, вражати, страйкувати V1</item>
+        <item>struck</item>
+        <item>ударяти, вражати, страйкувати V2</item>
+        <item>struck / stricken</item>
+        <item>ударяти, вражати, страйкувати V3</item>
+        <item>string</item>
+        <item>пов\'язувати, натягувати, нанизувати V1</item>
+        <item>strung</item>
+        <item>пов\'язувати, натягувати, нанизувати V2</item>
+        <item>strung</item>
+        <item>пов\'язувати, натягувати, нанизувати V3</item>
+        <item>strive</item>
+        <item>прагнути, намагатися, докладати зусилля, боротися V1</item>
+        <item>strove / strived</item>
+        <item>прагнути, намагатися, докладати зусилля, боротися V2</item>
+        <item>striven / strived</item>
+        <item>прагнути, намагатися, докладати зусилля, боротися V3</item>
+        <item>sublet</item>
+        <item>передавати в суборенду V1</item>
+        <item>sublet</item>
+        <item>передавати в суборенду V2</item>
+        <item>sublet</item>
+        <item>передавати в суборенду V3</item>
+        <item>sunburn</item>
+        <item>обгорати на сонці V1</item>
+        <item>sunburned / sunburnt</item>
+        <item>обгорати на сонці V2</item>
+        <item>sunburned / sunburnt</item>
+        <item>обгорати на сонці V3</item>
+        <item>swear</item>
+        <item>клястися, присягати, лаятися V1</item>
+        <item>swore</item>
+        <item>клястися, присягати, лаятися V2</item>
+        <item>sworn</item>
+        <item>клястися, присягати, лаятися V3</item>
+        <item>sweat</item>
+        <item>потіти, сиріти, пітніти V1</item>
+        <item>sweat / sweated</item>
+        <item>потіти, сиріти, пітніти V2</item>
+        <item>sweat / sweated</item>
+        <item>потіти, сиріти, пітніти V3</item>
+        <item>sweep</item>
+        <item>мести, прочищати, змітати, мчати V1</item>
+        <item>swept</item>
+        <item>мести, прочищати, змітати, мчати V2</item>
+        <item>swept</item>
+        <item>мести, прочищати, змітати, мчати V3</item>
+        <item>swell</item>
+        <item>пухнути, роздуватися, набухати V1</item>
+        <item>swelled</item>
+        <item>пухнути, роздуватися, набухати V2</item>
+        <item>swollen / swelled</item>
+        <item>пухнути, роздуватися, набухати V3</item>
+        <item>swim</item>
+        <item>плавати, плисти V1</item>
+        <item>swam</item>
+        <item>плавати, плисти V2</item>
+        <item>swum</item>
+        <item>плавати, плисти V3</item>
+        <item>swing</item>
+        <item>качати, хитатися, розгойдувати, висіти V1</item>
+        <item>swung</item>
+        <item>качати, хитатися, розгойдувати, висіти V2</item>
+        <item>swung</item>
+        <item>качати, хитатися, розгойдувати, висіти V3</item>
+        <item>take</item>
+        <item>брати, взяти V1</item>
+        <item>took</item>
+        <item>брати, взяти V2</item>
+        <item>taken</item>
+        <item>брати, взяти V3</item>
+        <item>teach</item>
+        <item>навчати, вчити V1</item>
+        <item>taught</item>
+        <item>навчати, вчити V2</item>
+        <item>taught</item>
+        <item>навчати, вчити V3</item>
+        <item>tear</item>
+        <item>рвати, зірвати, розірвати V1</item>
+        <item>tore</item>
+        <item>рвати, зірвати, розірвати V2</item>
+        <item>torn</item>
+        <item>рвати, зірвати, розірвати V3</item>
+        <item>telecast</item>
+        <item>передавати по телебаченню V1</item>
+        <item>telecast</item>
+        <item>передавати по телебаченню V2</item>
+        <item>telecast</item>
+        <item>передавати по телебаченню V3</item>
+        <item>tell</item>
+        <item>говорити, розповідати, повідомляти V1</item>
+        <item>told</item>
+        <item>говорити, розповідати, повідомляти V2</item>
+        <item>told</item>
+        <item>говорити, розповідати, повідомляти V3</item>
+        <item>test-drive</item>
+        <item>робити пробну поїздку, тестувати V1</item>
+        <item>test-drove</item>
+        <item>робити пробну поїздку, тестувати V2</item>
+        <item>test-driven</item>
+        <item>робити пробну поїздку, тестувати V3</item>
+        <item>test-fly</item>
+        <item>випробовувати в літних умовах (літак) V1</item>
+        <item>test-flew</item>
+        <item>випробовувати в літних умовах (літак) V2</item>
+        <item>test-flown</item>
+        <item>випробовувати в літних умовах (літак) V3</item>
+        <item>think</item>
+        <item>думати, розмірковувати V1</item>
+        <item>thought</item>
+        <item>думати, розмірковувати V2</item>
+        <item>thought</item>
+        <item>думати, розмірковувати V3</item>
+        <item>thrive</item>
+        <item>процвітати, цвісти, розростатися V1</item>
+        <item>throve / thrived</item>
+        <item>процвітати, цвісти, розростатися V2</item>
+        <item>thrived / thriven</item>
+        <item>процвітати, цвісти, розростатися V3</item>
+        <item>throw</item>
+        <item>кидати, жбурляти V1</item>
+        <item>threw</item>
+        <item>кидати, жбурляти V2</item>
+        <item>thrown</item>
+        <item>кидати, жбурляти V3</item>
+        <item>thrust</item>
+        <item>колоти, засовувати, штовхати, лізти V1</item>
+        <item>thrust</item>
+        <item>колоти, засовувати, штовхати, лізти V2</item>
+        <item>thrust</item>
+        <item>колоти, засовувати, штовхати, лізти V3</item>
+        <item>tread</item>
+        <item>йти, ступати, топтати, давити V1</item>
+        <item>trod</item>
+        <item>йти, ступати, топтати, давити V2</item>
+        <item>trodden / trod</item>
+        <item>йти, ступати, топтати, давити V3</item>
+        <item>typecast</item>
+        <item>підбирати акторів по типажності V1</item>
+        <item>typecast</item>
+        <item>підбирати акторів по типажності V2</item>
+        <item>typecast</item>
+        <item>підбирати акторів по типажності V3</item>
+        <item>typeset</item>
+        <item>набирати текст для друку, визначати тип V1</item>
+        <item>typeset</item>
+        <item>набирати текст для друку, визначати тип V2</item>
+        <item>typeset</item>
+        <item>набирати текст для друку, визначати тип V3</item>
+        <item>typewrite</item>
+        <item>друкувати на друкарській машинці, набирати текст V1</item>
+        <item>typewrote</item>
+        <item>друкувати на друкарській машинці, набирати текст V2</item>
+        <item>typewritten</item>
+        <item>друкувати на друкарській машинці, набирати текст V3</item>
+        <item>unbend</item>
+        <item>розгинатися, випростатися, пом\'якшуватися V1</item>
+        <item>unbent</item>
+        <item>розгинатися, випростатися, пом\'якшуватися V2</item>
+        <item>unbent</item>
+        <item>розгинатися, випростатися, пом\'якшуватися V3</item>
+        <item>unbind</item>
+        <item>розв\'язати, розпускати, послаблювати V1</item>
+        <item>unbound</item>
+        <item>розв\'язати, розпускати, послаблювати V2</item>
+        <item>unbound</item>
+        <item>розв\'язати, розпускати, послаблювати V3</item>
+        <item>unclothe</item>
+        <item>роздягатися, роздягати, оголювати V1</item>
+        <item>unclothed / unclad</item>
+        <item>роздягатися, роздягати, оголювати V2</item>
+        <item>unclothed / unclad</item>
+        <item>роздягатися, роздягати, оголювати V3</item>
+        <item>underbid</item>
+        <item>перебивати ціну, призначати нижчу ціну V1</item>
+        <item>underbid</item>
+        <item>перебивати ціну, призначати нижчу ціну V2</item>
+        <item>underbid</item>
+        <item>перебивати ціну, призначати нижчу ціну V3</item>
+        <item>undercut</item>
+        <item>підрізати, збивати ціни, робити підсічку V1</item>
+        <item>undercut</item>
+        <item>підрізати, збивати ціни, робити підсічку V2</item>
+        <item>undercut</item>
+        <item>підрізати, збивати ціни, робити підсічку V3</item>
+        <item>underfeed</item>
+        <item>недогодовувати, недоїдати V1</item>
+        <item>underfed</item>
+        <item>недогодовувати, недоїдати V2</item>
+        <item>underfed</item>
+        <item>недогодовувати, недоїдати V3</item>
+        <item>undergo</item>
+        <item>відчувати, переносити V1</item>
+        <item>underwent</item>
+        <item>відчувати, переносити V2</item>
+        <item>undergone</item>
+        <item>відчувати, переносити V3</item>
+        <item>underlie</item>
+        <item>підкреслювати, виділяти V1</item>
+        <item>underlay</item>
+        <item>підкреслювати, виділяти V2</item>
+        <item>underlain</item>
+        <item>підкреслювати, виділяти V3</item>
+        <item>undersell</item>
+        <item>продавати дешевше інших V1</item>
+        <item>undersold</item>
+        <item>продавати дешевше інших V2</item>
+        <item>undersold</item>
+        <item>продавати дешевше інших V3</item>
+        <item>underspend</item>
+        <item>витрачати недостатньо, дуже мало V1</item>
+        <item>underspent</item>
+        <item>витрачати недостатньо, дуже мало V2</item>
+        <item>underspent</item>
+        <item>витрачати недостатньо, дуже мало V3</item>
+        <item>understand</item>
+        <item>розуміти, усвідомлювати V1</item>
+        <item>understood</item>
+        <item>розуміти, усвідомлювати V2</item>
+        <item>understood</item>
+        <item>розуміти, усвідомлювати V3</item>
+        <item>undertake</item>
+        <item>робити, гарантувати, здійснювати V1</item>
+        <item>undertook</item>
+        <item>робити, гарантувати, здійснювати V2</item>
+        <item>undertaken</item>
+        <item>робити, гарантувати, здійснювати V3</item>
+        <item>underwrite</item>
+        <item>підписувати, гарантувати, ручатися V1</item>
+        <item>underwrote</item>
+        <item>підписувати, гарантувати, ручатися V2</item>
+        <item>underwritten</item>
+        <item>підписувати, гарантувати, ручатися V3</item>
+        <item>undo</item>
+        <item>розстібати, знищувати, скасовувати, розбирати V1</item>
+        <item>undid</item>
+        <item>розстібати, знищувати, скасовувати, розбирати V2</item>
+        <item>undone</item>
+        <item>розстібати, знищувати, скасовувати, розбирати V3</item>
+        <item>unfreeze</item>
+        <item>розморозити, розморожувати V1</item>
+        <item>unfroze</item>
+        <item>розморозити, розморожувати V2</item>
+        <item>unfrozen</item>
+        <item>розморозити, розморожувати V3</item>
+        <item>unhang</item>
+        <item>знімати (щось, що висить) V1</item>
+        <item>unhung</item>
+        <item>знімати (щось, що висить) V2</item>
+        <item>unhung</item>
+        <item>знімати (щось, що висить) V3</item>
+        <item>unhide</item>
+        <item>показувати приховані елементи V1</item>
+        <item>unhid</item>
+        <item>показувати приховані елементи V2</item>
+        <item>unhidden</item>
+        <item>показувати приховані елементи V3</item>
+        <item>unknit</item>
+        <item>розпускати (в\'язання), розплутувати, роз\'єднувати V1</item>
+        <item>unknitted / unknit</item>
+        <item>розпускати (в\'язання), розплутувати, роз\'єднувати V2</item>
+        <item>unknitted / unknit</item>
+        <item>розпускати (в\'язання), розплутувати, роз\'єднувати V3</item>
+        <item>unlearn</item>
+        <item>розучитися, забути те, що знав V1</item>
+        <item>unlearned / unlearnt</item>
+        <item>розучитися, забути те, що знав V2</item>
+        <item>unlearned / unlearnt</item>
+        <item>розучитися, забути те, що знав V3</item>
+        <item>unsew</item>
+        <item>розпорювати щось зшите V1</item>
+        <item>unsewed</item>
+        <item>розпорювати щось зшите V2</item>
+        <item>unsewn / unsewed</item>
+        <item>розпорювати щось зшите V3</item>
+        <item>unsling</item>
+        <item>відв\'язувати, знімати, звільнити від ременя V1</item>
+        <item>unslung</item>
+        <item>відв\'язувати, знімати, звільнити від ременя V2</item>
+        <item>unslung</item>
+        <item>відв\'язувати, знімати, звільнити від ременя V3</item>
+        <item>unspin</item>
+        <item>розпускати, розплітати, розплутувати V1</item>
+        <item>unspun</item>
+        <item>розпускати, розплітати, розплутувати V2</item>
+        <item>unspun</item>
+        <item>розпускати, розплітати, розплутувати V3</item>
+        <item>unstick</item>
+        <item>віддирати, відклеювати, злетіти V1</item>
+        <item>unstuck</item>
+        <item>віддирати, відклеювати, злетіти V2</item>
+        <item>unstuck</item>
+        <item>віддирати, відклеювати, злетіти V3</item>
+        <item>unstring</item>
+        <item>знімати, послаблювати, розпускати, розплітати, розхитувати V1</item>
+        <item>unstrung</item>
+        <item>знімати, послаблювати, розпускати, розплітати, розхитувати V2</item>
+        <item>unstrung</item>
+        <item>знімати, послаблювати, розпускати, розплітати, розхитувати V3</item>
+        <item>unweave</item>
+        <item>розпускати, розплітати (тканину) V1</item>
+        <item>unwove / unweaved</item>
+        <item>розпускати, розплітати (тканину) V2</item>
+        <item>unwoven / unweaved</item>
+        <item>розпускати, розплітати (тканину) V3</item>
+        <item>unwind</item>
+        <item>расмативать, розкручувати, розвивати V1</item>
+        <item>unwound</item>
+        <item>расмативать, розкручувати, розвивати V2</item>
+        <item>unwound</item>
+        <item>расмативать, розкручувати, розвивати V3</item>
+        <item>uphold</item>
+        <item>підтримувати, допомагати, утримувати V1</item>
+        <item>upheld</item>
+        <item>підтримувати, допомагати, утримувати V2</item>
+        <item>upheld</item>
+        <item>підтримувати, допомагати, утримувати V3</item>
+        <item>upset</item>
+        <item>перекидати, засмучувати, засмучувати V1</item>
+        <item>upset</item>
+        <item>перекидати, засмучувати, засмучувати V2</item>
+        <item>upset</item>
+        <item>перекидати, засмучувати, засмучувати V3</item>
+        <item>wake</item>
+        <item>будити, пробуджуватися V1</item>
+        <item>woke / waked</item>
+        <item>будити, пробуджуватися V2</item>
+        <item>woken / waked</item>
+        <item>будити, пробуджуватися V3</item>
+        <item>waylay</item>
+        <item>підстерігати, влаштовувати засідку V1</item>
+        <item>waylaid</item>
+        <item>підстерігати, влаштовувати засідку V2</item>
+        <item>waylaid</item>
+        <item>підстерігати, влаштовувати засідку V3</item>
+        <item>wear</item>
+        <item>носити одяг V1</item>
+        <item>wore</item>
+        <item>носити одяг V2</item>
+        <item>worn</item>
+        <item>носити одяг V3</item>
+        <item>weave</item>
+        <item>ткати, плести V1</item>
+        <item>wove / weaved</item>
+        <item>ткати, плести V2</item>
+        <item>woven / weaved</item>
+        <item>ткати, плести V3</item>
+        <item>wed</item>
+        <item>вінчати, видавати заміж, одружуватися, виходити заміж V1</item>
+        <item>wed / wedded</item>
+        <item>вінчати, видавати заміж, одружуватися, виходити заміж V2</item>
+        <item>wed / wedded</item>
+        <item>вінчати, видавати заміж, одружуватися, виходити заміж V3</item>
+        <item>weep</item>
+        <item>плакати, тужити, пітніти V1</item>
+        <item>wept</item>
+        <item>плакати, тужити, пітніти V2</item>
+        <item>wept</item>
+        <item>плакати, тужити, пітніти V3</item>
+        <item>wet</item>
+        <item>мочити, промочити, мокнути V1</item>
+        <item>wet / wetted</item>
+        <item>мочити, промочити, мокнути V2</item>
+        <item>wet / wetted</item>
+        <item>мочити, промочити, мокнути V3</item>
+        <item>win</item>
+        <item>вигравати, перемагати V1</item>
+        <item>won</item>
+        <item>вигравати, перемагати V2</item>
+        <item>won</item>
+        <item>вигравати, перемагати V3</item>
+        <item>wind</item>
+        <item>чуяти, дути, намотувати, заводити (механізм), звиватися V1</item>
+        <item>wound</item>
+        <item>чуяти, дути, намотувати, заводити (механізм), звиватися V2</item>
+        <item>wound</item>
+        <item>чуяти, дути, намотувати, заводити (механізм), звиватися V3</item>
+        <item>withdraw</item>
+        <item>брати назад, віднімати, відкликати, витягувати V1</item>
+        <item>withdrew</item>
+        <item>брати назад, віднімати, відкликати, витягувати V2</item>
+        <item>withdrawn</item>
+        <item>брати назад, віднімати, відкликати, витягувати V3</item>
+        <item>withhold</item>
+        <item>утримуватися, утримувати, приховувати V1</item>
+        <item>withheld</item>
+        <item>утримуватися, утримувати, приховувати V2</item>
+        <item>withheld</item>
+        <item>утримуватися, утримувати, приховувати V3</item>
+        <item>withstand</item>
+        <item>встояти, витримувати, чинити опір V1</item>
+        <item>withstood</item>
+        <item>встояти, витримувати, чинити опір V2</item>
+        <item>withstood</item>
+        <item>встояти, витримувати, чинити опір V3</item>
+        <item>wring</item>
+        <item>викручувати, вижимати, звиватися, мучити V1</item>
+        <item>wrung</item>
+        <item>викручувати, вижимати, звиватися, мучити V2</item>
+        <item>wrung</item>
+        <item>викручувати, вижимати, звиватися, мучити V3</item>
+        <item>write</item>
+        <item>писати V1</item>
+        <item>wrote</item>
+        <item>писати V2</item>
+        <item>written</item>
+        <item>писати V3</item>
+    </string-array>
 </resources>

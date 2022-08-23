@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Wisdom in words</string>
+    <string name="action_irregular_verbs">Irregular verbs</string>
     <string name="action_sync">Sync</string>
     <string name="action_save">Save</string>
     <string name="action_reset">Reset</string>
