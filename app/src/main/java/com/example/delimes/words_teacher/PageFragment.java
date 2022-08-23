@@ -1018,6 +1018,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         if (isStart || isResumeAfterStop) {
             isIrregularVerbs = false;
+            SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+            editPrefs.putBoolean("isIrregularVerbs", isIrregularVerbs);
+            editPrefs.commit();
+
             restore();
         }
         isStart = false;
