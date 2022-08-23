@@ -5,9 +5,11 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -82,17 +84,24 @@ public class MainActivity extends AppCompatActivity {
         final android.support.v4.app.Fragment frag1 = fragments.get(0);
         android.support.v4.app.Fragment frag2 = fragments.get(1);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean isIrregularVerbs = prefs.getBoolean("isIrregularVerbs", false);
         // Операции для выбранного пункта меню
         switch (id) {
 
             case R.id.action_irregular_verbs:
-                ((PageFragment)frag1).saveListDictionary(false);
+                if (!isIrregularVerbs) {
+                    ((PageFragment) frag1).saveListDictionary(false);
+                }
                 ((PageFragment)frag1).restoreListDictionary(true);
 
                 return true;
 
             case R.id.action_main_dictionary:
-                ((PageFragment)frag1).saveListDictionary(true);
+                if (isIrregularVerbs) {
+                    ((PageFragment) frag1).saveListDictionary(true);
+                }
                 ((PageFragment)frag1).restoreListDictionary(false);
 
                 return true;
