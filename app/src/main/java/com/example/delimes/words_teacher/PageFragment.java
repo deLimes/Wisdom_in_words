@@ -149,7 +149,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
     View page, page2;
     private WebView mWebView;
 
-    public void saveListDictionary() {
+    public void saveListDictionary(boolean isIrregularVerbs) {
 
         try {
 
@@ -1098,12 +1098,19 @@ public class PageFragment extends android.support.v4.app.Fragment {
             Log.d("jkl", "restoreListDictionary: "+e.getMessage());
         }
 
+
+
+
+
+
+
         if (listDictionary.size() == 0) {
             Log.d("jkl", "restoreListDictionary: listDictionary.size() == 0");
             resetListDictionary();
         }else{
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+            //this.isIrregularVerbs = prefs.getBoolean("isIrregularVerbs", false);
             englishLeft = prefs.getBoolean("englishLeft", true);
             answersWereHidden = prefs.getBoolean("answersWereHidden", false);
             indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
@@ -1115,6 +1122,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
             tvTextTotal.setText(Integer.toString( prefs.getInt("countOfTotalWords", listDictionaryCopy.size()) ));
 
             if (isIrregularVerbs){
+                englishLeft = prefs.getBoolean("englishLeftIr", true);
+                answersWereHidden = prefs.getBoolean("answersWereHiddenIr", false);
+                indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRowIr", 0);
+                millisecondsPerInch = prefs.getFloat("millisecondsPerInchIr", 1000f);
+
                 tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWordsIr", 0) ));
                 tvTextOnRepetition.setText(Integer.toString( prefs.getInt("countOfDifficultWordsIr", 0) ));
                 tvTextLeft.setText(Integer.toString( prefs.getInt("countOfLeftWordsIr",  listDictionaryCopy.size()) ));
@@ -1129,6 +1141,10 @@ public class PageFragment extends android.support.v4.app.Fragment {
         defineIndexesOfWords();
         tvProgressBar.setMax(listDictionary.size());
         tvProgressBar.setProgress(countOfLearnedWords);
+
+        if (answersWereHidden){
+            hideAnswers();
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -1184,27 +1200,40 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
    
     public void save(){
-
-        saveListDictionary();
+        if (!isIrregularVerbs) {
+            saveListDictionary(false);
+        }else {
+            saveListDictionary(true);
+        }
 
         SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-        editPrefs.putBoolean("englishLeft", englishLeft);
-        editPrefs.putBoolean("answersWereHidden", answersWereHidden);
-        editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
 
+        editPrefs.putBoolean("isIrregularVerbs", isIrregularVerbs);
         if (!isIrregularVerbs) {
+            editPrefs.putBoolean("englishLeft", englishLeft);
+            editPrefs.putBoolean("answersWereHidden", answersWereHidden);
+            editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+
             editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
             editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
             editPrefs.putInt("countOfLeftWords", listDictionaryCopy.size() - countOfLearnedWords);
             editPrefs.putInt("countOfTotalWords", listDictionaryCopy.size());
+
+            editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
         }else {
+            editPrefs.putBoolean("englishLeftIr", englishLeft);
+            editPrefs.putBoolean("answersWereHiddenIr", answersWereHidden);
+            editPrefs.putInt("indexOfTheSelectedRowIr", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+
             editPrefs.putInt("countOfLearnedWordsIr", countOfLearnedWords);
             editPrefs.putInt("countOfDifficultWordsIr", countOfDifficultWords);
             editPrefs.putInt("countOfLeftWordsIr", listDictionaryCopy.size() - countOfLearnedWords);
             editPrefs.putInt("countOfTotalWordsIr", listDictionaryCopy.size());
+
+            editPrefs.putFloat("millisecondsPerInchIr", millisecondsPerInch);
         }
 
-        editPrefs.putFloat("millisecondsPerInch", millisecondsPerInch);
+
 
         editPrefs.commit();
 

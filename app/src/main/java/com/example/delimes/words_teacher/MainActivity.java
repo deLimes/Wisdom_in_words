@@ -86,7 +86,14 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
 
             case R.id.action_irregular_verbs:
+                ((PageFragment)frag1).saveListDictionary(false);
                 ((PageFragment)frag1).restoreListDictionary(true);
+
+                return true;
+
+            case R.id.action_main_dictionary:
+                ((PageFragment)frag1).saveListDictionary(true);
+                ((PageFragment)frag1).restoreListDictionary(false);
 
                 return true;
 

@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/action_main_dictionary"
+        android:orderInCategory="100"
+        android:title="@string/action_main_dictionary"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_irregular_verbs"
         android:orderInCategory="100"
         android:title="@string/action_irregular_verbs"
