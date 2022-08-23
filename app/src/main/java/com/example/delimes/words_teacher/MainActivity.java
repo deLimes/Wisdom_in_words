@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         final android.support.v4.app.Fragment frag1 = fragments.get(0);
         android.support.v4.app.Fragment frag2 = fragments.get(1);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
         boolean isIrregularVerbs = prefs.getBoolean("isIrregularVerbs", false);
         // Операции для выбранного пункта меню
@@ -93,16 +93,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_irregular_verbs:
                 if (!isIrregularVerbs) {
                     ((PageFragment) frag1).saveListDictionary(false);
+                    ((PageFragment)frag1).restoreListDictionary(true);
                 }
-                ((PageFragment)frag1).restoreListDictionary(true);
+
 
                 return true;
 
             case R.id.action_main_dictionary:
                 if (isIrregularVerbs) {
                     ((PageFragment) frag1).saveListDictionary(true);
+                    ((PageFragment)frag1).restoreListDictionary(false);
                 }
-                ((PageFragment)frag1).restoreListDictionary(false);
+
 
                 return true;
 

@@ -155,7 +155,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
             if (!getExternalStorageState().equals(
                     MEDIA_MOUNTED)) {
-                Toast.makeText(getActivity(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -181,6 +181,11 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 // закрываем поток
                 bw.flush();
                 bw.close();
+
+                SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+                editPrefs.putBoolean("isIrregularVerbs", !isIrregularVerbs);
+                editPrefs.commit();
+
                 Toast.makeText(getActivity().getBaseContext(), "File saved: " + sdFile.getAbsolutePath(),
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
@@ -1018,9 +1023,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         if (isStart || isResumeAfterStop) {
             isIrregularVerbs = false;
-            SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-            editPrefs.putBoolean("isIrregularVerbs", isIrregularVerbs);
-            editPrefs.commit();
 
             restore();
         }
@@ -1112,7 +1114,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             Log.d("jkl", "restoreListDictionary: listDictionary.size() == 0");
             resetListDictionary();
         }else{
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
             //this.isIrregularVerbs = prefs.getBoolean("isIrregularVerbs", false);
             englishLeft = prefs.getBoolean("englishLeft", true);
@@ -1211,8 +1213,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         }
 
         SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
-
-        editPrefs.putBoolean("isIrregularVerbs", isIrregularVerbs);
+        editPrefs.putBoolean("isIrregularVerbs", false);
         if (!isIrregularVerbs) {
             editPrefs.putBoolean("englishLeft", englishLeft);
             editPrefs.putBoolean("answersWereHidden", answersWereHidden);
@@ -1240,6 +1241,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
 
         editPrefs.commit();
+        getActivity().finish();
 
     }
 

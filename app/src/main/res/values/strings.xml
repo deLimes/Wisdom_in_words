@@ -3,7 +3,7 @@
     <string name="action_irregular_verbs">Irregular verbs</string>
     <string name="action_main_dictionary">Main dictionary</string>
     <string name="action_sync">Sync</string>
-    <string name="action_save">Save</string>
+    <string name="action_save">Save and close</string>
     <string name="action_reset">Reset</string>
     <string name="action_help">Help (video)</string>
 </resources>
