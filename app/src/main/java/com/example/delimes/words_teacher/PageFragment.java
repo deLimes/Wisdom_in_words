@@ -1065,8 +1065,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         try {
 
-            //int k = 1/0;//////////del
-
             // открываем поток для чтения
             BufferedReader br = new BufferedReader(new FileReader(sdFile));
             String str = "";
