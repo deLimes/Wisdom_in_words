@@ -1145,6 +1145,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         }
 
         defineIndexesOfWords();
+        editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
+        editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
+
         tvProgressBar.setMax(listDictionary.size());
         tvProgressBar.setProgress(countOfLearnedWords);
 
@@ -1185,6 +1188,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
         tvTextLeft.setText(Integer.toString(listDictionaryCopy.size()));
         tvTextTotal.setText(Integer.toString(listDictionaryCopy.size()));
 
+
         tvProgressBar.setMax(listDictionaryCopy.size());
         tvProgressBar.setProgress(countOfLearnedWords);
 
@@ -1195,8 +1199,6 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         restoreListDictionary(false);
 
-        editTextNumberOfBlocks.setText(Integer.toString(numberOfBlocks));
-        editTextNumberOfCollocationsInABlock.setText(Integer.toString(numberOfCollocationsInABlock));
 
         if (answersWereHidden){
             hideAnswers();
