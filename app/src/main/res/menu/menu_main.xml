@@ -33,6 +33,11 @@
         android:orderInCategory="100"
         android:title="@string/action_help"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_youglish"
+        android:orderInCategory="100"
+        android:title="@string/action_youglish"
+        app:showAsAction="never"/>
 
 
 </menu>

@@ -149,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
                 pager.setCurrentItem(1);
 
                 return true;
+            case R.id.action_youglish:
+
+                ((PageFragment)frag1).goYouGlish();
+                return true;
 
             default:
                 //return true;

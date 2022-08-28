@@ -6,4 +6,5 @@
     <string name="action_save">Save and close</string>
     <string name="action_reset">Reset</string>
     <string name="action_help">Help (video)</string>
+    <string name="action_youglish">YouGlish</string>
 </resources>
