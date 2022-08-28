@@ -151,7 +151,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_youglish:
 
-                ((PageFragment)frag1).goYouGlish();
+                try {
+                    ((PageFragment)frag1).goYouGlish();
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
                 return true;
 
             default:
