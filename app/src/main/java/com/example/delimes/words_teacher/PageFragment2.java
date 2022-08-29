@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -78,6 +79,7 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
 
 
     private WebView mWebView;
+    Button goBack;
 
     public void enableScroll(boolean isScrollEnabled ) {
         this.isScrollEnabled = isScrollEnabled ;
@@ -217,6 +219,7 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
 
         //MyWebViewClient view = new MyWebViewClient();
         final WebView mWebView = (WebView) page.findViewById(R.id.webView);
+        goBack = page.findViewById(R.id.btnGoBack);
         editTextHostname = (EditText) page.findViewById(R.id.hostname);
         editTextPortname = (EditText) page.findViewById(R.id.portname);
         mWebView.setWebViewClient(new MyWebViewClient());
@@ -230,6 +233,14 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
         //mWebView.loadUrl("https://translate.google.com/?hl=ru#ru/en/Переводчик");
 
 
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                }
+            }
+        });
         editTextHostname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
