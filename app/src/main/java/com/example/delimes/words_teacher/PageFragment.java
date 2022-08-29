@@ -1538,6 +1538,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
     public void goYouGlish(){
 
+        mWebView.clearCache(true);
+
         String word = "";
 
         Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);

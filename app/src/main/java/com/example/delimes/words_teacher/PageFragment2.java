@@ -223,6 +223,8 @@ public class PageFragment2 extends android.support.v4.app.Fragment {
         mWebView.setWebChromeClient(new MyCustomChromeClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(false);
+        mWebView.clearCache(true);
         //mWebView.getSettings().setSupportMultipleWindows(true);
         //mWebView.getSettings().set(true);
         //mWebView.loadUrl("https://translate.google.com/?hl=ru#ru/en/Переводчик");
