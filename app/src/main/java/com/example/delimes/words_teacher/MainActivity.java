@@ -73,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (pager.getCurrentItem() == 1){
+            pager.setCurrentItem(0);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
