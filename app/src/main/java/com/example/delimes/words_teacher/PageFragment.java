@@ -1597,6 +1597,62 @@ public class PageFragment extends android.support.v4.app.Fragment {
         searchView.setQuery(word, false);
 
     }
+    public void goGoogle(){
+
+        mWebView.clearCache(true);
+
+        String word = "";
+
+        Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+        if (englishLeft) {
+            word = collocationCopy.ru;
+        } else {
+            word = collocationCopy.en;
+        }
+        word = word.replace("✓", "")
+                .replace("⚓", "");
+
+        Character Symbol = word.charAt(0);
+        boolean EnglishLayout = false;//engList.indexOf(Symbol) != -1;
+        boolean RussianLayout = false;//rusList.indexOf(Symbol) != -1;
+
+        for (int i = 0; i < ArrayEnglishCharacters.length; i++) {
+            if (ArrayEnglishCharacters[i] == Symbol) {
+                EnglishLayout = true;
+            }
+        }
+
+        for (int i = 0; i < ArrayRussianCharacters.length; i++) {
+            if (ArrayRussianCharacters[i] == Symbol) {
+                RussianLayout = true;
+            }
+        }
+
+        if (EnglishLayout != RussianLayout) {
+            EnglishTextLayout = EnglishLayout;
+        }
+
+        String text = "https://translate.google.com/?hl=ru#en/ru/" + word;
+        //String text = "https://context.reverso.net/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/" + word;
+        text = "https://www.google.com/search?q="+word;
+
+
+        List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        mWebView = frag2.getView().findViewById(R.id.webView);
+        mWebView.loadUrl(text);
+
+
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                "Go Google",
+                Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
+
+        textForViewing = true;
+        searchView.setQuery(word, false);
+
+    }
 
     class StateMap {
 

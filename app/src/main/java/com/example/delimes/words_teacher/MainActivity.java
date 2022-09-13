@@ -158,6 +158,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
+            case R.id.action_googleSearch:
+
+                try {
+                    ((PageFragment)frag1).goGoogle();
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                return true;
 
             default:
                 //return true;

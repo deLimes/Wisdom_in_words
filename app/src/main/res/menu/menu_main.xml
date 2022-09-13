@@ -38,6 +38,11 @@
         android:orderInCategory="100"
         android:title="@string/action_youglish"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_googleSearch"
+        android:orderInCategory="100"
+        android:title="@string/action_googleSearch"
+        app:showAsAction="never"/>
 
 
 </menu>
