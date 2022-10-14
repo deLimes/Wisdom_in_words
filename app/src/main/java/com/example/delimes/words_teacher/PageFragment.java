@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -19,6 +20,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.speech.RecognitionListener;
+import android.speech.RecognitionService;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.MainThread;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -81,12 +88,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStorageState;
 
-public class PageFragment extends android.support.v4.app.Fragment {
+public class PageFragment extends android.support.v4.app.Fragment implements RecognitionListener {
 
     InputMethodManager inputMethodManager;
     ConstraintLayout rootView;
@@ -142,8 +150,229 @@ public class PageFragment extends android.support.v4.app.Fragment {
     int childPosition;
     boolean collocationRemoved = false;
     boolean playedNextPoint = false;
+
+    @Override
+    public void onReadyForSpeech(Bundle params) {
+
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+
+    }
+
+    @Override
+    public void onRmsChanged(float rmsdB) {
+
+    }
+
+    @Override
+    public void onBufferReceived(byte[] buffer) {
+
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+        searchView.setQuery("onEndOfSpeech", false);
+        //startListening();
+    }
+
+    @Override
+    public void onError(int error) {
+        String mError = "";
+        //mStatus = "Error detected";
+        switch (error) {
+            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                mError = " network timeout";
+                startListening();
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_NETWORK:
+                mError = " network" ;
+                //toast("Please check data bundle or network settings");
+                Log.e("123", mError);
+                return;
+            case SpeechRecognizer.ERROR_AUDIO:
+                mError = " audio";
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_SERVER:
+                mError = " server";
+                startListening();
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_CLIENT:
+                mError = " client";
+                startListening();
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                mError = " speech time out" ;
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_NO_MATCH:
+                mError = " no match" ;
+                startListening();
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                mError = " recogniser busy" ;
+                sr.cancel();
+                startListening();
+                Log.e("123", mError);
+                break;
+            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                mError = " insufficient permissions" ;
+                startListening();
+                Log.e("123", mError);
+                break;
+
+        }
+        //Log.i(TAG,  "Error: " +  error + " - " + mError);
+        searchView.setQuery("onError:" + mError, false);
+    }
+
+    public void onResultsFromMainActivity(Intent data) {
+        words = data.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+        String word = words.get(0);
+        //searchView.setQuery(word, false);
+
+        Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+        if (word.toUpperCase().equals("REPEAT")) {
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+        } else if (word.toUpperCase().equals("ANSWER")) {
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+        } else if (word.toUpperCase().equals("SPELL")) {
+            textToSpeechSystem.setLanguage(Locale.US);
+            for (int i = 0; i < collocation.en.length(); i++){
+                Character Symbol = collocation.en.charAt(i);
+                textToSpeechSystem.speak(Symbol.toString(), TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+//            if (englishLeft) {
+//
+//            } else {
+//                textToSpeechSystem.setLanguage(new Locale("ru"));
+//                for (int i = 0; i < collocation.ru.length(); i++){
+//                    Character Symbol = collocation.ru.charAt(i);
+//                    textToSpeechSystem.speak(Symbol.toString(), TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//                }
+//            }
+        } else if (word.toUpperCase().equals("STOP")) {
+            MainActivity.item.setTitle(getResources().getString(R.string.action_voiceMode));
+            MainActivity.voiceModeOn = false;
+        } else {
+            indexOfThePreviousSelectedRow++;
+            if (indexOfThePreviousSelectedRow == listDictionary.size()) {
+                int j = 0;
+                for (Collocation i : listDictionary) {
+                    if (i.learnedEn && i.learnedRu) {
+                        break;
+                    }
+                    j++;
+                }
+                if (j == listDictionary.size()) j = 0;
+
+                indexOfThePreviousSelectedRow = j;
+            }
+            adapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+            collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onResults(Bundle results) {
+        ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        searchView.setQuery(data.get(0), false);
+
+        final Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+        if (englishLeft) {
+            textToSpeechSystem.setLanguage(new Locale("ru"));
+            textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+
+                    /*while (textToSpeechSystem.isSpeaking() ) {
+                    };
+                    textToSpeechSystem.setLanguage(new Locale("ru"));
+                    textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                    while (textToSpeechSystem.isSpeaking() ) {
+                    };*/
+        }else {
+            textToSpeechSystem.setLanguage(Locale.US);
+            textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+
+
+        }
+        indexOfThePreviousSelectedRow++;
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPartialResults(Bundle partialResults) {
+
+    }
+
+    @Override
+    public void onEvent(int eventType, Bundle params) {
+
+    }
+
+
+
+    private void startListening(){
+        //audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
+        //audioManager.setStreamMute(AudioManager.STREAM_ALARM, true);
+        //audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+        //audioManager.setStreamMute(AudioManager.STREAM_RING, true);
+
+        //audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        //isStopBtn = false;
+        //AudioManager audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        //audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+
+        //sr.startListening(speechRecognizerIntent);dont work
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                getContext().getPackageName());
+
+        getActivity().startActivityForResult(intent,300);
+        //sr.startListening(intent);//dont work
+
+    }
+
+
     public enum ComparisonValue {BEFORE, EQUAL, AFTER};
     boolean isIrregularVerbs = false;
+    private TextToSpeech textToSpeechSystem;
+    private SpeechRecognizer sr = null;
+    private Intent speechRecognizerIntent;
+    public ArrayList<String> words;
     //Socket socket;
 
     View page, page2;
@@ -210,6 +439,8 @@ public class PageFragment extends android.support.v4.app.Fragment {
     }
 
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,6 +479,41 @@ public class PageFragment extends android.support.v4.app.Fragment {
         editTextHostname = (EditText) page2.findViewById(R.id.hostname);
         editTextPortname = (EditText) page2.findViewById(R.id.portname);
 
+        ////////////////////////////////////////////////////////////////////////
+        textToSpeechSystem = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+
+            }
+        });
+
+        /*
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        //speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, new String[]{"uk-UA"});
+        ////speechRecognizerIntent.putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", new String[]{"uk-UA"});
+
+        //speechRecognizerIntent.putExtra("android.speech.extra.DICTATION_MODE", true);
+        //speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                getContext().getPackageName());
+        */
+        //speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"speech_prompt");
+        //speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getApplicationContext().getPackageName());
+        sr = SpeechRecognizer.createSpeechRecognizer(this.getContext());
+        sr.setRecognitionListener(this);
+
+        speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US);//"ja_JP");
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak");
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                getContext().getPackageName());
+        //audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        //startListening();
+        /////////////////////////////////////////////////////////////////////
         editTextNumberOfBlocks.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
                 int backupValue = numberOfBlocks;
@@ -318,7 +584,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
                 public void onClick(View v) {
 
                     showAnswers();
-
+                    sr.startListening(speechRecognizerIntent);
                 }
             });
 
@@ -1651,6 +1917,136 @@ public class PageFragment extends android.support.v4.app.Fragment {
 
         textForViewing = true;
         searchView.setQuery(word, false);
+
+    }
+
+    public void voiceMode(){
+
+        int j = 0;
+        for (Collocation i : listDictionary) {
+            if (i.learnedEn && i.learnedRu) {
+                break;
+            }
+            j++;
+        }
+        if (j == listDictionary.size()) j = 0;
+
+        indexOfThePreviousSelectedRow = j;
+        adapter.notifyDataSetChanged();
+
+        recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+
+
+
+        if (!MainActivity.voiceModeOn){
+            textToSpeechSystem.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onStart(String utteranceId) {
+
+                }
+
+                @Override
+                public void onDone(String utteranceId) {
+
+                }
+
+                @Override
+                public void onError(String utteranceId) {
+
+                }
+            });
+            return;
+        }
+        //textToSpeechSystem.speak("Hello world. Привет мир!", TextToSpeech.QUEUE_FLUSH, null, null);
+        textToSpeechSystem.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                //int index = 0;
+                //Toast.makeText(getContext(),"onDone working.",Toast.LENGTH_LONG).show();
+                //indexOfThePreviousSelectedRow = 0;
+
+
+
+                //final Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+//                if (englishLeft) {
+//                    textToSpeechSystem.setLanguage(Locale.US);
+//                    textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//                    /*while (textToSpeechSystem.isSpeaking() ) {
+//                    };
+//                    textToSpeechSystem.setLanguage(new Locale("ru"));
+//                    textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//                    while (textToSpeechSystem.isSpeaking() ) {
+//                    };*/
+//                }else {
+//                    textToSpeechSystem.setLanguage(new Locale("ru"));
+//                    textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//                    while (textToSpeechSystem.isSpeaking() ) {
+//                    };
+//                    textToSpeechSystem.setLanguage(Locale.US);
+//                    textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//                    while (textToSpeechSystem.isSpeaking() ) {
+//                    };
+//                }
+
+
+                Handler mainHandler = new Handler(getContext().getMainLooper());
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        startListening();
+                    }
+                };
+                mainHandler.post(runnable);
+
+
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+
+            }
+        });
+
+        final Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+        if (englishLeft) {
+            textToSpeechSystem.setLanguage(Locale.US);
+            textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+        }else {
+            textToSpeechSystem.setLanguage(new Locale("ru"));
+            textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+        };
+
+        /*for (Collocation collocation : listDictionaryCopy) {
+            if (!MainActivity.voiceModeOn){
+                break;
+            }
+            /*if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_ADD, null, null);
+                while (textToSpeechSystem.isSpeaking() ) {
+                };
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_ADD, null, null);
+                while (textToSpeechSystem.isSpeaking() ) {
+                };
+            }else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, null);
+                while (textToSpeechSystem.isSpeaking() ) {
+                };
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, null);
+                while (textToSpeechSystem.isSpeaking() ) {
+                };
+            }
+        }*/
 
     }
 

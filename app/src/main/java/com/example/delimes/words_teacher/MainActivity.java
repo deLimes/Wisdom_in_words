@@ -5,11 +5,13 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -32,6 +34,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static ViewPager pager;
+    public static boolean voiceModeOn = false;
+    public static MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
 
         // получим идентификатор выбранного пункта меню
         int id = item.getItemId();
@@ -169,9 +174,29 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_googleSearch:
 
+
                 try {
                     ((PageFragment)frag1).goGoogle();
                 }catch(Exception e){
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                return true;
+            case R.id.action_voiceMode:
+
+                MainActivity.item = item;
+                if (!voiceModeOn){
+                    item.setTitle(getResources().getString(R.string.action_textMode));
+                    voiceModeOn = true;
+                }else {
+                    item.setTitle(getResources().getString(R.string.action_voiceMode));
+                    voiceModeOn = false;
+                }
+                //((PageFragment)frag1).voiceMode();
+                try {
+                    ((PageFragment)frag1).voiceMode();
+                }catch(Exception e){
+                    Log.d("onOptionsItemSelected: ", e.getMessage());
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
@@ -198,6 +223,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        final android.support.v4.app.Fragment frag1 = fragments.get(0);
+        android.support.v4.app.Fragment frag2 = fragments.get(1);
+
+        ((PageFragment)frag1).words=data.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+        ((PageFragment)frag1).onResultsFromMainActivity(data);
+    }
 
     public class MyFragmentAdapter extends FragmentPagerAdapter {
 

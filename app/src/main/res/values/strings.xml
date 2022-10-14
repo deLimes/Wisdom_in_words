@@ -8,4 +8,6 @@
     <string name="action_help">Help (video)</string>
     <string name="action_youglish">YouGlish</string>
     <string name="action_googleSearch">Google search</string>
+    <string name="action_voiceMode">Voice mode</string>
+    <string name="action_textMode">Text mode</string>
 </resources>

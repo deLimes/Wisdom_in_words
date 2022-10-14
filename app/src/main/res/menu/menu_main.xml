@@ -43,6 +43,11 @@
         android:orderInCategory="100"
         android:title="@string/action_googleSearch"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_voiceMode"
+        android:orderInCategory="100"
+        android:title="@string/action_voiceMode"
+        app:showAsAction="never"/>
 
 
 </menu>
