@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="#000000"
+        android:layout_marginTop="10dp"
+        >
+
+        <Button
+            android:id="@+id/record_btn"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:textSize="22dp"
+            android:background="#E70D0D"
+            android:text="record"
+            android:textStyle="bold"
+
+            >
+
+        </Button>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="#000000"
+        android:layout_marginTop="10dp"
+        >
+
+        <Button
+            android:id="@+id/stop_btn"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:textSize="22dp"
+            android:background="#E70D0D"
+            android:text="stop"
+            android:textStyle="bold"
+
+            >
+
+        </Button>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="#000000"
+        android:layout_marginTop="10dp"
+        >
+
+        <!--
+        <Button
+            android:id="@+id/play_btn"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:text="Play"
+            android:textSize="22dp"
+            android:background="#35E70D"
+            android:textStyle="bold"
+            />
+            -->
+             <EditText
+                 android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+                 android:background="@color/colorAccent"
+        />
+
+
+
+    </RelativeLayout>
+</LinearLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.Material3.Dark">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.Material3.Dark.BottomSheetDialog" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    -->

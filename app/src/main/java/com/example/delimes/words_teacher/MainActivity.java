@@ -3,7 +3,6 @@ package com.example.delimes.words_teacher;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,9 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -25,18 +26,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
     public static ViewPager pager;
     public static boolean voiceModeOn = false;
     public static MenuItem item;
+    public static  SpeechRecognizer sr = null;
 
+    /////////////////////////////////////////////////////////////////////////////
+    Button playBtn, recordBtn, stopBtn;
+    //public static MainActivity mainActivity = this;
+    public static EditText editText;
+    /////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +66,98 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        //getApplicationContext().bindService(new Intent(getApplicationContext(), TService.class), TService.mConnection, Context.BIND_AUTO_CREATE);
+
+
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 
+
+        sr = SpeechRecognizer.createSpeechRecognizer(this);
+        sr.setRecognitionListener(this);
+
+        editText = findViewById(R.id.editText);
+
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US);//"ja_JP");
+//                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak");
+//                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+//                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getApplicationContext().getPackageName());
+//
+//                sr.startListening(speechRecognizerIntent);
+//            }
+//        });
+
+////////////////////////////////////////////////////////////////////////////////////
+     /*   recordBtn = findViewById(R.id.record_btn);
+        stopBtn = findViewById(R.id.stop_btn);
+        editText = findViewById(R.id.editText);
+
+        recordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                try{
+//                    mediaRecorder.prepare();
+//                    mediaRecorder.start();
+//                    Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+//                    System.out.println("IT TRIED RECORDING");
+//                } catch (IllegalStateException ise){
+//                    System.out.println("FAIL RECORDING 1");
+//                } catch (IOException ioe){
+//                    System.out.println("FAIL RECORDING 2");
+//                }
+                getApplicationContext().bindService(new Intent(getApplicationContext(), TService.class), TService.mConnection, Context.BIND_AUTO_CREATE);
+
+                System.out.println("ITS JUST PRESSING RECORD BUT NOTHING");
+
+            }
+        });
+
+        stopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getApplicationContext(), "Stop Recording", Toast.LENGTH_LONG).show();
+                TService.isStopBtn = true;
+                try {
+                    getApplicationContext().unbindService(TService.mConnection);
+                } catch (IllegalStateException e) {
+                    Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        editText.setText(TService.text);
+                    }
+                };
+                Handler handler = new Handler();
+
+                handler.postDelayed(r, 5000);
+              //  AudioManager audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+//                audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+//                audioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
+//                audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+//                audioManager.setStreamMute(AudioManager.STREAM_RING, false);
+                //audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                //audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                //getApplicationContext().sendBroadcast(new Intent("zxc"));//set activity_main invisible
+
+            }
+        });
+*/
+//////////////////////////////////////////////////////////////////////////////////////
     }
 
 
@@ -233,6 +330,51 @@ public class MainActivity extends AppCompatActivity {
 
         ((PageFragment)frag1).words=data.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
         ((PageFragment)frag1).onResultsFromMainActivity(data);
+    }
+
+    @Override
+    public void onReadyForSpeech(Bundle params) {
+
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+
+    }
+
+    @Override
+    public void onRmsChanged(float rmsdB) {
+
+    }
+
+    @Override
+    public void onBufferReceived(byte[] buffer) {
+
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+
+    }
+
+    @Override
+    public void onError(int error) {
+
+    }
+
+    @Override
+    public void onResults(Bundle results) {
+
+    }
+
+    @Override
+    public void onPartialResults(Bundle partialResults) {
+
+    }
+
+    @Override
+    public void onEvent(int eventType, Bundle params) {
+
     }
 
     public class MyFragmentAdapter extends FragmentPagerAdapter {

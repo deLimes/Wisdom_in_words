@@ -94,7 +94,7 @@ import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStorageState;
 
-public class PageFragment extends android.support.v4.app.Fragment implements RecognitionListener {
+public class PageFragment extends Fragment implements RecognitionListener {
 
     InputMethodManager inputMethodManager;
     ConstraintLayout rootView;
@@ -150,15 +150,18 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
     int childPosition;
     boolean collocationRemoved = false;
     boolean playedNextPoint = false;
+    TextView textViewCommands;
 
     @Override
     public void onReadyForSpeech(Bundle params) {
-
+        textViewCommands.setText("onReadyForSpeech");
+//        textViewCommands.getBackground().setColorFilter(
+//                Color.parseColor("#02FA02"), PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
     public void onBeginningOfSpeech() {
-
+        //textViewCommands.setText("onBeginningOfSpeech");
     }
 
     @Override
@@ -168,12 +171,15 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
     @Override
     public void onBufferReceived(byte[] buffer) {
-
+        textViewCommands.setText("onBufferReceived");
     }
 
     @Override
     public void onEndOfSpeech() {
-        searchView.setQuery("onEndOfSpeech", false);
+        //searchView.setQuery("onEndOfSpeech", false);
+        textViewCommands.setText("onEndOfSpeech");
+//        textViewCommands.getBackground().setColorFilter(
+//                Color.parseColor("#FA1C02"), PorterDuff.Mode.MULTIPLY);
         //startListening();
     }
 
@@ -229,7 +235,11 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
         }
         //Log.i(TAG,  "Error: " +  error + " - " + mError);
-        searchView.setQuery("onError:" + mError, false);
+       // searchView.setQuery("onError:" + mError, false);
+        textViewCommands.setText("onError:" + mError);
+//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, original_volume_level, 0);
+//        Toast.makeText(getContext(), "Media volume restored.", Toast.LENGTH_SHORT).show();
+
     }
 
     public void onResultsFromMainActivity(Intent data) {
@@ -316,6 +326,8 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
         } else if (word.toUpperCase().equals("STOP")) {
             MainActivity.item.setTitle(getResources().getString(R.string.action_voiceMode));
             MainActivity.voiceModeOn = false;
+            stopListening();
+            automatically = false;
         } else {
             indexOfThePreviousSelectedRow++;
             if (indexOfThePreviousSelectedRow == listDictionary.size()) {
@@ -347,29 +359,129 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
     @Override
     public void onResults(Bundle results) {
-        ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        searchView.setQuery(data.get(0), false);
+        stopListening();
 
-        final Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+        words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        //searchView.setQuery(words.get(0), false);
 
-        if (englishLeft) {
-            textToSpeechSystem.setLanguage(new Locale("ru"));
-            textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
-
-                    /*while (textToSpeechSystem.isSpeaking() ) {
-                    };
-                    textToSpeechSystem.setLanguage(new Locale("ru"));
-                    textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
-                    while (textToSpeechSystem.isSpeaking() ) {
-                    };*/
+        String word = "";
+        if (results == null) {
+            if (answerIsSaid){
+                word = "AUTOMATICALLY";
+            }else {
+                word = "ANSWER";
+            }
         }else {
-            textToSpeechSystem.setLanguage(Locale.US);
-            textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            word = words.get(0);
+        }
 
+        textForViewing = true;
+        searchView.setQuery(word, false);
+        textViewCommands.setText(word);
+
+        Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+        if (word.toUpperCase().equals("REPEAT")) {
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+        } else if (word.toUpperCase().equals("ANSWER")) {
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+            answerIsSaid = true;
+
+
+        } else if (word.toUpperCase().equals("SPELL")) {
+            textToSpeechSystem.setLanguage(Locale.US);
+            for (int i = 0; i < collocation.en.length(); i++){
+                Character Symbol = collocation.en.charAt(i);
+                textToSpeechSystem.speak(Symbol.toString(), TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+        } else if (word.toUpperCase().equals("AUTOMATICALLY")) {
+            automatically = true;
+            indexOfThePreviousSelectedRow++;
+            if (indexOfThePreviousSelectedRow == listDictionary.size()) {
+                int j = 0;
+                for (Collocation i : listDictionary) {
+                    if (i.learnedEn && i.learnedRu) {
+                        break;
+                    }
+                    j++;
+                }
+                if (j == listDictionary.size()) j = 0;
+
+                indexOfThePreviousSelectedRow = j;
+            }
+            adapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+            collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+            answerIsSaid = false;
+        } else if (word.toUpperCase().equals("PREVIOUS")) {
+            indexOfThePreviousSelectedRow--;
+            if (indexOfThePreviousSelectedRow == -1) {
+                indexOfThePreviousSelectedRow = listDictionary.size()-1;
+            }
+            adapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+            collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
+
+        } else if (word.toUpperCase().equals("STOP")) {
+            MainActivity.item.setTitle(getResources().getString(R.string.action_voiceMode));
+            MainActivity.voiceModeOn = false;
+            stopListening();
+            automatically = false;
+        } else if (word.toUpperCase().equals("NEXT")) {
+            indexOfThePreviousSelectedRow++;
+            if (indexOfThePreviousSelectedRow == listDictionary.size()) {
+                int j = 0;
+                for (Collocation i : listDictionary) {
+                    if (i.learnedEn && i.learnedRu) {
+                        break;
+                    }
+                    j++;
+                }
+                if (j == listDictionary.size()) j = 0;
+
+                indexOfThePreviousSelectedRow = j;
+            }
+            adapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+            collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            if (englishLeft) {
+                textToSpeechSystem.setLanguage(Locale.US);
+                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            } else {
+                textToSpeechSystem.setLanguage(new Locale("ru"));
+                textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            }
 
         }
-        indexOfThePreviousSelectedRow++;
-        adapter.notifyDataSetChanged();
+
+
     }
 
     @Override
@@ -385,27 +497,31 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
 
     private void startListening(){
-        //audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
-        //audioManager.setStreamMute(AudioManager.STREAM_ALARM, true);
-        //audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        //audioManager.setStreamMute(AudioManager.STREAM_RING, true);
 
-        //audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        //isStopBtn = false;
-        //AudioManager audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        //audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+        original_volume_level = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
+        //Toast.makeText(getContext(), "STREAM_NOTIFICATION volume muted.", Toast.LENGTH_SHORT).show();
 
-        //sr.startListening(speechRecognizerIntent);dont work
+        sr.startListening(speechRecognizerIntent);
+        //Toast.makeText(getContext(), "startListening", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                getContext().getPackageName());
-
-        getActivity().startActivityForResult(intent,300);
+//        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
+//        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+//        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+//                getContext().getPackageName());
+//
+//        getActivity().startActivityForResult(intent,300);
         //sr.startListening(intent);//dont work
+
+    }
+    private void stopListening(){
+
+        sr.stopListening();
+        sr.cancel();
+        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
+        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -419,6 +535,8 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
     private boolean answerIsSaid = false;
     private boolean automatically = false;
     //Socket socket;
+    private Integer original_volume_level;
+    private AudioManager audioManager;
 
     View page, page2;
     private WebView mWebView;
@@ -520,9 +638,12 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
         tvTextTotal = (TextView) page.findViewById(R.id.tvTextTotal);
 
         editTextNumberOfBlocks = (EditText) page.findViewById(R.id.numberOfBlocks);
+        textViewCommands = (TextView) page.findViewById(R.id.textViewCommands);
 
         editTextHostname = (EditText) page2.findViewById(R.id.hostname);
         editTextPortname = (EditText) page2.findViewById(R.id.portname);
+
+
 
         ////////////////////////////////////////////////////////////////////////
         textToSpeechSystem = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
@@ -551,13 +672,13 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
         speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US);//"ja_JP");
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");//"ja_JP");
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak");
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                getContext().getPackageName());
+        //speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getContext().getPackageName());
+        audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         //audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        //startListening();
+        ///startListening();
         /////////////////////////////////////////////////////////////////////
         editTextNumberOfBlocks.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
@@ -619,6 +740,7 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
                 hideAnswers();
 
+                //sr.stopListening();
             }
 
         });
@@ -629,7 +751,25 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
                 public void onClick(View v) {
 
                     showAnswers();
-                    sr.startListening(speechRecognizerIntent);
+
+//                    try {
+//                        sr.startListening(speechRecognizerIntent);
+//                    }catch (Exception e){
+//                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+
+                    //getContext().bindService(new Intent(getContext(), TService.class), TService.mConnection, Context.BIND_AUTO_CREATE);
+
+//                    Handler mainHandler = new Handler(getContext().getMainLooper());
+//                    Runnable runnable = new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //MainActivity.sr.startListening(speechRecognizerIntent);
+//                            getContext().bindService(new Intent(getContext(), TService.class), TService.mConnection, Context.BIND_AUTO_CREATE);
+//                        }
+//                    };
+//                    ((MainActivity)getContext()).runOnUiThread(runnable);
+
                 }
             });
 
@@ -1321,6 +1461,9 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
     public void onStop() {
         super.onStop();
 
+        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
+        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
+
         if (!swap) {
             save();
         }
@@ -1969,6 +2112,12 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
         automatically = false;
 
+        if (MainActivity.voiceModeOn){
+            //startListening();
+        }else {
+            stopListening();
+        }
+
         int j = 0;
         for (Collocation i : listDictionary) {
             if (i.learnedEn && i.learnedRu) {
@@ -2050,11 +2199,13 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
                             startListening();
                         }
                         if (automatically) {
+                            //stopListening();
                             onResultsFromMainActivity(null);
                         }
                     }
                 };
                 mainHandler.post(runnable);
+
 
 
             }
@@ -2075,30 +2226,6 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
             textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
         };
 
-        /*for (Collocation collocation : listDictionaryCopy) {
-            if (!MainActivity.voiceModeOn){
-                break;
-            }
-            /*if (englishLeft) {
-                textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_ADD, null, null);
-                while (textToSpeechSystem.isSpeaking() ) {
-                };
-                textToSpeechSystem.setLanguage(new Locale("ru"));
-                textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_ADD, null, null);
-                while (textToSpeechSystem.isSpeaking() ) {
-                };
-            }else {
-                textToSpeechSystem.setLanguage(new Locale("ru"));
-                textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, null);
-                while (textToSpeechSystem.isSpeaking() ) {
-                };
-                textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, null);
-                while (textToSpeechSystem.isSpeaking() ) {
-                };
-            }
-        }*/
 
     }
 
@@ -2753,7 +2880,10 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 
                     Collocation collocation =  listDictionary.get(indexOfTheFilteredSelectedRow);
                     Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
-
+                    ////
+                    textToSpeechSystem.setLanguage(Locale.US);
+                    textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                    ////
                     if (englishLeft) {
                         original = collocationCopy.ru;
                     } else {
@@ -2852,6 +2982,7 @@ public class PageFragment extends android.support.v4.app.Fragment implements Rec
 //                    Activity activity = getActivity();
 //                    View view = new View(activity);
                     inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+
 
                     return true;
 
