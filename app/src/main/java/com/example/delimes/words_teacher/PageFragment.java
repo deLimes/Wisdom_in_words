@@ -1505,8 +1505,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
     public void onStop() {
         super.onStop();
 
-        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
-        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
+//        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
+//        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
 
         if (!swap) {
             save();
