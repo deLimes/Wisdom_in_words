@@ -150,13 +150,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
     int childPosition;
     boolean collocationRemoved = false;
     boolean playedNextPoint = false;
+    //boolean stopListening = false;
     TextView textViewCommands;
 
     @Override
     public void onReadyForSpeech(Bundle params) {
         textViewCommands.setText("onReadyForSpeech");
-//        textViewCommands.getBackground().setColorFilter(
-//                Color.parseColor("#02FA02"), PorterDuff.Mode.MULTIPLY);
+        textViewCommands.setBackgroundColor(Color.parseColor("#02FA02"));
     }
 
     @Override
@@ -177,10 +177,20 @@ public class PageFragment extends Fragment implements RecognitionListener {
     @Override
     public void onEndOfSpeech() {
         //searchView.setQuery("onEndOfSpeech", false);
+
         textViewCommands.setText("onEndOfSpeech");
-//        textViewCommands.getBackground().setColorFilter(
-//                Color.parseColor("#FA1C02"), PorterDuff.Mode.MULTIPLY);
+        textViewCommands.setBackgroundColor(Color.parseColor("#FA1C02"));
         //startListening();
+
+        Handler mainHandler = new Handler(getContext().getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
+            }
+        };
+        mainHandler.postDelayed(runnable, 1000);
+
     }
 
     @Override
@@ -357,24 +367,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
     }
 
-    @Override
-    public void onResults(Bundle results) {
-        stopListening();
-
-        words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        //searchView.setQuery(words.get(0), false);
-
-        String word = "";
-        if (results == null) {
-            if (answerIsSaid){
-                word = "AUTOMATICALLY";
-            }else {
-                word = "ANSWER";
-            }
-        }else {
-            words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            word = words.get(0);
-        }
+    public void commandHandler(String word) {
 
         textForViewing = true;
         searchView.setQuery(word, false);
@@ -480,6 +473,36 @@ public class PageFragment extends Fragment implements RecognitionListener {
             }
 
         }
+    }
+    @Override
+    public void onResults(Bundle results) {
+
+        //stopListening();
+
+        words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        //searchView.setQuery(words.get(0), false);
+
+        word = "";
+        if (results == null) {
+            if (answerIsSaid){
+                word = "AUTOMATICALLY";
+            }else {
+                word = "ANSWER";
+            }
+        }else {
+            //words = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            word = words.get(0);
+        }
+
+
+        Handler mainHandler = new Handler(getContext().getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                commandHandler(word);
+            }
+        };
+        mainHandler.post(runnable);
 
 
     }
@@ -498,11 +521,18 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
     private void startListening(){
 
-        original_volume_level = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
         //Toast.makeText(getContext(), "STREAM_NOTIFICATION volume muted.", Toast.LENGTH_SHORT).show();
 
-        sr.startListening(speechRecognizerIntent);
+        if (MainActivity.voiceModeOn && !textToSpeechSystem.isSpeaking()) {
+            //original_volume_level = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+            //audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
+            //audioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_MUTE, 0);
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+            //audioManager.adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_MUTE, 0);
+            //audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+            //mAlramMAnager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
+            sr.startListening(speechRecognizerIntent);
+        }
         //Toast.makeText(getContext(), "startListening", Toast.LENGTH_LONG).show();
 
 //        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -520,8 +550,21 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         sr.stopListening();
         sr.cancel();
-        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
-        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
+        //audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
+        //audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
+        //audioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_UNMUTE, 0);
+        Handler mainHandler = new Handler(getContext().getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                //audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
+            }
+        };
+        mainHandler.postDelayed(runnable, 2000);
+
+        //audioManager.adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_UNMUTE, 0);
+        //audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
+        //Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -532,6 +575,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     private SpeechRecognizer sr = null;
     private Intent speechRecognizerIntent;
     public ArrayList<String> words;
+    public String word;
     private boolean answerIsSaid = false;
     private boolean automatically = false;
     //Socket socket;
@@ -2157,6 +2201,15 @@ public class PageFragment extends Fragment implements RecognitionListener {
         textToSpeechSystem.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String utteranceId) {
+                Handler mainHandler = new Handler(getContext().getMainLooper());
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
+
+                    }
+                };
+                mainHandler.post(runnable);
 
             }
 
@@ -2196,6 +2249,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                     @Override
                     public void run() {
                         if (!textToSpeechSystem.isSpeaking() && !automatically) {
+                            stopListening();
                             startListening();
                         }
                         if (automatically) {
@@ -2881,8 +2935,19 @@ public class PageFragment extends Fragment implements RecognitionListener {
                     Collocation collocation =  listDictionary.get(indexOfTheFilteredSelectedRow);
                     Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
                     ////
-                    textToSpeechSystem.setLanguage(Locale.US);
-                    textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                    Handler mainHandler = new Handler(getContext().getMainLooper());
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Collocation collocationCopy =  listDictionaryCopy.get(indexOfTheSelectedRow);
+                            textToSpeechSystem.setLanguage(Locale.US);
+                            textToSpeechSystem.speak(collocationCopy.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+
+                        }
+                    };
+                    mainHandler.post(runnable);
+
                     ////
                     if (englishLeft) {
                         original = collocationCopy.ru;
