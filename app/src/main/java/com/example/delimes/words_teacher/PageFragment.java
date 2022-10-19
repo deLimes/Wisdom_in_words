@@ -189,7 +189,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
             }
         };
-        mainHandler.postDelayed(runnable, 1000);
+        mainHandler.postDelayed(runnable, 2000);
 
     }
 
@@ -472,6 +472,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
 
+        }else{
+            startListening();
         }
     }
     @Override
