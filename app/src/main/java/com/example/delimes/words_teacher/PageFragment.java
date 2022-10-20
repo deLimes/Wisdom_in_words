@@ -186,7 +186,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
+                //audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
             }
         };
         mainHandler.postDelayed(runnable, 2000);
@@ -1509,6 +1509,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
 //        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, original_volume_level, 0);
 //        Toast.makeText(getContext(), "STREAM_NOTIFICATION volume restored.", Toast.LENGTH_SHORT).show();
+        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE,0);
 
         if (!swap) {
             save();
