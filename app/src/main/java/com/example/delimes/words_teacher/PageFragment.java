@@ -390,7 +390,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (word.toUpperCase().equals("REPEAT")) {
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                textToSpeechSystem.speak(collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -401,15 +403,21 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                textToSpeechSystem.speak(collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
             answerIsSaid = true;
 
 
         } else if (word.toUpperCase().equals("SPELL")) {
             textToSpeechSystem.setLanguage(Locale.US);
-            for (int i = 0; i < collocation.en.length(); i++){
-                Character Symbol = collocation.en.charAt(i);
+            for (int i = 0; i < collocation.en
+                    .replace("✓", "")
+                    .replace("⚓", "").length(); i++){
+                Character Symbol = collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", "").charAt(i);
                 textToSpeechSystem.speak(Symbol.toString(), TextToSpeech.QUEUE_ADD, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
         } else if (word.toUpperCase().equals("AUTOMATICALLY")) {
@@ -432,7 +440,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                textToSpeechSystem.speak(collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -448,7 +458,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                textToSpeechSystem.speak(collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -478,7 +490,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
-                textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+                textToSpeechSystem.speak(collocation.en
+                        .replace("✓", "")
+                        .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -516,7 +530,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 commandHandler(word);
             }
         };
-        mainHandler.post(runnable);
+        mainHandler.postDelayed(runnable, 1000);
 
 
     }
@@ -2264,7 +2278,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                     @Override
                     public void run() {
                         if (!textToSpeechSystem.isSpeaking() && !automatically) {
-                            stopListening();
+                            //stopListening();
                             startListening();
                         }
                         if (automatically) {
@@ -2273,7 +2287,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                         }
                     }
                 };
-                mainHandler.post(runnable);
+                mainHandler.postDelayed(runnable, 1000);
 
 
 
