@@ -1645,6 +1645,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             englishLeft = prefs.getBoolean("englishLeft", true);
             answersWereHidden = prefs.getBoolean("answersWereHidden", false);
             indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRow", 0);
+            indexOfThePreviousSelectedRow = prefs.getInt("indexOfThePreviousSelectedRow", 0);
             millisecondsPerInch = prefs.getFloat("millisecondsPerInch", 1000f);
 
             tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWords", 0) ));
@@ -1656,6 +1657,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 englishLeft = prefs.getBoolean("englishLeftIr", true);
                 answersWereHidden = prefs.getBoolean("answersWereHiddenIr", false);
                 indexOfTheSelectedRow = prefs.getInt("indexOfTheSelectedRowIr", 0);
+                indexOfThePreviousSelectedRow = prefs.getInt("indexOfThePreviousSelectedRowIr", 0);
                 millisecondsPerInch = prefs.getFloat("millisecondsPerInchIr", 1000f);
 
                 tvTextLearned.setText(Integer.toString( prefs.getInt("countOfLearnedWordsIr", 0) ));
@@ -1745,6 +1747,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             editPrefs.putBoolean("englishLeft", englishLeft);
             editPrefs.putBoolean("answersWereHidden", answersWereHidden);
             editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+            editPrefs.putInt("indexOfThePreviousSelectedRow", indexOfThePreviousSelectedRow);
 
             editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
             editPrefs.putInt("countOfDifficultWords", countOfDifficultWords);
@@ -1756,6 +1759,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             editPrefs.putBoolean("englishLeftIr", englishLeft);
             editPrefs.putBoolean("answersWereHiddenIr", answersWereHidden);
             editPrefs.putInt("indexOfTheSelectedRowIr", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+            editPrefs.putInt("indexOfThePreviousSelectedRowIr", indexOfThePreviousSelectedRow);
 
             editPrefs.putInt("countOfLearnedWordsIr", countOfLearnedWords);
             editPrefs.putInt("countOfDifficultWordsIr", countOfDifficultWords);
@@ -2191,18 +2195,22 @@ public class PageFragment extends Fragment implements RecognitionListener {
             stopListening();
         }
 
-        int j = 0;
-        for (Collocation i : listDictionary) {
-            if (i.learnedEn && i.learnedRu) {
-                break;
+        if (swap){
+            int j = 0;
+            for (Collocation i : listDictionary) {
+                if (i.learnedEn && i.learnedRu) {
+                    break;
+                }
+                j++;
             }
-            j++;
+            if (j == listDictionary.size()) j = 0;
+
+            indexOfThePreviousSelectedRow = j;
+            adapter.notifyDataSetChanged();
+
+            swap = false;
+            buttonSwap.getBackground().clearColorFilter();
         }
-        if (j == listDictionary.size()) j = 0;
-
-        indexOfThePreviousSelectedRow = j;
-        adapter.notifyDataSetChanged();
-
         recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
 
 
