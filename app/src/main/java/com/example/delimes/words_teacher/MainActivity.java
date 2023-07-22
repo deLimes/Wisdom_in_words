@@ -103,9 +103,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 
-        //List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        //frag1 = fragments.get(0);
-        //frag2 = fragments.get(1);
+
+        Intent notificationIntent = getIntent();
+        isNewIntent = notificationIntent != null
+                && notificationIntent.getStringExtra("isNewIntent") != null
+                && notificationIntent.getStringExtra("isNewIntent") .equals("true");
+
 
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(this);
@@ -196,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        isNewIntent = true;
+
 
         if (item != null) {
             item.setTitle(getResources().getString(R.string.action_voiceMode));
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             ((PageFragment)  frag1).adapter.notifyDataSetChanged();
             ((PageFragment)  frag1).recyclerView.scrollToPosition(((PageFragment)  frag1).indexOfThePreviousSelectedRow);
 
+            isNewIntent = true;
         }
         }
 
@@ -224,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Intent notificationIntent = new Intent(mainActivityContext, MainActivity.class);
         notificationIntent.putExtra("id", Integer.toString(collocation.index));
         notificationIntent.putExtra("content", content);
+        notificationIntent.putExtra("isNewIntent", "true");
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
