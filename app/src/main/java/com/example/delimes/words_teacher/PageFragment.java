@@ -96,6 +96,7 @@ import static android.os.Environment.getExternalStoragePublicDirectory;
 import static android.os.Environment.getExternalStorageState;
 import static com.example.delimes.words_teacher.MainActivity.frag2;
 import static com.example.delimes.words_teacher.MainActivity.frag1;
+import static com.example.delimes.words_teacher.MainActivity.isNewIntent;
 
 public class PageFragment extends Fragment implements RecognitionListener {
 
@@ -1708,7 +1709,12 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (answersWereHidden){
             hideAnswers();
         }
+
         adapter.notifyDataSetChanged();
+        if (MainActivity.isNewIntent) {
+            MainActivity.isNewIntent = false;
+            recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+        }
     }
 
     public void resetListDictionary(){//boolean softwareReset

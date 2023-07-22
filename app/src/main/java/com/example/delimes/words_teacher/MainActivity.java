@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public static Context mainActivityContext = null;
     public static android.support.v4.app.Fragment frag1;
     public static android.support.v4.app.Fragment frag2;
+    public static boolean isNewIntent;
     //////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////
@@ -194,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        isNewIntent = true;
 
         if (item != null) {
             item.setTitle(getResources().getString(R.string.action_voiceMode));
