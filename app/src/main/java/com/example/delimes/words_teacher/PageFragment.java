@@ -2959,6 +2959,10 @@ public class PageFragment extends Fragment implements RecognitionListener {
             }else {
                 MainActivity.sendNotif(collocationCopy.ru + "~" + collocationCopy.en, collocationCopy);
             }
+
+            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
+            ((PageFragment)  frag1).adapter.notifyDataSetChanged();
+
             return false;
         }
 

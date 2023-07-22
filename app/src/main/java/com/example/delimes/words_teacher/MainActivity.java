@@ -205,8 +205,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         String strCollocationIndex = intent.getStringExtra("id");
         if (strCollocationIndex != null) {
             int collocationIndex = Integer.valueOf(strCollocationIndex);
+
+            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = collocationIndex;
+            ((PageFragment)  frag1).adapter.notifyDataSetChanged();
+            ((PageFragment)  frag1).recyclerView.scrollToPosition(((PageFragment)  frag1).indexOfThePreviousSelectedRow);
+
         }
-    }
+        }
+
+
 
     public static void sendNotif(String content, Collocation collocation) {
 
