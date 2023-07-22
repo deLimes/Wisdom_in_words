@@ -92,7 +92,10 @@ import java.util.Locale;
 
 import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
+import static android.os.Environment.getExternalStoragePublicDirectory;
 import static android.os.Environment.getExternalStorageState;
+import static com.example.delimes.words_teacher.MainActivity.frag2;
+import static com.example.delimes.words_teacher.MainActivity.frag1;
 
 public class PageFragment extends Fragment implements RecognitionListener {
 
@@ -122,14 +125,14 @@ public class PageFragment extends Fragment implements RecognitionListener {
     List rusList = Arrays.asList(ArrayRussianCharacters);
 
 
-    List <Collocation> listDictionary = new ArrayList<Collocation>();
-    List <Collocation> listDictionaryCopy = new ArrayList<Collocation>();
+    public List <Collocation> listDictionary = new ArrayList<Collocation>();
+    public List <Collocation> listDictionaryCopy = new ArrayList<Collocation>();
 
     RecyclerView recyclerView;
     MyLinearLayoutManager myLlm;
     int scrollStepY = 0;
-    RecyclerViewAdapter adapter;
-    private Boolean englishLeft = true;
+    public RecyclerViewAdapter adapter;
+    public Boolean englishLeft = true;
     String TAG = "mylogs";
     boolean answersWereHidden;
     int numberOfBlocks = 1, numberOfCollocationsInABlock = 1;
@@ -143,7 +146,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
-    int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
+    public int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
@@ -271,19 +274,23 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (word.toUpperCase().equals("REPEAT")) {
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
         } else if (word.toUpperCase().equals("ANSWER")) {
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                //MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(Locale.US);
+                //MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -317,11 +324,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
             answerIsSaid = false;
@@ -335,11 +344,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
 
@@ -367,11 +378,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
 
@@ -390,19 +403,23 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (word.toUpperCase().equals("REPEAT")) {
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
         } else if (word.toUpperCase().equals("ANSWER")) {
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                //MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(Locale.US);
+                //MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -440,11 +457,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
             answerIsSaid = false;
@@ -458,11 +477,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
 
@@ -490,11 +511,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
             collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (englishLeft) {
                 textToSpeechSystem.setLanguage(Locale.US);
+                MainActivity.sendNotif(collocation.en+"~"+collocation.ru, collocation);
                 textToSpeechSystem.speak(collocation.en
                         .replace("✓", "")
                         .replace("⚓", ""), TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             } else {
                 textToSpeechSystem.setLanguage(new Locale("ru"));
+                MainActivity.sendNotif(collocation.ru+"~"+collocation.en, collocation);
                 textToSpeechSystem.speak(collocation.ru, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
             }
 
@@ -574,7 +597,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
         //sr.startListening(intent);//dont work
 
     }
-    private void stopListening(){
+    public void stopListening(){
 
         sr.stopListening();
         sr.cancel();
@@ -605,7 +628,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     public ArrayList<String> words;
     public String word;
     private boolean answerIsSaid = false;
-    private boolean automatically = false;
+    public boolean automatically = false;
     //Socket socket;
     private Integer original_volume_level;
     private AudioManager audioManager;
@@ -617,14 +640,15 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         try {
 
-            if (!getExternalStorageState().equals(
-                    MEDIA_MOUNTED)) {
-                Toast.makeText(getActivity().getApplicationContext(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!getExternalStorageState().equals(
+//                    MEDIA_MOUNTED)) {
+//                Toast.makeText(getActivity().getApplicationContext(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             // получаем путь к SD
-            File sdPath = getExternalStorageDirectory();
+            //File sdPath = getExternalStorageDirectory();
+            File sdPath = MainActivity.mainActivityContext.getExternalCacheDir();
             // добавляем свой каталог к пути
             sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
             // создаем каталог
@@ -698,7 +722,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
         */
 
         List<Fragment> fragments = getFragmentManager().getFragments();
-        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        frag1 = fragments.get(0);
+        frag2 = fragments.get(1);
 
         rootView = page.findViewById(R.id.constraintLayout);
         searchView = page.findViewById(R.id.searchView);
@@ -1564,14 +1589,16 @@ public class PageFragment extends Fragment implements RecognitionListener {
         this.isIrregularVerbs = isIrregularVerbs;
 
         // проверяем доступность SD
-        if (!getExternalStorageState().equals(
-                MEDIA_MOUNTED)) {
-            Toast.makeText(getActivity().getBaseContext(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
-            return;
-        }
+        //if (!getExternalStorageState().equals(
+        //if (!MainActivity.mainActivityContext.getExternalCacheDir().equals(
+        //        MEDIA_MOUNTED)) {
+        //    Toast.makeText(getActivity().getBaseContext(), "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+        //    return;
+        //}
 
         // получаем путь к SD
-        File sdPath = getExternalStorageDirectory();
+        //File sdPath = getExternalStorageDirectory();
+        File sdPath = MainActivity.mainActivityContext.getExternalCacheDir();
         // добавляем свой каталог к пути
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
@@ -1746,7 +1773,12 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (!isIrregularVerbs) {
             editPrefs.putBoolean("englishLeft", englishLeft);
             editPrefs.putBoolean("answersWereHidden", answersWereHidden);
-            editPrefs.putInt("indexOfTheSelectedRow", recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild()));
+            if (recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild())==-1){
+                recyclerView.getChildAdapterPosition(recyclerView.getFocusedChild());
+            }else {
+                editPrefs.putInt("indexOfTheSelectedRow", 0);
+            }
+
             editPrefs.putInt("indexOfThePreviousSelectedRow", indexOfThePreviousSelectedRow);
 
             editPrefs.putInt("countOfLearnedWords", countOfLearnedWords);
@@ -2113,7 +2145,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
 
         List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
-        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        frag1 = fragments.get(0);
+        frag2 = fragments.get(1);
         mWebView = frag2.getView().findViewById(R.id.webView);
         mWebView.loadUrl(text);
 
@@ -2169,7 +2202,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
 
         List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
-        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        frag1 = fragments.get(0);
+        frag2 = fragments.get(1);
         mWebView = frag2.getView().findViewById(R.id.webView);
         mWebView.loadUrl(text);
 
@@ -2846,8 +2880,12 @@ public class PageFragment extends Fragment implements RecognitionListener {
         @Override
         public boolean onLongClick(View v) {
 
-            String word = ((EditText) v).getText().toString();
+            String word = ((EditText) v). getText().toString();
+            //String word = "";
 
+            //Collocation collocationCopy = null;
+            indexOfTheSelectedRow = Integer.valueOf(v.getTag(R.id.Tag1).toString());
+            Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
             if (word.isEmpty()) {
 
                 v.requestFocus();
@@ -2856,7 +2894,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                     return true;
                 }
 
-                Collocation collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
+                //collocationCopy = listDictionaryCopy.get(indexOfTheSelectedRow);
                 if (englishLeft) {
                     word = collocationCopy.ru;
                 } else {
@@ -2864,7 +2902,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 }
             }
 
-            if (word.isEmpty()){
+            if (word.isEmpty()) {
                 return true;
             }
 
@@ -2902,7 +2940,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
 
             List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
-            android.support.v4.app.Fragment frag2 = fragments.get(1);
+            frag1 = fragments.get(0);
+            frag2 = fragments.get(1);
             mWebView = frag2.getView().findViewById(R.id.webView);
             mWebView.loadUrl(text);
 
@@ -2915,6 +2954,11 @@ public class PageFragment extends Fragment implements RecognitionListener {
             textForViewing = true;
             searchView.setQuery(word, false);
 
+            if(englishLeft) {
+                MainActivity.sendNotif(collocationCopy.en + "~" + collocationCopy.ru, collocationCopy);
+            }else {
+                MainActivity.sendNotif(collocationCopy.ru + "~" + collocationCopy.en, collocationCopy);
+            }
             return false;
         }
 

@@ -2,12 +2,25 @@ package com.example.delimes.words_teacher;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.speech.RecognitionListener;
@@ -18,6 +31,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +45,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
@@ -39,10 +56,20 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public static boolean voiceModeOn = false;
     public static MenuItem item;
     public static  SpeechRecognizer sr = null;
+    ///////////////////////////////////////////
+    public static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
+    public static int notifyId = 101;
+    public static Context mainActivityContext = null;
+    public static android.support.v4.app.Fragment frag1;
+    public static android.support.v4.app.Fragment frag2;
+    //////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////
     Button playBtn, recordBtn, stopBtn;
     //public static MainActivity mainActivity = this;
+
+
+
     public static EditText editText;
     /////////////////////////////////////////////////////////////////////////////
     @Override
@@ -70,10 +97,14 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         //getApplicationContext().bindService(new Intent(getApplicationContext(), TService.class), TService.mConnection, Context.BIND_AUTO_CREATE);
 
+        mainActivityContext = getApplicationContext();
 
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 
+        //List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        //frag1 = fragments.get(0);
+        //frag2 = fragments.get(1);
 
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(this);
@@ -160,6 +191,151 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 //////////////////////////////////////////////////////////////////////////////////////
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (item != null) {
+            item.setTitle(getResources().getString(R.string.action_voiceMode));
+            voiceModeOn = false;
+            ((PageFragment) frag1).stopListening();
+            ((PageFragment) frag1).automatically = false;
+        }
+
+        String strCollocationIndex = intent.getStringExtra("id");
+        if (strCollocationIndex != null) {
+            int collocationIndex = Integer.valueOf(strCollocationIndex);
+        }
+    }
+
+    public static void sendNotif(String content, Collocation collocation) {
+
+        //%%C - del
+        Intent notificationIntent = new Intent(mainActivityContext, MainActivity.class);
+        notificationIntent.putExtra("id", Integer.toString(collocation.index));
+        notificationIntent.putExtra("content", content);
+
+        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
+        notificationIntent.setData(data);
+        //
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+        Log.d("myLogs", "sendNotif: notificationIntent.extra: " + notificationIntent.getStringExtra("extra"));
+        try {
+            int i = 1/0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        PendingIntent pIntent = PendingIntent.getActivity(mainActivityContext,
+                Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent,
+                PendingIntent.FLAG_MUTABLE);//PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Resources res = mainActivityContext.getResources();
+        //Notification.Builder builder = new Notification.Builder(context);
+
+        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mainActivityContext.getPackageName() + "/" + R.raw.next_point);
+        String channelId = "1234";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mainActivityContext, channelId);
+
+        //%%C - del builder.setContentIntent(contentIntent)
+        builder.setContentIntent(pIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                // большая картинка
+                .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
+                .setTicker("Пора!")
+                .setWhen(System.currentTimeMillis())
+                //.setAutoCancel(true)
+                .setTimeoutAfter(dateDoomsday)
+                .setOngoing(false)
+                .setColorized(true)
+                //.setDefaults(Notification.DEFAULT_SOUND)
+                .setVibrate(new long[] { 10,10 })
+                //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
+                .setSound(soundUri)
+                /////////.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
+                .setContentTitle("Напоминание2")
+                //.setContentText(res.getString(R.string.notifytext))
+                //%%C - del.setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
+                .setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
+
+
+        // Notification notification = builder.getNotification(); // до API 16
+        Notification notification = builder.build();
+
+        NotificationManager notificationManager = (NotificationManager) mainActivityContext
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //////////////////////////////
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //String channelId = "default_channel_id";
+
+            //String channelDescription = "Default Channel";
+            String channelDescription = "Channel";
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
+            if (notificationChannel  == null) {
+                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_HIGH);
+                notificationChannel.enableLights(true);//doesn't work
+                notificationChannel.setLightColor(Color.BLUE);//doesn't work
+                notificationChannel.enableVibration(true);//doesn't work
+                notificationChannel.setVibrationPattern(new long[]{50});//doesn't work
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
+                notificationChannel.setSound(soundUri, audioAttributes);
+
+
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel( notificationChannel );
+                }
+            }
+            NotificationCompat.Builder builderCompat = new NotificationCompat.Builder(mainActivityContext, channelId);
+            builderCompat.setContentTitle("Напоминание");                            // required
+            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
+            builderCompat.setSmallIcon(android.R.drawable.ic_popup_reminder);   // required
+            builderCompat.setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher));
+            builderCompat.setContentText(content); // required
+            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
+            builderCompat.setAutoCancel(true);
+            builderCompat.setTimeoutAfter(dateDoomsday);
+            builderCompat.setColorized(true);
+            builderCompat.setContentIntent(pIntent);
+            builderCompat.setTicker("Пора!");
+            builderCompat.setWhen(System.currentTimeMillis());
+            builderCompat.setOngoing(false);
+            builderCompat.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+            //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
+            builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
+            builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
+            builderCompat.setVibrate(new long[]{10,10});//doesn't work
+            builderCompat.setSound(soundUri);
+            //builderCompat.setDeleteIntent(pIntent);
+            builderCompat.setDeleteIntent(getDeleteIntent());
+
+            notification = builderCompat.build();
+        }
+        //////////////////////////////
+
+        //notifyId = Integer.valueOf(notificationIntent.getStringExtra("id"));
+        notifyId = 123;
+        //notification.defaults |= Notification.DEFAULT_VIBRATE;//doesn't work
+        notificationManager.notify(notifyId, notification);
+
+
+    }
+
+    public static PendingIntent getDeleteIntent()
+    {
+        Intent intent = new Intent(mainActivityContext, NotificationBroadcastReceiver.class);
+        intent.setAction("notification_cancelled");
+        return PendingIntent.getBroadcast(mainActivityContext, 0, intent, PendingIntent.FLAG_MUTABLE);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -192,8 +368,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         int id = item.getItemId();
 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        final android.support.v4.app.Fragment frag1 = fragments.get(0);
-        android.support.v4.app.Fragment frag2 = fragments.get(1);
+        frag1 = fragments.get(0);
+        frag2 = fragments.get(1);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
