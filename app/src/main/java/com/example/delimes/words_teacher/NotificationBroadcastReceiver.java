@@ -3,17 +3,22 @@ package com.example.delimes.words_teacher;
 
 
 import static com.example.delimes.words_teacher.MainActivity.frag1;
+import static com.example.delimes.words_teacher.MainActivity.item;
+import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
+import android.util.Half;
 import android.util.Log;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Handler;
 
 /**
  * Created by User on 19.11.2017.
@@ -61,7 +66,34 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 MainActivity.sendNotif(collocation.ru + "~" + collocation.en, collocation);
             }
 
+            if (item != null) {
+                item.setTitle(context.getResources().getString(R.string.action_voiceMode));
+                voiceModeOn = false;
+                ((PageFragment) frag1).stopListening();
+                ((PageFragment) frag1).automatically = false;
+            }
+
         }
 
+        if (action.equals("start_MainActivity")) {
+
+            /*
+            Intent intentRun = new Intent(context, MainActivity.class);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intentRun.putExtra("id", intent.getStringExtra("id"));
+            intentRun.putExtra("isNewIntent", intent.getStringExtra("isNewIntent"));
+            context.startActivity(intentRun);
+            */
+            //
+
+            Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
+            ((PageFragment)  frag1).textToSpeechSystem.setLanguage(Locale.US);
+            ((PageFragment)  frag1).textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+
+
+
+        }
     }
 }

@@ -623,7 +623,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
     public enum ComparisonValue {BEFORE, EQUAL, AFTER};
     boolean isIrregularVerbs = false;
-    private TextToSpeech textToSpeechSystem;
+    public TextToSpeech textToSpeechSystem;
     private SpeechRecognizer sr = null;
     private Intent speechRecognizerIntent;
     public ArrayList<String> words;

@@ -109,6 +109,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 && notificationIntent.getStringExtra("isNewIntent") != null
                 && notificationIntent.getStringExtra("isNewIntent") .equals("true");
 
+        String strCollocationIndex = notificationIntent.getStringExtra("id");
+        if (strCollocationIndex != null) {
+            int collocationIndex = Integer.valueOf(strCollocationIndex);
+            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = collocationIndex;
+        }
+
+
 
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(this);
@@ -225,7 +232,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public static void sendNotif(String content, Collocation collocation) {
 
         //%%C - del
-        Intent notificationIntent = new Intent(mainActivityContext, MainActivity.class);
+        Intent notificationIntent = new Intent(mainActivityContext, NotificationBroadcastReceiver.class);
+        notificationIntent.setAction("start_MainActivity");
         notificationIntent.putExtra("id", Integer.toString(collocation.index));
         notificationIntent.putExtra("content", content);
         notificationIntent.putExtra("isNewIntent", "true");
@@ -233,7 +241,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
         //
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
@@ -243,11 +252,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }catch (Exception e){
             e.printStackTrace();
         }
-        PendingIntent pIntent = PendingIntent.getActivity(mainActivityContext,
+        PendingIntent pIntent = PendingIntent.getBroadcast(mainActivityContext,
                 Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent,
-                PendingIntent.FLAG_MUTABLE);//PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);//PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
         //pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Intent fullScreenIntent = new Intent(mainActivityContext, MainActivity.class);
+        //PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(mainActivityContext, 0,
+        //        fullScreenIntent, PendingIntent.FLAG_MUTABLE);
 
         Resources res = mainActivityContext.getResources();
         //Notification.Builder builder = new Notification.Builder(context);
@@ -317,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             builderCompat.setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher));
             builderCompat.setContentText(content); // required
             //builderCompat.setDefaults(Notification.DEFAULT_ALL);
-            builderCompat.setAutoCancel(true);
+            builderCompat.setAutoCancel(false);
             builderCompat.setTimeoutAfter(dateDoomsday);
             builderCompat.setColorized(true);
             builderCompat.setContentIntent(pIntent);
@@ -332,6 +345,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             builderCompat.setSound(soundUri);
             //builderCompat.setDeleteIntent(pIntent);
             builderCompat.setDeleteIntent(getDeleteIntent());
+            //builderCompat.setFullScreenIntent(pIntent, true);
+
+
 
             notification = builderCompat.build();
         }
