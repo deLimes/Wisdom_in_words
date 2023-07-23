@@ -88,6 +88,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             */
             //
 
+            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.valueOf(intent.getStringExtra("id"));
+
             Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
             ((PageFragment)  frag1).textToSpeechSystem.setLanguage(Locale.US);
             ((PageFragment)  frag1).textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
