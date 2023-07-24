@@ -228,6 +228,20 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        /*
+        Intent intentRun = new Intent(mainActivityContext, MainActivity.class);
+        //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentRun.putExtra("id",  ((PageFragment)  frag1).indexOfThePreviousSelectedRow);
+        intentRun.putExtra("isNewIntent", "true");
+        mainActivityContext.startActivity(intentRun);
+        */
+    }
 
     public static void sendNotif(String content, Collocation collocation) {
 

@@ -9,6 +9,7 @@ import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -40,37 +41,14 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals("notification_cancelled")) {
 
+            Intent serviceIntent = new Intent(context, TService.class);
+            serviceIntent.setAction("action_NextCollocation");
+            //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
-            ((PageFragment)  frag1).indexOfThePreviousSelectedRow++;
-            if (((PageFragment)  frag1).indexOfThePreviousSelectedRow == ((PageFragment)  frag1).listDictionary.size()) {
-                int j = 0;
-                for (Collocation i : ((PageFragment)  frag1).listDictionary) {
-                    if (i.learnedEn && i.learnedRu) {
-                        break;
-                    }
-                    j++;
-                }
-                if (j == ((PageFragment)  frag1).listDictionary.size()) j = 0;
-
-                ((PageFragment)  frag1).indexOfThePreviousSelectedRow = j;
-            }
-
-            ((PageFragment)  frag1).adapter.notifyDataSetChanged();
-            ((PageFragment)  frag1).recyclerView.scrollToPosition(((PageFragment)  frag1).indexOfThePreviousSelectedRow);
-
-
-            Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
-            if (((PageFragment)frag1).englishLeft) {
-                MainActivity.sendNotif(collocation.en + "~" + collocation.ru, collocation);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                context.startForegroundService(serviceIntent);
             } else {
-                MainActivity.sendNotif(collocation.ru + "~" + collocation.en, collocation);
-            }
-
-            if (item != null) {
-                item.setTitle(context.getResources().getString(R.string.action_voiceMode));
-                voiceModeOn = false;
-                ((PageFragment) frag1).stopListening();
-                ((PageFragment) frag1).automatically = false;
+                context.startService(serviceIntent);
             }
 
         }
@@ -88,12 +66,24 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             */
             //
 
+            // Создаем интент для службы
+            Intent serviceIntent = new Intent(context, TService.class);
+            serviceIntent.setAction("action_Speech");
+            //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                context.startForegroundService(serviceIntent);
+            } else {
+                context.startService(serviceIntent);
+            }
+
+            /*
             ((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.valueOf(intent.getStringExtra("id"));
 
             Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
             ((PageFragment)  frag1).textToSpeechSystem.setLanguage(Locale.US);
             ((PageFragment)  frag1).textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
-
+            */
 
 
         }
