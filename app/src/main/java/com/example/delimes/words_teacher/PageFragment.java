@@ -114,7 +114,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     EditText editTexScrollingSpeed;
     EditText editTextHostname, editTextPortname;
 
-    View buttonSwap;
+    public View buttonSwap;
 
     private boolean EnglishTextLayout = false;
     char[] ArrayEnglishCharacters = {'h', 'j', 'k', 'l', 'y', 'u', 'i', 'o', 'p', '[', ']', 'n', 'm',
@@ -145,7 +145,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     public List<Receiver> receiverList = new ArrayList<Receiver>();
     public final int COUNT_OF_RECEIVERS = 100;
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
-    boolean swap = false;
+    public boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
     public int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
     boolean isStart,  isResumeAfterStop;
@@ -2945,17 +2945,22 @@ public class PageFragment extends Fragment implements RecognitionListener {
             }
 
 
-            List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
-            frag1 = fragments.get(0);
-            frag2 = fragments.get(1);
-            mWebView = frag2.getView().findViewById(R.id.webView);
-            mWebView.loadUrl(text);
+            if (!swap) {
+                List<android.support.v4.app.Fragment> fragments = getFragmentManager().getFragments();
+                frag1 = fragments.get(0);
+                frag2 = fragments.get(1);
+                mWebView = frag2.getView().findViewById(R.id.webView);
+                mWebView.loadUrl(text);
 
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                    "Попытка перевода",
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP, 0, 0);
-            toast.show();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        "Попытка перевода",
+                        Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
+            }else {
+                swap = false;
+                buttonSwap.getBackground().clearColorFilter();
+            }
 
             textForViewing = true;
             searchView.setQuery(word, false);
