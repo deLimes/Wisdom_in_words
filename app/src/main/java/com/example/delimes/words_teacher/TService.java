@@ -38,7 +38,7 @@ public class TService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        
+
         // Показываем уведомление в переднем плане
         startForeground(123, notification);
     }
