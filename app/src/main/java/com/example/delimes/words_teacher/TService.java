@@ -1,37 +1,32 @@
 package com.example.delimes.words_teacher;
 
-import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.os.Build;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v4.app.NotificationCompat;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.item;
+import static com.example.delimes.words_teacher.MainActivity.mainActivityContext;
 import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 
 
 public class TService extends Service {
 
     public MainActivity mainActivity;
+    public static Notification notification;
 
     public TService(Context context) {
         this.mainActivity = (MainActivity)context;
@@ -40,6 +35,13 @@ public class TService extends Service {
     public TService() {
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        
+        // Показываем уведомление в переднем плане
+        startForeground(123, notification);
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -83,6 +85,24 @@ public class TService extends Service {
         //((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.parseInt(intent.getStringExtra("id"));
 
         if (action.equals("action_Speech")) {
+
+            Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
+            ////////////intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intentRun.putExtra("id", intent.getStringExtra("id"));
+            intentRun.putExtra("isNewIntent", "true");
+            //mainActivityContext.startActivity(intentRun);
+
+
+// Устанавливаем флаги для запуска активити в новом задании и очистки стека
+            intentRun.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+// Запускаем активити
+            startActivity(intentRun);
+// Останавливаем службу
+            //stopSelf();
+            //return START_NOT_STICKY;
+
             Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
             ((PageFragment) frag1).textToSpeechSystem.setLanguage(Locale.US);
             ((PageFragment) frag1).textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
@@ -93,7 +113,8 @@ public class TService extends Service {
         //если остановить службу. пропадут выведеные сообщения
         //stopService(new Intent(this, UpdateReminders.class));
 
-        return super.onStartCommand(intent, flags, startId);
+        //return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override

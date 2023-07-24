@@ -359,11 +359,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             builderCompat.setSound(soundUri);
             //builderCompat.setDeleteIntent(pIntent);
             builderCompat.setDeleteIntent(getDeleteIntent());
-            //builderCompat.setFullScreenIntent(pIntent, true);
+            builderCompat.setFullScreenIntent(pIntent, true);
 
 
 
             notification = builderCompat.build();
+            TService.notification = notification;
         }
         //////////////////////////////
 
