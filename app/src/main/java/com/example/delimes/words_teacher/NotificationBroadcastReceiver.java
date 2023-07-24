@@ -41,6 +41,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals("notification_cancelled")) {
 
+
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_NextCollocation");
             //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
@@ -66,9 +67,15 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             */
             //
 
+            if (!((PageFragment)  frag1).swap) {
+                ((PageFragment)  frag1).save();
+                ((PageFragment)  frag1).isResumeAfterStop = true;
+                ((PageFragment)  frag1).swap = true;
+            }
             // Создаем интент для службы
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_Speech");
+            serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

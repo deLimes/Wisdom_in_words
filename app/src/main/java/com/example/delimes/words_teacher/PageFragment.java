@@ -148,7 +148,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     public boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
     public int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
-    boolean isStart,  isResumeAfterStop;
+    public static boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
     int childPosition;
@@ -683,7 +683,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         } catch (Exception e) {
             //e.printStackTrace();
-            Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.mainActivityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1774,7 +1774,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             saveListDictionary(true);
         }
 
-        SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit();
+        SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.mainActivityContext).edit();
         editPrefs.putBoolean("isIrregularVerbs", false);
         if (!isIrregularVerbs) {
             editPrefs.putBoolean("englishLeft", englishLeft);
@@ -1810,7 +1810,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
 
         editPrefs.commit();
-        getActivity().finish();
+        TService.mainActivity.finish();
 
     }
 
