@@ -97,7 +97,10 @@ import static android.os.Environment.getExternalStorageState;
 import static com.example.delimes.words_teacher.MainActivity.frag2;
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.isNewIntent;
-
+import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
+import static com.example.delimes.words_teacher.TService.listDictionary;
+import static com.example.delimes.words_teacher.TService.listDictionaryCopy;
+import static com.example.delimes.words_teacher.TService.textToSpeechSystem;
 public class PageFragment extends Fragment implements RecognitionListener {
 
     InputMethodManager inputMethodManager;
@@ -126,13 +129,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
     List rusList = Arrays.asList(ArrayRussianCharacters);
 
 
-    public List <Collocation> listDictionary = new ArrayList<Collocation>();
-    public List <Collocation> listDictionaryCopy = new ArrayList<Collocation>();
+    //public List <Collocation> listDictionary = new ArrayList<Collocation>();
+    //public List <Collocation> listDictionaryCopy = new ArrayList<Collocation>();
 
     RecyclerView recyclerView;
     MyLinearLayoutManager myLlm;
     int scrollStepY = 0;
-    public RecyclerViewAdapter adapter;
+    public static RecyclerViewAdapter adapter;
     public Boolean englishLeft = true;
     String TAG = "mylogs";
     boolean answersWereHidden;
@@ -147,7 +150,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     int indexOfCurrentReceiver = 0, indexOfPreviousReceiver = 0;
     public boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
-    public int indexOfThePreviousSelectedRow = -1, indexOfTheTempPreviousSelectedRow = -1;
+    public int indexOfTheTempPreviousSelectedRow = -1;
     public static boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
@@ -623,7 +626,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
     public enum ComparisonValue {BEFORE, EQUAL, AFTER};
     boolean isIrregularVerbs = false;
-    public TextToSpeech textToSpeechSystem;
+    //public TextToSpeech textToSpeechSystem;
     private SpeechRecognizer sr = null;
     private Intent speechRecognizerIntent;
     public ArrayList<String> words;
@@ -2971,7 +2974,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 MainActivity.sendNotif(collocationCopy.ru + "~" + collocationCopy.en, collocationCopy);
             }
 
-            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
+            indexOfThePreviousSelectedRow = indexOfTheSelectedRow;
             ((PageFragment)  frag1).adapter.notifyDataSetChanged();
 
             return false;

@@ -5,6 +5,7 @@ package com.example.delimes.words_teacher;
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.item;
 import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
+import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,6 +42,14 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals("notification_cancelled")) {
 
+            indexOfThePreviousSelectedRow++;
+            if (((PageFragment)  frag1)!=null) {
+                //if (!((PageFragment) frag1).swap) {
+                    ((PageFragment) frag1).save();
+                    ((PageFragment) frag1).isResumeAfterStop = true;
+                    ((PageFragment) frag1).swap = true;
+                //}
+            }
 
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_NextCollocation");
@@ -67,11 +76,14 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             */
             //
 
-            if (!((PageFragment)  frag1).swap) {
-                ((PageFragment)  frag1).save();
-                ((PageFragment)  frag1).isResumeAfterStop = true;
-                ((PageFragment)  frag1).swap = true;
+            if (((PageFragment)  frag1)!=null) {
+                //if (!((PageFragment) frag1).swap) {
+                    ((PageFragment) frag1).save();
+                    ((PageFragment) frag1).isResumeAfterStop = true;
+                    ((PageFragment) frag1).swap = true;
+                //}
             }
+
             // Создаем интент для службы
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_Speech");

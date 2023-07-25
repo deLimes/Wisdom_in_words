@@ -50,6 +50,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
+
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
     public static ViewPager pager;
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         String strCollocationIndex = notificationIntent.getStringExtra("id");
         if (strCollocationIndex != null) {
             int collocationIndex = Integer.valueOf(strCollocationIndex);
-            ((PageFragment)  frag1).indexOfThePreviousSelectedRow = collocationIndex;
+            indexOfThePreviousSelectedRow = collocationIndex;
         }
 
         TService.mainActivity = this;
@@ -216,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             ((PageFragment) frag1).automatically = false;
         }
 
+        /*
         String strCollocationIndex = intent.getStringExtra("id");
         if (strCollocationIndex != null) {
             int collocationIndex = Integer.valueOf(strCollocationIndex);
@@ -225,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             ((PageFragment)  frag1).recyclerView.scrollToPosition(((PageFragment)  frag1).indexOfThePreviousSelectedRow);
 
             isNewIntent = true;
-        }
+        }*/
         }
 
 public void finish2(){

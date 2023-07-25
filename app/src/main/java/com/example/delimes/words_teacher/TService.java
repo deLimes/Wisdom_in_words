@@ -18,18 +18,24 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.item;
 import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
+import static com.example.delimes.words_teacher.PageFragment.adapter;
 
 
 public class TService extends Service {
 
     public static MainActivity mainActivity;
     public static Notification notification;
-
+    public static int indexOfThePreviousSelectedRow = -1;
+    public static List<Collocation> listDictionary = new ArrayList<Collocation>();
+    public static List<Collocation> listDictionaryCopy = new ArrayList<Collocation>();
+    public static TextToSpeech textToSpeechSystem;
     public static Context mContext;
     public static ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -78,25 +84,39 @@ public class TService extends Service {
         String action = intent.getAction();
         if (action.equals("action_NextCollocation")) {
 
-            ((PageFragment)  frag1).indexOfThePreviousSelectedRow++;
-            if (((PageFragment)  frag1).indexOfThePreviousSelectedRow == ((PageFragment)  frag1).listDictionary.size()) {
+
+            Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
+            ////////////intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intentRun.putExtra("id", intent.getStringExtra("id"));
+            intentRun.putExtra("isNewIntent", "true");
+            mContext.startActivity(intentRun);
+
+            startActivity(intentRun);
+
+            //((PageFragment)  frag1).indexOfThePreviousSelectedRow++;
+            //indexOfThePreviousSelectedRow++;
+            if (indexOfThePreviousSelectedRow == listDictionary.size()) {
                 int j = 0;
-                for (Collocation i : ((PageFragment)  frag1).listDictionary) {
+                for (Collocation i : listDictionary) {
                     if (i.learnedEn && i.learnedRu) {
                         break;
                     }
                     j++;
                 }
-                if (j == ((PageFragment)  frag1).listDictionary.size()) j = 0;
+                if (j == listDictionary.size()) j = 0;
 
-                ((PageFragment)  frag1).indexOfThePreviousSelectedRow = j;
+                indexOfThePreviousSelectedRow = j;
             }
 
-            ((PageFragment)  frag1).adapter.notifyDataSetChanged();
-            ((PageFragment)  frag1).recyclerView.scrollToPosition(((PageFragment)  frag1).indexOfThePreviousSelectedRow);
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+                ((PageFragment) frag1).recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+            }
 
 
-            Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
+            Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             if (((PageFragment)frag1).englishLeft) {
                 MainActivity.sendNotif(collocation.en + "~" + collocation.ru, collocation);
             } else {
@@ -132,9 +152,9 @@ public class TService extends Service {
             //stopSelf();
             //return START_NOT_STICKY;
 
-            Collocation collocation = ((PageFragment) frag1).listDictionaryCopy.get(((PageFragment) frag1).indexOfThePreviousSelectedRow);
-            ((PageFragment) frag1).textToSpeechSystem.setLanguage(Locale.US);
-            ((PageFragment) frag1).textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            textToSpeechSystem.setLanguage(Locale.US);
+            textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
         }
 
 
