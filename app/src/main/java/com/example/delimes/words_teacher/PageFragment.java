@@ -1581,6 +1581,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             isIrregularVerbs = false;
 
             restore();
+            TService.activityIsStarted = true;
         }
         isStart = false;
         isResumeAfterStop = false;

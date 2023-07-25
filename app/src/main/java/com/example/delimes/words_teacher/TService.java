@@ -1,5 +1,7 @@
 package com.example.delimes.words_teacher;
 
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,8 +15,11 @@ import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.os.Build;
 import android.os.IBinder;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -36,7 +41,10 @@ public class TService extends Service {
     public static List<Collocation> listDictionary = new ArrayList<Collocation>();
     public static List<Collocation> listDictionaryCopy = new ArrayList<Collocation>();
     public static TextToSpeech textToSpeechSystem;
+    public static boolean activityIsStarted = false;
+    public static Collocation collocation;
     public static Context mContext;
+    final String LOG_TAG = "myLogs";
     public static ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
@@ -92,8 +100,11 @@ public class TService extends Service {
             intentRun.putExtra("id", intent.getStringExtra("id"));
             intentRun.putExtra("isNewIntent", "true");
             mContext.startActivity(intentRun);
+            //int REQUEST_CODE = 1;
+            //startActivityForResult(mainActivity, intentRun, REQUEST_CODE,null);
 
-            startActivity(intentRun);
+
+
 
             //((PageFragment)  frag1).indexOfThePreviousSelectedRow++;
             //indexOfThePreviousSelectedRow++;
@@ -116,11 +127,20 @@ public class TService extends Service {
             }
 
 
-            Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-            if (((PageFragment)frag1).englishLeft) {
-                MainActivity.sendNotif(collocation.en + "~" + collocation.ru, collocation);
-            } else {
-                MainActivity.sendNotif(collocation.ru + "~" + collocation.en, collocation);
+            if (activityIsStarted) {
+                activityIsStarted = false;
+                collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+                if (((PageFragment) frag1).englishLeft) {
+                    MainActivity.sendNotif(collocation.en + "~" + collocation.ru, collocation);
+                } else {
+                    MainActivity.sendNotif(collocation.ru + "~" + collocation.en, collocation);
+                }
+            }else {
+                if (((PageFragment) frag1).englishLeft) {
+                    MainActivity.sendNotif(collocation.en + "~" + collocation.ru, collocation);
+                } else {
+                    MainActivity.sendNotif(collocation.ru + "~" + collocation.en, collocation);
+                }
             }
 
             if (item != null) {
@@ -135,9 +155,11 @@ public class TService extends Service {
 
         if (action.equals("action_Speech")) {
 
+            Log.d(LOG_TAG, "action_Speech: TService");
             Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
             ////////////intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intentRun.putExtra("id", intent.getStringExtra("id"));
             intentRun.putExtra("isNewIntent", "true");

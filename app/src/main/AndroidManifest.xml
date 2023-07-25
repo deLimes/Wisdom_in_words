@@ -45,6 +45,9 @@
             android:name=".NotificationBroadcastReceiver"
             android:exported="true"
             android:enabled="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </receiver>
 
         <service
