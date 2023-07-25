@@ -6,6 +6,7 @@ import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.item;
 import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
+import static com.example.delimes.words_teacher.TService.listDictionary;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,6 +44,18 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         if (action.equals("notification_cancelled")) {
 
             indexOfThePreviousSelectedRow++;
+            if (indexOfThePreviousSelectedRow == listDictionary.size()) {
+                int j = 0;
+                for (Collocation i : listDictionary) {
+                    if (i.learnedEn && i.learnedRu) {
+                        break;
+                    }
+                    j++;
+                }
+                if (j == listDictionary.size()) j = 0;
+
+                indexOfThePreviousSelectedRow = j;
+            }
             if (((PageFragment)  frag1)!=null) {
                 //if (!((PageFragment) frag1).swap) {
                     ((PageFragment) frag1).save();
