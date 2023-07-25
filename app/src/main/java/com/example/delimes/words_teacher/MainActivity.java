@@ -51,20 +51,23 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
+import static com.example.delimes.words_teacher.TService.mConnection;
+import static com.example.delimes.words_teacher.TService.mainActivity;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
-    public static ViewPager pager;
-    public static boolean voiceModeOn = false;
-    public static MenuItem item;
-    public static  SpeechRecognizer sr = null;
+    volatile public static ViewPager pager;
+    volatile public static boolean voiceModeOn = false;
+    volatile public static MenuItem item;
+    volatile public static  SpeechRecognizer sr = null;
     ///////////////////////////////////////////
-    public static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
-    public static int notifyId = 101;
-    public static Context mainActivityContext = null;
-    public static android.support.v4.app.Fragment frag1;
-    public static android.support.v4.app.Fragment frag2;
-    public static boolean isNewIntent;
+    volatile public static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
+    volatile public static int notifyId = 101;
+    volatile public static Context mainActivityContext = null;
+    volatile public static android.support.v4.app.Fragment frag1;
+    volatile public static android.support.v4.app.Fragment frag2;
+    volatile public static boolean isNewIntent;
+    //public volatile static Notification notification;
     //////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
 
 
-    public static EditText editText;
+    volatile public static EditText editText;
     /////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +241,7 @@ public void finish2(){
     protected void onDestroy() {
         super.onDestroy();
 
+       // mainActivity.unbindService(mConnection);
         /*
         Intent intentRun = new Intent(mainActivityContext, MainActivity.class);
         //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -371,6 +375,11 @@ public void finish2(){
 
             notification = builderCompat.build();
             TService.notification = notification;
+            //SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(mainActivityContext).edit();
+            //String notificationJSON = "";
+            //editPrefs.putString("notification", notificationJSON);
+            //editPrefs.commit();
+
         }
         //////////////////////////////
 

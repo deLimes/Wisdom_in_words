@@ -4,9 +4,13 @@ package com.example.delimes.words_teacher;
 
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.item;
+import static com.example.delimes.words_teacher.MainActivity.mainActivityContext;
 import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
 import static com.example.delimes.words_teacher.TService.listDictionary;
+import static com.example.delimes.words_teacher.TService.mConnection;
+import static com.example.delimes.words_teacher.TService.mContext;
+import static com.example.delimes.words_teacher.TService.mainActivity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -66,17 +70,25 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_NextCollocation");
+            serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                context.startForegroundService(serviceIntent);
-            } else {
-                context.startService(serviceIntent);
+            TService.intent = serviceIntent;
+
+            if (!TService.ServiceIsStaeted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    context.startForegroundService(serviceIntent);
+                } else {
+                    context.startService(serviceIntent);
+                }
             }
+            ((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
 
         }
 
         if (action.equals("start_MainActivity")) {
+
 
             /*
             Intent intentRun = new Intent(context, MainActivity.class);
@@ -100,14 +112,20 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             // Создаем интент для службы
             Intent serviceIntent = new Intent(context, TService.class);
             serviceIntent.setAction("action_Speech");
-            serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //////////serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                context.startForegroundService(serviceIntent);
-            } else {
-                context.startService(serviceIntent);
+            TService.intent = serviceIntent;
+            if (!TService.ServiceIsStaeted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    context.startForegroundService(serviceIntent);
+                } else {
+                    context.startService(serviceIntent);
+                }
             }
+            ((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
 
             /*
             ((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.valueOf(intent.getStringExtra("id"));

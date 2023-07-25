@@ -11,10 +11,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -35,15 +37,18 @@ import static com.example.delimes.words_teacher.PageFragment.adapter;
 
 public class TService extends Service {
 
-    public static MainActivity mainActivity;
-    public static Notification notification;
-    public static int indexOfThePreviousSelectedRow = -1;
-    public static List<Collocation> listDictionary = new ArrayList<Collocation>();
-    public static List<Collocation> listDictionaryCopy = new ArrayList<Collocation>();
-    public static TextToSpeech textToSpeechSystem;
-    public static boolean activityIsStarted = false;
-    public static Collocation collocation;
-    public static Context mContext;
+    volatile public static MainActivity mainActivity;
+
+    volatile public static int indexOfThePreviousSelectedRow = -1;
+    volatile public static List<Collocation> listDictionary = new ArrayList<Collocation>();
+    volatile public static List<Collocation> listDictionaryCopy = new ArrayList<Collocation>();
+    volatile public static TextToSpeech textToSpeechSystem;
+    volatile public static boolean activityIsStarted = false;
+    volatile public static Collocation collocation;
+    volatile public static Intent intent;
+    volatile public static Notification notification;
+    volatile public static boolean ServiceIsStaeted = false;
+    volatile public static Context mContext;
     final String LOG_TAG = "myLogs";
     public static ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -59,7 +64,7 @@ public class TService extends Service {
         public void onServiceDisconnected(ComponentName className) {
             // This is called when the connection with the service has been
             // unexpectedly disconnected -- that is, its process crashed.
-            Toast.makeText(mContext, "onServiceConnected", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "onServiceDisconnected", Toast.LENGTH_LONG).show();
 
         }
     };
@@ -69,6 +74,7 @@ public class TService extends Service {
 
     public TService() {
     }
+
 
     @Override
     public void onCreate() {
@@ -81,20 +87,51 @@ public class TService extends Service {
 
         mContext = getApplicationContext();
 
-        //startForeground(123, notification);
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        //String stringNotification = prefs.getString("notification", "");
+
+        startForeground(123, TService.notification);
+
+        //mContext.getIntent
+
+
 
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        ServiceIsStaeted = true;
+        //this.intent = intent;
+        /*try {
+            getApplicationContext().unbindService(TService.mConnection);
+        } catch (IllegalStateException e) {
+            Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }*/
 
+        //stopService(intent);
+
+        //если остановить службу. пропадут выведеные сообщения
+        //stopService(new Intent(this, UpdateReminders.class));
+
+        //stopSelf();
+        //return super.onStartCommand(intent, flags, startId);
+        //return START_NOT_STICKY;
+        //return START_REDELIVER_INTENT;
+        return START_STICKY;
+    }
+
+    public void startMainActivity(Intent intent){
 
         String action = intent.getAction();
         if (action.equals("action_NextCollocation")) {
 
 
             Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
-            ////////////intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intentRun.putExtra("id", intent.getStringExtra("id"));
@@ -103,7 +140,7 @@ public class TService extends Service {
             //int REQUEST_CODE = 1;
             //startActivityForResult(mainActivity, intentRun, REQUEST_CODE,null);
 
-
+            ////////////////////////// mainActivity.unbindService(mConnection);
 
 
             //((PageFragment)  frag1).indexOfThePreviousSelectedRow++;
@@ -150,6 +187,7 @@ public class TService extends Service {
                 ((PageFragment) frag1).automatically = false;
             }
 
+            ((MainActivity)mainActivity).unbindService(mConnection);
         }
         //((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.parseInt(intent.getStringExtra("id"));
 
@@ -157,13 +195,13 @@ public class TService extends Service {
 
             Log.d(LOG_TAG, "action_Speech: TService");
             Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
-            ////////////intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intentRun.putExtra("id", intent.getStringExtra("id"));
             intentRun.putExtra("isNewIntent", "true");
-            mContext.startActivity(intentRun);
+            ///////mContext.startActivity(intentRun);
 
 
 // Устанавливаем флаги для запуска активити в новом задании и очистки стека
@@ -177,47 +215,43 @@ public class TService extends Service {
             Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             textToSpeechSystem.setLanguage(Locale.US);
             textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+            ((MainActivity)mainActivity).unbindService(mConnection);
         }
 
 
-        /*try {
-            getApplicationContext().unbindService(TService.mConnection);
-        } catch (IllegalStateException e) {
-            Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }*/
 
-        //stopService(intent);
-
-        //если остановить службу. пропадут выведеные сообщения
-        //stopService(new Intent(this, UpdateReminders.class));
-
-        //stopSelf();
-        //return super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
+    }
+    @Override
+    public void unbindService(ServiceConnection conn) {
+        super.unbindService(conn);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-
-        // Показываем уведомление в переднем плане
-
-
+        //this.intent = intent;
+        startMainActivity(intent);
         return null;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
 
+        int i = 1;
 
-        return super.onUnbind(intent);
+        //return super.onUnbind(intent);
+        return true;
     }
+
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        startMainActivity(intent);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ServiceIsStaeted = false;
     }
 
 

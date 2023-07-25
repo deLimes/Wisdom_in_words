@@ -135,7 +135,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     RecyclerView recyclerView;
     MyLinearLayoutManager myLlm;
     int scrollStepY = 0;
-    public static RecyclerViewAdapter adapter;
+    volatile public static RecyclerViewAdapter adapter;
     public Boolean englishLeft = true;
     String TAG = "mylogs";
     boolean answersWereHidden;
@@ -151,7 +151,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
     public boolean swap = false;
     int indexOfTheSelectedRow = 0, indexOfTheFilteredSelectedRow = 0;
     public int indexOfTheTempPreviousSelectedRow = -1;
-    public static boolean isStart,  isResumeAfterStop;
+    volatile public static boolean isStart,  isResumeAfterStop;
     SpannableString text;
     boolean afterPressEnter = false;
     int childPosition;
