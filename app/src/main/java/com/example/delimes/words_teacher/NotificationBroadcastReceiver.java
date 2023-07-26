@@ -16,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.IBinder;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -73,32 +74,29 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
-            TService.intent = serviceIntent;
-
-            if (!TService.ServiceIsStaeted) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    context.startForegroundService(serviceIntent);
-                } else {
-                    context.startService(serviceIntent);
-                }
-            }
-            ((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            context.startService(serviceIntent);
+            //((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
             //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
 
         }
 
-        if (action.equals("start_MainActivity")) {
+        if (action.equals("notification_opened")) {
+
+            Intent serviceIntent = new Intent(context, TService.class);
+            serviceIntent.setAction("action_Speech");
+            //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
 
 
-            /*
-            Intent intentRun = new Intent(context, MainActivity.class);
-            //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intentRun.putExtra("id", intent.getStringExtra("id"));
-            intentRun.putExtra("isNewIntent", intent.getStringExtra("isNewIntent"));
-            context.startActivity(intentRun);
-            */
+            //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            // Получаем IBinder из запущенной службы
+//            IBinder binder = peekService(context, serviceIntent);
+//// Проверяем, не null ли он
+//            if (binder != null) {
+//                TService myService = ((TService.LocalBinder) binder).getService();
+//                myService.startMainActivity(serviceIntent);
+//            }
             //
 
             if (((PageFragment)  frag1)!=null) {
@@ -109,23 +107,11 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 //}
             }
 
-            // Создаем интент для службы
-            Intent serviceIntent = new Intent(context, TService.class);
-            serviceIntent.setAction("action_Speech");
-            //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            //////////serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
-
-            TService.intent = serviceIntent;
-            if (!TService.ServiceIsStaeted) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    context.startForegroundService(serviceIntent);
-                } else {
-                    context.startService(serviceIntent);
-                }
-            }
-            ((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            context.startService(serviceIntent);
+            //TService.intent = serviceIntent;
+            //((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
             //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+
 
             /*
             ((PageFragment)  frag1).indexOfThePreviousSelectedRow = Integer.valueOf(intent.getStringExtra("id"));

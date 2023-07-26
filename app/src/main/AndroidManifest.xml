@@ -51,9 +51,11 @@
         </receiver>
 
         <service
+            android:permission="android.permission.FOREGROUND_SERVICE"
             android:name=".TService"
             android:enabled="true"
             android:exported="true">
+
         </service>
 
     </application>

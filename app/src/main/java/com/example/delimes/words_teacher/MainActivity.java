@@ -122,6 +122,23 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         TService.mainActivity = this;
 
+        Intent serviceIntent = new Intent(getApplicationContext(), TService.class);
+        serviceIntent.setAction("action_fromMainActivity");
+        //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //serviceIntent.putExtra("id", Integer.valueOf(intent.getStringExtra("id")));
+        /*
+        if (!TService.ServiceIsStaeted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                context.startForegroundService(serviceIntent);
+            } else {
+                context.startService(serviceIntent);
+            }
+        }*/
+        startService(serviceIntent);
+        //((MainActivity)mainActivity).bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+        //context.bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+
 
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(this);
@@ -253,150 +270,11 @@ public void finish2(){
         */
     }
 
-    public static void sendNotif(String content, Collocation collocation) {
-
-        //%%C - del
-        Intent notificationIntent = new Intent(mainActivityContext, NotificationBroadcastReceiver.class);
-        notificationIntent.setAction("start_MainActivity");
-        notificationIntent.putExtra("id", Integer.toString(collocation.index));
-        notificationIntent.putExtra("content", content);
-        notificationIntent.putExtra("isNewIntent", "true");
-
-        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
-        notificationIntent.setData(data);
-        //
-        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-        Log.d("myLogs", "sendNotif: notificationIntent.extra: " + notificationIntent.getStringExtra("extra"));
-        try {
-            int i = 1/0;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        PendingIntent pIntent = PendingIntent.getBroadcast(mainActivityContext,
-                Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);//PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
-
-        //pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Intent fullScreenIntent = new Intent(mainActivityContext, MainActivity.class);
-        //PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(mainActivityContext, 0,
-        //        fullScreenIntent, PendingIntent.FLAG_MUTABLE);
-
-        Resources res = mainActivityContext.getResources();
-        //Notification.Builder builder = new Notification.Builder(context);
-
-        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mainActivityContext.getPackageName() + "/" + R.raw.next_point);
-        String channelId = "1234";
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mainActivityContext, channelId);
-
-        //%%C - del builder.setContentIntent(contentIntent)
-        builder.setContentIntent(pIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                // большая картинка
-                .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
-                .setTicker("Пора!")
-                .setWhen(System.currentTimeMillis())
-                //.setAutoCancel(true)
-                .setTimeoutAfter(dateDoomsday)
-                .setOngoing(false)
-                .setColorized(true)
-                //.setDefaults(Notification.DEFAULT_SOUND)
-                .setVibrate(new long[] { 10,10 })
-                //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
-                .setSound(soundUri)
-                /////////.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
-                .setContentTitle("Напоминание2")
-                //.setContentText(res.getString(R.string.notifytext))
-                //%%C - del.setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
-                .setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
-
-
-        // Notification notification = builder.getNotification(); // до API 16
-        Notification notification = builder.build();
-
-        NotificationManager notificationManager = (NotificationManager) mainActivityContext
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-
-        //////////////////////////////
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //String channelId = "default_channel_id";
-
-            //String channelDescription = "Default Channel";
-            String channelDescription = "Channel";
-            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
-            if (notificationChannel  == null) {
-                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_HIGH);
-                notificationChannel.enableLights(true);//doesn't work
-                notificationChannel.setLightColor(Color.BLUE);//doesn't work
-                notificationChannel.enableVibration(true);//doesn't work
-                notificationChannel.setVibrationPattern(new long[]{50});//doesn't work
-                AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                        .build();
-                notificationChannel.setSound(soundUri, audioAttributes);
-
-
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel( notificationChannel );
-                }
-            }
-            NotificationCompat.Builder builderCompat = new NotificationCompat.Builder(mainActivityContext, channelId);
-            builderCompat.setContentTitle("Напоминание");                            // required
-            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
-            builderCompat.setSmallIcon(android.R.drawable.ic_popup_reminder);   // required
-            builderCompat.setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher));
-            builderCompat.setContentText(content); // required
-            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
-            builderCompat.setAutoCancel(false);
-            builderCompat.setTimeoutAfter(dateDoomsday);
-            builderCompat.setColorized(true);
-            builderCompat.setContentIntent(pIntent);
-            builderCompat.setTicker("Пора!");
-            builderCompat.setWhen(System.currentTimeMillis());
-            builderCompat.setOngoing(false);
-            builderCompat.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
-            builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
-            builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
-            builderCompat.setVibrate(new long[]{10,10});//doesn't work
-            builderCompat.setSound(soundUri);
-            //builderCompat.setDeleteIntent(pIntent);
-            builderCompat.setDeleteIntent(getDeleteIntent());
-            //builderCompat.setFullScreenIntent(pIntent, true);
 
 
 
-            notification = builderCompat.build();
-            TService.notification = notification;
-            //SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(mainActivityContext).edit();
-            //String notificationJSON = "";
-            //editPrefs.putString("notification", notificationJSON);
-            //editPrefs.commit();
-
-        }
-        //////////////////////////////
-
-        //notifyId = Integer.valueOf(notificationIntent.getStringExtra("id"));
-        notifyId = 123;
-        //notification.defaults |= Notification.DEFAULT_VIBRATE;//doesn't work
-        notificationManager.notify(notifyId, notification);
 
 
-    }
-
-    public static PendingIntent getDeleteIntent()
-    {
-        Intent intent = new Intent(mainActivityContext, NotificationBroadcastReceiver.class);
-        intent.setAction("notification_cancelled");
-        return PendingIntent.getBroadcast(mainActivityContext, 0, intent, PendingIntent.FLAG_MUTABLE);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
