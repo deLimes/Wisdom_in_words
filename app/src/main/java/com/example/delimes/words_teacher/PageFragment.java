@@ -1578,9 +1578,10 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         if (!swap) {
             save();
+            swap = true;
         }
         isResumeAfterStop = true;
-        swap = true;
+
 
     }
 
@@ -1598,6 +1599,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
         isResumeAfterStop = false;
 
         rootView.requestFocus();
+
+        swap = false;
+        buttonSwap.getBackground().clearColorFilter();
     }
 
     public void restoreListDictionary(boolean isIrregularVerbs){
