@@ -27,6 +27,7 @@ import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -1585,9 +1586,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        //isStart = true;
+        swap = true;
 
         if (isStart || isResumeAfterStop) {
             isIrregularVerbs = false;
@@ -1603,6 +1608,30 @@ public class PageFragment extends Fragment implements RecognitionListener {
         swap = false;
         buttonSwap.getBackground().clearColorFilter();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (swap){
+            return;
+        }
+        if (isStart || isResumeAfterStop) {
+            isIrregularVerbs = false;
+
+            restore();
+            TService.activityIsStarted = true;
+        }
+        isStart = false;
+        isResumeAfterStop = false;
+
+        rootView.requestFocus();
+
+        swap = false;
+        buttonSwap.getBackground().clearColorFilter();
+    }
+
+
 
     public void restoreListDictionary(boolean isIrregularVerbs){
 
