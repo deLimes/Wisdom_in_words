@@ -1580,6 +1580,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
             save();
         }
         isResumeAfterStop = true;
+        swap = true;
 
     }
 
