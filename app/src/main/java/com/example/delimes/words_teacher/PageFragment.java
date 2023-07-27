@@ -1605,7 +1605,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         rootView.requestFocus();
 
-        
+
     }
 
     @Override
@@ -1613,6 +1613,8 @@ public class PageFragment extends Fragment implements RecognitionListener {
         super.onResume();
 
         if (swap){
+            swap = false;
+            buttonSwap.getBackground().clearColorFilter();
             return;
         }
         if (isStart || isResumeAfterStop) {
@@ -1626,8 +1628,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         rootView.requestFocus();
 
-        swap = false;
-        buttonSwap.getBackground().clearColorFilter();
+
     }
 
 
