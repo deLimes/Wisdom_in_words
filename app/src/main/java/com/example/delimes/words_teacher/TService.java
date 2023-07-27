@@ -279,13 +279,6 @@ public class TService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
-
-        Collocation collocation2 = new Collocation(false,"",false,"",false,0);
-        Notification notification = getNotification("Background process", collocation2, getApplicationContext());
-
-        startForeground(123, notification);
-
         //ServiceIsStaeted = true;
         startMainActivity(intent);
 
@@ -365,16 +358,18 @@ public class TService extends Service {
                 activityIsStarted = false;
                 collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
                 if (((PageFragment) frag1).englishLeft) {
-                     TService.sendNotify(collocation.en + "~" + collocation.ru, collocation);
+                    // TService.sendNotify(collocation.en + "~" + collocation.ru, collocation);
+                    Notification notification = getNotification(collocation.en + "~" + collocation.ru, collocation, getApplicationContext());
+                    startForeground(123, notification);
                 } else {
-                     TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
+                     //TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
+                    Notification notification = getNotification(collocation.ru + "~" + collocation.en, collocation, getApplicationContext());
+                    startForeground(123, notification);
                 }
             }else {
-                if (((PageFragment) frag1).englishLeft) {
-                     TService.sendNotify(collocation.en + "~" + collocation.ru, collocation);
-                } else {
-                     TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
-                }
+                //TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
+                Notification notification = getNotification("Background process", collocation, getApplicationContext());
+                startForeground(123, notification);
             }
 
             if (item != null) {
