@@ -1559,6 +1559,16 @@ public class PageFragment extends Fragment implements RecognitionListener {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (!swap) {
+            save();
+        }
+        isResumeAfterStop = true;
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
 
