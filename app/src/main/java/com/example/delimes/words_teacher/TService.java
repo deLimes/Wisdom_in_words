@@ -262,12 +262,12 @@ public class TService extends Service {
 
 
         mContext = getApplicationContext();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String content = prefs.getString("content", "Background process");
+//
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+//        String content = prefs.getString("content", "Background process");
 
         Collocation collocation2 = new Collocation(false,"",false,"",false,0);
-        Notification notification = getNotification(content, collocation2, getApplicationContext());
+        Notification notification = getNotification("Background process", collocation2, getApplicationContext());
 
         startForeground(123, notification);
 
@@ -278,6 +278,13 @@ public class TService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+
+        Collocation collocation2 = new Collocation(false,"",false,"",false,0);
+        Notification notification = getNotification("Background process", collocation2, getApplicationContext());
+
+        startForeground(123, notification);
 
         //ServiceIsStaeted = true;
         startMainActivity(intent);
