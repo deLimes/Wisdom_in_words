@@ -1605,8 +1605,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         rootView.requestFocus();
 
-        swap = false;
-        buttonSwap.getBackground().clearColorFilter();
+        
     }
 
     @Override
