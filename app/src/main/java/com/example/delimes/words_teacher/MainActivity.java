@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
 import static com.example.delimes.words_teacher.TService.mConnection;
@@ -405,6 +406,7 @@ public void finish2(){
                     voiceModeOn = false;
                 }
                 //((PageFragment)frag1).voiceMode();
+                ((PageFragment) frag1).automatically = false;
                 try {
                     ((PageFragment)frag1).voiceMode();
                 }catch(Exception e){
@@ -439,12 +441,14 @@ public void finish2(){
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         final android.support.v4.app.Fragment frag1 = fragments.get(0);
         android.support.v4.app.Fragment frag2 = fragments.get(1);
 
-        ((PageFragment)frag1).words=data.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-        ((PageFragment)frag1).onResultsFromMainActivity(data);
+        ((PageFragment) frag1).words = data.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+        ((PageFragment) frag1).onResultsFromMainActivity(data);
+
     }
 
     @Override

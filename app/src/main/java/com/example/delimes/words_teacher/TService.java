@@ -33,6 +33,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -50,14 +51,19 @@ public class TService extends Service {
     volatile public static int indexOfThePreviousSelectedRow = -1;
     volatile public static List<Collocation> listDictionary = new ArrayList<Collocation>();
     volatile public static List<Collocation> listDictionaryCopy = new ArrayList<Collocation>();
-    volatile public static TextToSpeech textToSpeechSystem;
+    //volatile public static TextToSpeech textToSpeechSystem;
+    volatile public static Speecher textToSpeechSystemCls;
+    volatile public static String textToSpeak = "";
     volatile public static boolean activityIsStarted = false;
     volatile public static Collocation collocation;
-    //volatile public static Intent intent;
+    volatile public static String action = "action_fromMainActivity";
     volatile public static Notification notification;
     //volatile public static boolean ServiceIsStaeted = false;
     volatile public static Context mContext;
     //private final IBinder binder = new LocalBinder();
+    volatile public static int count = 0;
+    volatile public static int numberOfRepetitions = 5;
+
     final String LOG_TAG = "myLogs";
     public static ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -307,6 +313,9 @@ public class TService extends Service {
 
     public void startMainActivity(Intent intent){
 
+        if (intent == null) return;
+
+
         String action = intent.getAction();
 
         if (action.equals("action_fromMainActivity")) {
@@ -320,6 +329,9 @@ public class TService extends Service {
         if (action.equals("action_NextCollocation")) {
 
 
+            TService.action = action;
+
+            count = 0;
             Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -358,25 +370,32 @@ public class TService extends Service {
                 activityIsStarted = false;
                 collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
                 if (((PageFragment) frag1).englishLeft) {
-                    // TService.sendNotify(collocation.en + "~" + collocation.ru, collocation);
-                    Notification notification = getNotification(collocation.en + "~" + collocation.ru, collocation, getApplicationContext());
-                    startForeground(123, notification);
+                    TService.sendNotify(collocation.en + "~" + collocation.ru, collocation);
+                    //Notification notification = getNotification(collocation.en + "~" + collocation.ru, collocation, getApplicationContext());
+                    //startForeground(123, notification);
                 } else {
-                     //TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
-                    Notification notification = getNotification(collocation.ru + "~" + collocation.en, collocation, getApplicationContext());
-                    startForeground(123, notification);
+                    TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
+                    //Notification notification = getNotification(collocation.ru + "~" + collocation.en, collocation, getApplicationContext());
+                    //startForeground(123, notification);
                 }
             }else {
-                //TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
-                Notification notification = getNotification("Background process", collocation, getApplicationContext());
-                startForeground(123, notification);
+                TService.sendNotify(collocation.ru + "~" + collocation.en, collocation);
+                //Notification notification = getNotification("Background process", collocation, getApplicationContext());
+                //startForeground(123, notification);
             }
 
             if (item != null) {
                 item.setTitle(getApplicationContext().getResources().getString(R.string.action_voiceMode));
-                voiceModeOn = false;
-                ((PageFragment) frag1).stopListening();
-                ((PageFragment) frag1).automatically = false;
+
+                //((PageFragment) frag1).stopListening();
+                //((PageFragment) frag1).automatically = false;
+            }
+            voiceModeOn = false;
+            try {
+                ((PageFragment)frag1).voiceMode();
+            }catch(Exception e){
+                Log.d("onOptionsItemSelected: ", e.getMessage());
+                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             //((MainActivity)mainActivity).unbindService(mConnection);
@@ -386,6 +405,8 @@ public class TService extends Service {
         if (action.equals("action_Speech")) {
 
             Log.d(LOG_TAG, "action_Speech: TService");
+            TService.action = action;
+
             Intent intentRun = new Intent(getApplicationContext(), MainActivity.class);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intentRun.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -395,14 +416,35 @@ public class TService extends Service {
             intentRun.putExtra("isNewIntent", "true");
             ///////mContext.startActivity(intentRun);
 
-            startActivity(intentRun);
+            //startActivity(intentRun);
+            startActivityForResult(mainActivity, intentRun, 21, null);
             //stopSelf();
             //return START_NOT_STICKY;
 
-            Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-            textToSpeechSystem.setLanguage(Locale.US);
-            textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
-            //((MainActivity)mainActivity).unbindService(mConnection);
+
+            count++;
+
+
+//            /*if (TService.count != TService.numberOfRepetitions) {
+//                Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+//                //textToSpeechSystem.setLanguage(Locale.US);
+//                //textToSpeechSystem.speak(collocation.en, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+//
+//                textToSpeechSystem2.setLanguage(Locale.US);
+//                textToSpeechSystem2.speak(collocation.en);
+////            if (((PageFragment) frag1).englishLeft) {
+////                    textToSpeechSystem.setLanguage(Locale.US);
+////                    textToSpeechSystem.speak(collocation.en , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+////            }else {
+////                    textToSpeechSystem.setLanguage(new Locale("ru"));
+////                    textToSpeechSystem.speak(collocation.ru , TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
+////            }
+//
+//            }*/
+
+                //((MainActivity)mainActivity).unbindService(mConnection);
+
+
 
         }
 
