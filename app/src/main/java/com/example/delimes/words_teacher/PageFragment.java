@@ -99,6 +99,7 @@ import static com.example.delimes.words_teacher.MainActivity.frag2;
 import static com.example.delimes.words_teacher.MainActivity.frag1;
 import static com.example.delimes.words_teacher.MainActivity.isNewIntent;
 import static com.example.delimes.words_teacher.MainActivity.item;
+import static com.example.delimes.words_teacher.MainActivity.voiceModeOn;
 import static com.example.delimes.words_teacher.TService.indexOfThePreviousSelectedRow;
 import static com.example.delimes.words_teacher.TService.listDictionary;
 import static com.example.delimes.words_teacher.TService.listDictionaryCopy;
@@ -1585,7 +1586,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                         && TService.count != TService.numberOfRepetitions) {
 
                     Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-
+                    ((PageFragment) frag1).automatically = true;
                     if (((PageFragment) frag1).englishLeft) {
                         textToSpeechSystemCls.setLanguage(Locale.US);
                         textToSpeechSystemCls.speak(collocation.en);
@@ -1625,10 +1626,6 @@ public class PageFragment extends Fragment implements RecognitionListener {
                         textToSpeechSystemCls.setLanguage(new Locale("ru"));
                         textToSpeechSystemCls.speak(collocation.ru);
                     }
-                    //((PageFragment) frag1).answerIsSaid = false;
-                    //((PageFragment) frag1).swap = true;
-
-                    //((PageFragment) frag1).onResultsFromMainActivity(null);
 
 
 

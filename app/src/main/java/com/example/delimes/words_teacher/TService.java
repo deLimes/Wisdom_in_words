@@ -384,12 +384,12 @@ public class TService extends Service {
                 //startForeground(123, notification);
             }
 
+            //выключить режим automatically
             if (item != null) {
                 item.setTitle(getApplicationContext().getResources().getString(R.string.action_voiceMode));
-
                 //((PageFragment) frag1).stopListening();
-                //((PageFragment) frag1).automatically = false;
             }
+            ((PageFragment) frag1).automatically = true;
             voiceModeOn = false;
             try {
                 ((PageFragment)frag1).voiceMode();
