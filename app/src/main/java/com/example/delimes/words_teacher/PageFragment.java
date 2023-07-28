@@ -1586,7 +1586,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                         && TService.count != TService.numberOfRepetitions) {
 
                     Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-                    ((PageFragment) frag1).automatically = true;
+                   // ((PageFragment) frag1).automatically = true;
                     if (((PageFragment) frag1).englishLeft) {
                         textToSpeechSystemCls.setLanguage(Locale.US);
                         textToSpeechSystemCls.speak(collocation.en);

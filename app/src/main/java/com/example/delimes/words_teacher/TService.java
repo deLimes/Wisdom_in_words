@@ -424,6 +424,19 @@ public class TService extends Service {
 
             count++;
 
+            if (count > numberOfRepetitions) {
+
+                ((PageFragment) frag1).automatically = true;
+                voiceModeOn = false;
+                try {
+                    ((PageFragment)frag1).voiceMode();
+                }catch(Exception e){
+                    Log.d("onOptionsItemSelected: ", e.getMessage());
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+
 
 //            /*if (TService.count != TService.numberOfRepetitions) {
 //                Collocation collocation = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
