@@ -1577,61 +1577,53 @@ public class PageFragment extends Fragment implements RecognitionListener {
 
         */
 
+        if (TService.action.equals("action_Speech")
+                && TService.count != TService.numberOfRepetitions) {
+
+            Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            // ((PageFragment) frag1).automatically = true;
+            if (((PageFragment) frag1).englishLeft) {
+                textToSpeechSystemCls.setLanguage(Locale.US);
+                textToSpeechSystemCls.speak(collocation.en);
+            } else {
+                textToSpeechSystemCls.setLanguage(new Locale("ru"));
+                textToSpeechSystemCls.speak(collocation.ru);
+            }
+
+        }
+
+        if (TService.action.equals("action_Speech")
+                && TService.count == TService.numberOfRepetitions
+                && !((PageFragment) frag1).automatically
+        ) {
+            if (item != null) {
+                item.setTitle(getResources().getString(R.string.action_textMode));
+            }
+
+            ((PageFragment) frag1).automatically = true;
+            MainActivity.voiceModeOn = true;
+            try {
+                ((PageFragment)frag1).voiceMode();
+            }catch(Exception e){
+                Log.d("onOptionsItemSelected: ", e.getMessage());
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+            ((PageFragment) frag1).automatically = true;
+            if (((PageFragment) frag1).englishLeft) {
+                textToSpeechSystemCls.setLanguage(Locale.US);
+                textToSpeechSystemCls.speak(collocation.en);
+            } else {
+                textToSpeechSystemCls.setLanguage(new Locale("ru"));
+                textToSpeechSystemCls.speak(collocation.ru);
+            }
+        }
+
         Handler mainHandler = new Handler(getContext().getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run(){
-
-                if (TService.action.equals("action_Speech")
-                        && TService.count != TService.numberOfRepetitions) {
-
-                    Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-                   // ((PageFragment) frag1).automatically = true;
-                    if (((PageFragment) frag1).englishLeft) {
-                        textToSpeechSystemCls.setLanguage(Locale.US);
-                        textToSpeechSystemCls.speak(collocation.en);
-                    } else {
-                        textToSpeechSystemCls.setLanguage(new Locale("ru"));
-                        textToSpeechSystemCls.speak(collocation.ru);
-                    }
-
-                }
-
-                if (TService.action.equals("action_Speech")
-                        && TService.count == TService.numberOfRepetitions
-                        && !((PageFragment) frag1).automatically
-                ) {
-
-
-                    if (item != null) {
-                        item.setTitle(getResources().getString(R.string.action_textMode));
-                    }
-
-                    ((PageFragment) frag1).automatically = true;
-                    MainActivity.voiceModeOn = true;
-                    try {
-                        ((PageFragment)frag1).voiceMode();
-                    }catch(Exception e){
-                        Log.d("onOptionsItemSelected: ", e.getMessage());
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                    Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
-
-                    ((PageFragment) frag1).automatically = true;
-                    if (((PageFragment) frag1).englishLeft) {
-                        textToSpeechSystemCls.setLanguage(Locale.US);
-                        textToSpeechSystemCls.speak(collocation.en);
-                    } else {
-                        textToSpeechSystemCls.setLanguage(new Locale("ru"));
-                        textToSpeechSystemCls.speak(collocation.ru);
-                    }
-
-
-
-                }
-
-
             }
         };
         mainHandler.post(runnable);
