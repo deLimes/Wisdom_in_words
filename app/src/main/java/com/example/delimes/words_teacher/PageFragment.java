@@ -1591,6 +1591,13 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 if (j == listDictionary.size()) j = 0;
 
                 indexOfThePreviousSelectedRow = j;
+                Collocation collocationCopy = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+                if(englishLeft) {
+                    TService.sendNotify(collocationCopy.en + "~" + collocationCopy.ru, collocationCopy);
+                }else {
+                    TService.sendNotify(collocationCopy.ru + "~" + collocationCopy.en, collocationCopy);
+                }
                 SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.mainActivityContext).edit();
                 editPrefs.putInt("indexOfThePreviousSelectedRow", indexOfThePreviousSelectedRow);
                 editPrefs.commit();
