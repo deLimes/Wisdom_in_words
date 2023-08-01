@@ -1580,9 +1580,32 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (TService.action.equals("action_Speech")
                 && TService.count != TService.numberOfRepetitions) {
 
+            if (TService.count > TService.numberOfRepetitions) {
+                int j = 0;
+                for (Collocation i : listDictionary) {
+                    if (i.learnedEn && i.learnedRu) {
+                        break;
+                    }
+                    j++;
+                }
+                if (j == listDictionary.size()) j = 0;
+
+                indexOfThePreviousSelectedRow = j;
+                SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.mainActivityContext).edit();
+                editPrefs.putInt("indexOfThePreviousSelectedRow", indexOfThePreviousSelectedRow);
+                editPrefs.commit();
+
+                adapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(indexOfThePreviousSelectedRow);
+
+                //((PageFragment) frag1).automatically = true;
+                TService.count = TService.numberOfRepetitions - 1;
+
+
+            }
             Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             // ((PageFragment) frag1).automatically = true;
-            if (((PageFragment) frag1).englishLeft) {
+            if (englishLeft) {
                 textToSpeechSystemCls.setLanguage(Locale.US);
                 textToSpeechSystemCls.speak(collocation.en);
             } else {
