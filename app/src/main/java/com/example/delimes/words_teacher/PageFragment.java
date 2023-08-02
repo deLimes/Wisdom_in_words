@@ -16,6 +16,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,6 +92,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.BATTERY_SERVICE;
 import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStoragePublicDirectory;
@@ -1580,6 +1582,17 @@ public class PageFragment extends Fragment implements RecognitionListener {
         if (TService.action.equals("action_Speech")
                 && TService.count != TService.numberOfRepetitions) {
 
+            if (TService.count == TService.numberOfRepetitions-1) {
+
+                BatteryManager batteryManager = (BatteryManager) getContext().getSystemService(BATTERY_SERVICE);
+
+
+                Collocation collocationCopy = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
+
+                int batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+                TService.sendNotify("Battery level: "+batteryLevel+" %",collocationCopy);
+
+            }
             if (TService.count > TService.numberOfRepetitions) {
                 int j = 0;
                 for (Collocation i : listDictionary) {
@@ -1600,6 +1613,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 }
                 SharedPreferences.Editor editPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.mainActivityContext).edit();
                 editPrefs.putInt("indexOfThePreviousSelectedRow", indexOfThePreviousSelectedRow);
+                //editPrefs.putBoolean("englishLeft", englishLeft);
                 editPrefs.commit();
 
                 adapter.notifyDataSetChanged();
