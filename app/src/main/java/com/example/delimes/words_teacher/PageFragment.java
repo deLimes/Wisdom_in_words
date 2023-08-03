@@ -1626,6 +1626,9 @@ public class PageFragment extends Fragment implements RecognitionListener {
             }
             Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             // ((PageFragment) frag1).automatically = true;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            englishLeft = prefs.getBoolean("englishLeft", true);
+
             if (englishLeft) {
                 textToSpeechSystemCls.setLanguage(Locale.US);
                 textToSpeechSystemCls.speak(collocation.en);
@@ -1653,9 +1656,12 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            englishLeft = prefs.getBoolean("englishLeft", true);
+
             Collocation collocation = TService.listDictionaryCopy.get(indexOfThePreviousSelectedRow);
             ((PageFragment) frag1).automatically = true;
-            if (((PageFragment) frag1).englishLeft) {
+            if (englishLeft) {
                 textToSpeechSystemCls.setLanguage(Locale.US);
                 textToSpeechSystemCls.speak(collocation.en);
             } else {
