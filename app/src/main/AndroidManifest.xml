@@ -49,11 +49,11 @@
         <receiver
             android:name=".BatteryReceiver"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            </intent-filter>
+            </intent-filter><!--
+            -->
         </receiver>
 
 
