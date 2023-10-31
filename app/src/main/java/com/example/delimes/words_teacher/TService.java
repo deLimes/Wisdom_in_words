@@ -11,6 +11,7 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -276,6 +277,9 @@ public class TService extends Service {
         Notification notification = getNotification("Background process", collocation2, getApplicationContext());
 
         startForeground(123, notification);
+
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        mContext.registerReceiver(new BatteryReceiver(), ifilter);
 
         //mContext.getIntent
 
