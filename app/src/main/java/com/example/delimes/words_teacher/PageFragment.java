@@ -1590,7 +1590,7 @@ public class PageFragment extends Fragment implements RecognitionListener {
                 Collocation collocationCopy = listDictionaryCopy.get(indexOfThePreviousSelectedRow);
 
                 int batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-                TService.sendNotify("Battery level: "+batteryLevel+" %",collocationCopy);
+                TService.sendNotify("Battery level: "+batteryLevel+"%",collocationCopy);
 
             }
             if (TService.count > TService.numberOfRepetitions) {
