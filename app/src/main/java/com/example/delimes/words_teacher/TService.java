@@ -279,6 +279,8 @@ public class TService extends Service {
         startForeground(123, notification);
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         mContext.registerReceiver(new BatteryReceiver(), ifilter);
 
         //mContext.getIntent
